@@ -63,7 +63,7 @@
     if (!has('lampe') && !f('lampe_taken')) s += `<g transform="translate(200,328)"><path d="M-22,-4 L6,-12 L6,-40 L-22,-32 Z" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/><ellipse cx="8" cy="-26" rx="7" ry="15" fill="#ffe08a" stroke="${OL}" stroke-width="2.5"/><path d="M-16,-4 l-2,4 h12" stroke="${OL}" stroke-width="3" fill="none"/></g>`;
     s += `<rect x="250" y="300" width="30" height="30" fill="#6b4128" stroke="${OL}" stroke-width="2"/><rect x="206" y="196" width="84" height="44" fill="#a8744a" stroke="${OL}" stroke-width="2"/>` + A.text(248, 215, 'Schrauben', { fs: 13, fill: OL, maxw: 78 }) + A.text(248, 232, '(fast sortiert)', { fs: 11, fill: OL, maxw: 78 });
     // Hängende Fahrräder
-    s += bike(1170, 560, 0.85, "#c0392b");
+    s += bike(1152, 546, 1.55, "#c0392b");
     // Boden
     s += A.woodFloor(600, '#9a7048', '#7e5a38');
     // Treppenöffnung links
@@ -220,13 +220,13 @@
 
   G.scenes.radladen = {
     title: 'Speichls alte Radlwerkstatt',
-    walk: { x1: 200, x2: 1160, y1: 622, y2: 704, s1: 0.76, s2: 0.86 },
+    walk: { x1: 200, x2: 1160, y1: 622, y2: 704, s1: 0.92, s2: 1.0 },
     entry: { x: 230, y: 650 },
     draw: room,
     actors(st) {
       return [
         { id: 'werkbank', x: 760, y: 610, svg: bench(st) },
-        { id: 'gustl', x: 1030, y: 660, s: 0.9, svg: C.gustl(), head: -360, flip: true },
+        { id: 'gustl', x: 975, y: 662, s: 1.1, svg: C.gustl(), head: -360, flip: true },
       ];
     },
     hotspots(st) {
@@ -263,12 +263,12 @@
             await G.say('fini', 'Ich will nicht an Gustls Arbeit rumpfuschen. Wenn ICH an Kufen schraube, fallen hinterher Teile vom Himmel.');
           },
           items: { kerze: gustlItems.kerze, zimt: gustlItems.zimt, kufenschluessel: gustlItems.kufenschluessel } },
-        { name: "Altes Rennrad", r: [1110, 500, 130, 95], walk: [1080, 650], look: "Ein altes rotes Rennrad mit Staubschicht. Es wartet auf den Frühling. Seit 2009." },
-        { name: 'Gustl Speichl', r: [980, 320, 100, 330], walk: [930, 660], face: 'r',
+        { name: "Altes Rennrad", r: [1025, 450, 255, 150], walk: [1080, 660], look: "Ein altes rotes Rennrad mit Staubschicht. Es wartet auf den Frühling. Seit 2009." },
+        { name: 'Gustl Speichl', r: [925, 262, 105, 400], walk: [860, 668], face: 'r',
           look: 'Gustl Speichl. Groß, dünn, freundlich, mit Hut. Er hat Hände, die aussehen, als könnten sie aus einer Gabel ein Fahrrad bauen.',
           use: gustlTalk,
           items: gustlItems },
-        { name: 'Treppe runter zum Fairkehrt', p: [40, 600, 180, 600, 150, 690, 0, 690, 0, 640], walk: [220, 650], exit: { to: 'fairkehrt', x: 990, y: 640, face: -1 } },
+        { name: 'Treppe runter zum Fairkehrt', p: [40, 600, 180, 600, 150, 690, 0, 690, 0, 640], walk: [220, 650], exit: { to: 'fairkehrt', x: 1252, y: 198, face: -1 } },
       ];
     },
   };

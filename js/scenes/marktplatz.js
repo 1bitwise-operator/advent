@@ -231,7 +231,7 @@
           look: ['Brezn, Krapfen, Nussschnecken...', 'Ich darf da nicht zu lange reinschauen, sonst vergess ich, was ich eigentlich wollte.', '...was wollte ich eigentlich?'] },
         { name: 'Schaufenster Kreitmampf', r: [684, 420, 152, 92], walk: [760, 585],
           look: 'Ein Schaufenster voller Gebäck. Mein Magen macht Geräusche wie ein Schneepflug.' },
-        { name: 'Bäckerei & Café Kreitmampf', r: [608, 400, 64, 122], walk: [640, 580], exit: { to: 'baeckerei', x: 190, y: 660, face: 1 },
+        { name: 'Bäckerei & Café Kreitmampf', r: [608, 400, 64, 122], walk: [640, 580], exit: { to: 'baeckerei', x: 1120, y: 660, face: -1 },
           look: 'Die Tür zum Kreitmampf. Aus dem Spalt riecht es nach frischen Brezn. Und nach Klatsch und Tratsch.' },
         { name: 'Schaufenster Fairkehrt', r: [940, 390, 186, 118], walk: [1030, 585],
           look: 'Der Fairkehrt-Laden. Kaffee, Schokolade, Kerzen – alles fair gehandelt. Sogar das Schaufenster wirkt irgendwie gerecht.' },

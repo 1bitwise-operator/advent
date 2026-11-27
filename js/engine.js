@@ -721,6 +721,8 @@
 
   G.start = function (state) {
     G.state = state;
+    const sc0 = G.scenes[state.scene];
+    if (sc0 && sc0.walk) { const w = sc0.walk; state.px = clamp(state.px, w.x1, w.x2); state.py = clamp(state.py, w.y1, w.y2); }
     selectItem(null);
     setMode('use');
     G.render();

@@ -14,6 +14,29 @@
   const tin = (c) => (x, y) => `<rect x="${x}" y="${y - 34}" width="26" height="34" rx="3" fill="${c}" stroke="${OL}" stroke-width="2.2"/><ellipse cx="${x + 13}" cy="${y - 34}" rx="13" ry="3" fill="${c}" stroke="${OL}" stroke-width="2"/><path d="M${x + 4},${y - 18} h18" stroke="#ffd36e" stroke-width="2.5"/>`;
   const basket = (x, y) => `<path d="M${x - 4},${y} L${x},${y - 26} H${x + 36} L${x + 40},${y} Z" fill="#c8a46a" stroke="${OL}" stroke-width="2.2"/><path d="M${x},${y - 18} h36 M${x - 2},${y - 9} h40" stroke="${OL}" stroke-width="1.2" opacity=".5"/>`;
 
+  // ---------- Treppe: Fini steigt Stufe für Stufe ----------
+  // Stufe i: Trittfläche mittig bei x = 982 + i*30, Oberkante bei y = 594 - i*44
+  const STEP = (i) => [982 + i * 30, 594 - i * 44];
+  const TOP_STEP = 9;
+  const playerEl = () => document.getElementById('player');
+
+  async function climbUp() {
+    await G.say('fini', 'Rauf da! ...*knarz*... Hallo, dritte Stufe.');
+    await G.walk(STEP(0)[0], STEP(0)[1], { free: true, speed: 260 });
+    G.face(1);
+    for (let i = 1; i <= TOP_STEP; i++) await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+    const el = playerEl();
+    if (el && !G.fast) { el.style.transition = 'opacity .35s'; el.style.opacity = '0'; await G.wait(380); }
+  }
+
+  async function climbDown() {
+    const el = playerEl();
+    G.place(STEP(TOP_STEP)[0], STEP(TOP_STEP)[1], -1);
+    if (el && !G.fast) { el.style.opacity = '0'; el.style.transition = 'opacity .35s'; void el.getBoundingClientRect(); el.style.opacity = '1'; }
+    for (let i = TOP_STEP - 1; i >= 0; i--) await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+    await G.walk(990, 640, { speed: 260 });
+  }
+
   function room(st) {
     let s = A.defs();
     s += `<rect x="0" y="0" width="1280" height="720" fill="#f0dcb8"/>`;
@@ -45,6 +68,7 @@
       const x = 960 + i * 30, y = 600 - i * 44;
       s += `<path d="M${x},${y} h40 v-44" fill="none" stroke="${OL}" stroke-width="3"/><rect x="${x}" y="${y - 6}" width="44" height="8" fill="#a8744a" stroke="${OL}" stroke-width="2"/>`;
     }
+    // Geländer im Hintergrund – Fini geht davor die Treppe hinauf
     s += `<path d="M930,560 L1250,70" stroke="${OL}" stroke-width="8"/><path d="M930,560 L1250,70" stroke="#8a5a36" stroke-width="4"/>`;
     for (let i = 0; i < 8; i++) s += `<path d="M${944 + i * 40},${538 - i * 61} V${600 - i * 61 - 10}" stroke="#6b4128" stroke-width="4"/>`;
     s += `<rect x="1060" y="170" width="190" height="62" rx="4" fill="#fff7e8" stroke="${OL}" stroke-width="2.5" transform="rotate(-4 1155 200)"/>`;
@@ -136,6 +160,10 @@
     walk: { x1: 170, x2: 1080, y1: 618, y2: 704, s1: 0.76, s2: 0.86 },
     entry: { x: 190, y: 660 },
     draw: room,
+    async onEnter(st) {
+      // von oben kommend: die Treppe herunterlaufen
+      if (G.state.py < 600) await climbDown();
+    },
     actors(st) {
       return [
         { id: 'fairhuber', x: 520, y: 570, svg: C.fairhuber(), head: -300 },
@@ -152,7 +180,10 @@
         { name: 'Globus', r: [748, 336, 86, 110], walk: [790, 640], look: 'Ein Globus. Grafing ist nicht drauf. Skandal. Ich schreib einen Brief. Den ich dann vergesse.' },
         { name: 'Poster', r: [756, 106, 150, 186], walk: [830, 640], look: '„Fair statt mehr!“ Ich glaube, das ist ein Wortspiel. Hier gibt’s viele Wortspiele. Sogar der Laden ist eins.' },
         { name: 'Wandteppich', r: [36, 86, 158, 230], walk: [200, 640], look: 'Ein bunter Wandteppich mit Zickzack-Muster. Wenn ich zu lange draufschaue, wird mir schwindlig. Auf eine gemütliche Art.' },
-        { name: 'Schild an der Treppe', r: [1056, 160, 200, 80], walk: [990, 630], look: '„Speichls Radlwerkstatt – geschlossen seit 2009.“ Und daneben: „3. Stufe knarzt!“ Gut zu wissen. Ich bin ja sehr leise. Nie.' },
+        { name: 'Zur Radlwerkstatt (nach oben)', r: [1056, 160, 200, 80], walk: [990, 630],
+          look: '„Speichls Radlwerkstatt – geschlossen seit 2009.“ Und daneben: „3. Stufe knarzt!“ Gut zu wissen. Ich bin ja sehr leise. Nie.',
+          exit: { to: 'radladen', x: 230, y: 650, face: 1 },
+          use: climbUp },
         { name: 'Bienenwachskerzen', r: [320, 412, 130, 80], walk: [400, 640],
           look: 'Bienenwachskerzen, fair gehandelt. 3 Euro das Stück. Eine brennt schon. Es riecht nach Honig und Gemütlichkeit.',
           use: async () => {
@@ -176,7 +207,7 @@
           } },
         { name: 'Treppe zur Radlwerkstatt', p: [960, 600, 1280, 110, 1280, 600], walk: [1000, 630],
           exit: { to: 'radladen', x: 230, y: 650, face: 1 },
-          use: async () => { await G.say('fini', 'Rauf da! ...*knarz*... Hallo, dritte Stufe.'); } },
+          use: climbUp },
         { name: 'Zum Marktplatz', r: [20, 320, 110, 270], walk: [180, 650], exit: { to: 'marktplatz', x: 1164, y: 595, face: -1 } },
       ];
     },
