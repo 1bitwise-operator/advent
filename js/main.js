@@ -6,6 +6,7 @@
   function hideTitle() { $('title').classList.add('hidden'); }
 
   async function newGame() {
+    G.abort(); // ein evtl. noch laufendes Intro oder Gespräch beenden
     G.clearSave();
     hideTitle();
     $('ending').classList.add('hidden');
@@ -17,6 +18,7 @@
   function continueGame() {
     const s = G.load();
     if (!s) { newGame(); return; }
+    G.abort();
     hideTitle();
     G.start(s);
   }

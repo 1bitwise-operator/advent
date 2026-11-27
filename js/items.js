@@ -116,12 +116,12 @@
     schlitten: {
       name: 'Renn-Schlitten „Blitzbirne“',
       desc: 'Mein Schlitten! Frisch gewachst, mit Zimtduft und Turbo-Kufen. Wie der in meinen Rucksack passt? Frag nicht. Adventure-Physik.',
-      icon: ic(`<path d="M10,56 Q8,66 18,66 H66 Q74,66 72,58" fill="none" stroke-width="5"/><path d="M10,56 Q8,66 18,66 H66 Q74,66 72,58" fill="none" stroke="#c0c6cf" stroke-width="2.5"/><path d="M22,56 V44 M58,56 V44" stroke-width="4"/><rect x="14" y="34" width="54" height="12" rx="3" fill="#d63a3a"/><path d="M14,40 H68" stroke="#ffd36e" stroke-width="2.5"/><path d="M16,30 L66,30" stroke-width="3"/><path d="M30,38 l6,-4 l-2,8 l6,-4" stroke="#ffd36e" stroke-width="2" fill="none"/>`),
+      icon: ic(`<path d="M22,30 Q14,32 16,42 Q18,49 26,49 H72 Q78,49 78,44" fill="none" stroke-width="4.5"/><path d="M22,30 Q14,32 16,42 Q18,49 26,49 H72 Q78,49 78,44" fill="none" stroke="#9aa1ab" stroke-width="2"/><path d="M30,36 V49 M66,36 V49" stroke-width="3.5"/><path d="M14,46 L62,46 L72,32 L24,32 Z" fill="#e8483f"/><path d="M16.5,42.5 H64.5 M19,39 H67 M21.5,35.5 H69.5" stroke="#a82b2b" stroke-width="1.6"/><path d="M14,46 H62 V52 H14 Z" fill="#b83232"/><path d="M62,46 L72,32 V38 L62,52 Z" fill="#922626"/><path d="M41,44 l6,-6 h-4 l5,-4" stroke="#ffd36e" stroke-width="2.6" fill="none"/><path d="M20,52 V63 M56,52 V63 M20,58 L56,58" stroke-width="3.5"/><path d="M12,44 Q4,46 6,56 Q8,63 16,63 H64 Q70,63 70,58" fill="none" stroke-width="5"/><path d="M12,44 Q4,46 6,56 Q8,63 16,63 H64 Q70,63 70,58" fill="none" stroke="#e4e9ef" stroke-width="2.5"/><path d="M10,46 Q0,28 12,18 Q24,12 28,26" fill="none" stroke="#d89a48" stroke-width="2.8"/>`),
     },
     helm: {
       name: 'Neongrüner Radlhelm',
       desc: 'Ein Fahrradhelm, Modell 1987, in Neongrün. Man sieht mich damit aus dem Weltall. Sicherheit geht vor. Stil geht... woanders hin.',
-      icon: ic(`<path d="M12,52 Q12,18 42,16 Q70,18 70,50 Z" fill="#9cff3a"/><path d="M24,30 L30,50 M40,20 L42,50 M56,24 L54,50" stroke-width="2.5" opacity=".5"/><path d="M10,52 H72" stroke-width="4"/><path d="M22,52 Q30,66 40,66 Q50,66 58,52" fill="none" stroke-width="2.5"/>`),
+      icon: ic(`<path d="M28,52 Q26,64 36,66 H44 Q54,64 54,52" fill="none" stroke="#2b2b2b" stroke-width="2.5"/><rect x="36" y="62" width="9" height="7" rx="2" fill="#e8c35a" stroke-width="1.5"/><path d="M14,50 C10,28 28,14 44,14 C62,14 72,28 72,42 V48 Q72,52 68,52 H18 Q14,52 14,50 Z" fill="#9cff3a"/><path d="M20,32 C28,20 44,17 58,20 C64,22 69,28 71,34" fill="none" stroke="#ff4fa3" stroke-width="4"/><path d="M24,38 q4,-9 10,-12 q-1,7 -7,13 Z M40,32 q6,-6 12,-6 q-3,6 -10,9 Z M56,32 q7,0 11,4 q-6,2 -11,1 Z" fill="#2b2b2b" stroke="none"/><path d="M16,42 L4,44 Q3,48 6,48 L16,48 Z" fill="#2b2b2b" stroke-width="1.5"/><path d="M16,48 H70" stroke="#2b2b2b" stroke-width="3"/>`),
     },
     startnummer: {
       name: 'Startnummer 13',

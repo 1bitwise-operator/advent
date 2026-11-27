@@ -56,6 +56,14 @@
     s += shelf(220, 330, 500, Array.from({ length: 10 }, (_, i) => tin(['#2f6e4a', '#c0392b', '#2f6fb5', '#e8663d', '#7b3fa0'][i % 5])));
     s += shelf(220, 410, 500, Array.from({ length: 8 }, () => basket));
     s += A.text(470, 120, 'Kaffee · Schokolade · Tee', { fs: 16, fill: '#6b4128', font: 'Segoe Print, Comic Sans MS, cursive' });
+    // kleines Holzschränkchen, auf dem der Globus steht
+    s += `<rect x="746" y="448" width="88" height="142" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
+    s += `<rect x="738" y="440" width="104" height="12" rx="3" fill="#a8744a" stroke="${OL}" stroke-width="3"/>`;
+    s += `<rect x="756" y="462" width="68" height="34" rx="3" fill="#7a4a2c" stroke="${OL}" stroke-width="2"/><circle cx="790" cy="479" r="3.5" fill="#e8c35a" stroke="${OL}" stroke-width="1.5"/>`;
+    s += `<rect x="752" y="532" width="76" height="8" fill="#a8744a" stroke="${OL}" stroke-width="2"/>`;
+    s += `<path d="M760,532 L764,510 H786 L790,532 Z" fill="#c8a46a" stroke="${OL}" stroke-width="2"/><path d="M762,521 h26" stroke="${OL}" stroke-width="1.2" opacity=".5"/>`;
+    s += `<rect x="796" y="514" width="24" height="18" rx="2" fill="#2f6e4a" stroke="${OL}" stroke-width="2"/><rect x="800" y="518" width="16" height="6" fill="#fff7e8"/>`;
+    s += `<rect x="752" y="584" width="76" height="6" fill="#6b4128" stroke="${OL}" stroke-width="2"/>`;
     // Globus
     s += `<g transform="translate(790,380)"><path d="M-30,60 H30 M0,60 V36" stroke="${OL}" stroke-width="5"/><path d="M-30,60 H30 M0,60 V36" stroke="#c9a227" stroke-width="2.5"/><circle cx="0" cy="0" r="38" fill="#5aa0d8" stroke="${OL}" stroke-width="3"/><path d="M-26,-14 q10,-10 20,0 q6,12 -6,16 q-10,-2 -14,-16 Z M6,-26 q16,-4 22,10 q-4,18 -12,10 q-10,-6 -10,-20 Z M-8,14 q10,0 12,14 q-8,6 -14,-4 Z" fill="#7cc47a" stroke="${OL}" stroke-width="1.8"/><path d="M-40,0 A40,40 0 0 0 40,0" fill="none" stroke="#c9a227" stroke-width="3"/></g>`;
     // Poster

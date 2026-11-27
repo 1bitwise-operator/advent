@@ -237,7 +237,10 @@
         } },
       { t: 'Was gibt’s Neues in Grafing?',
         run: async () => {
-          const n = (G.fv('resi_gossip') || 0) % 5;
+          const n = (G.state.flags.resi_gossip || 0) % 5;
+          if (n === 4) G.flag('resi_gossip_all');
+          // Option bleibt „neu“, bis Fini alle fünf Neuigkeiten gehört hat
+          if (!f('resi_gossip_all')) G.fv('resi_gossip');
           G.flag('resi_gossip', n + 1);
           const lines = [
             ['Die Frau Ohmeier hat a neue Schaufensterdeko. Sehr... religiös. Sehr... Kaschmir.', 'Mehr sag i ned. Doch, eins no: Kaschmir!'],

@@ -59,7 +59,19 @@
     s += `<rect x="40" y="330" width="250" height="12" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
     s += `<rect x="40" y="240" width="250" height="12" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
     s += `<path d="M90,236 q30,-50 60,0 Z" fill="#e8663d" stroke="${OL}" stroke-width="2.5"/><path d="M170,236 q30,-50 60,0 Z" fill="#2f6fb5" stroke="${OL}" stroke-width="2.5"/>`;
-    if (!has('helm') && !f('helm_given')) s += `<path d="M60,326 q34,-58 68,0 Z" fill="#9cff3a" stroke="${OL}" stroke-width="2.8"/><path d="M76,316 l6,-24 M94,326 v-34 M112,316 l-6,-24" stroke="${OL}" stroke-width="1.8" opacity=".5"/>`;
+    if (!has('helm') && !f('helm_given')) {
+      // neongrüner Radlhelm (Seitenansicht, Schild nach links), Kinnriemen hängt übers Regalbrett
+      s += `<g transform="translate(96,330)">
+        <path d="M-22,0 Q-24,14 -12,18 L2,19 M24,0 Q22,14 10,18 L2,19" fill="none" stroke="#2b2b2b" stroke-width="2.6" stroke-linecap="round"/>
+        <rect x="-3" y="14" width="10" height="8" rx="2" fill="#e8c35a" stroke="${OL}" stroke-width="1.8"/>
+        <path d="M-38,-4 C-42,-28 -22,-50 4,-50 C28,-50 44,-36 44,-16 L44,-6 Q44,-1 39,-1 L-33,-1 Q-38,-1 -38,-4 Z" fill="#9cff3a" stroke="${OL}" stroke-width="2.8" stroke-linejoin="round"/>
+        <path d="M-30,-30 C-20,-44 0,-48 20,-44 C30,-42 38,-34 41,-24" fill="none" stroke="#ff4fa3" stroke-width="5" stroke-linecap="round"/>
+        <path d="M-26,-22 q6,-12 14,-16 q-2,9 -10,18 Z M-4,-30 q8,-8 16,-8 q-4,8 -14,13 Z M18,-30 q10,0 16,6 q-8,2 -16,1 Z" fill="#2b2b2b"/>
+        <path d="M-34,-12 L-52,-9 Q-54,-5 -50,-4 L-36,-4 Z" fill="#2b2b2b" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M-34,-4 H40" stroke="#2b2b2b" stroke-width="4"/>
+        <path d="M-28,-36 Q-16,-46 -2,-46" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+      </g>`;
+    }
     if (!has('lampe') && !f('lampe_taken')) {
       // alte Dynamo-Radllampe mit Handkurbel: Chromgehäuse, Glas mit Reflektor, Halterung
       s += `<g transform="translate(200,330)">
@@ -256,7 +268,7 @@
             : ['Eine Lochwand mit Werkzeugen. Ganz rechts ist nur ein gestrichelter Umriss.', 'Da fehlt ein riesiger Schraubenschlüssel. Ich hab ihn nicht genommen. Glaub ich. Diesmal wirklich nicht.'] },
         { name: 'Schraubenkiste', r: [206, 196, 84, 44], walk: [260, 640], look: '„Schrauben (fast sortiert)“. Das „fast“ ist mit Bleistift dazugeschrieben. Mehrmals.' },
         { name: 'Alte Helme', r: [86, 190, 150, 50], walk: [180, 640], look: 'Ein orangefarbener und ein blauer Fahrradhelm. Beide sehen aus, als hätten sie schon einiges abgekriegt. Respekt.' },
-        !has('helm') && !f('helm_given') && { name: 'Neongrüner Helm', r: [56, 266, 76, 62], walk: [180, 640],
+        !has('helm') && !f('helm_given') && { name: 'Neongrüner Helm', r: [42, 276, 100, 72], walk: [180, 640],
           look: 'Ein neongrüner Fahrradhelm. Ich bin nicht sicher, ob er schützt oder ob man nur nicht hinschauen kann.',
           use: async () => {
             if (!f('met_wimmer')) { await G.say('fini', 'Wozu bräuchte ich einen Helm? Ich fahr doch Schlitten, nicht Fahrrad. ...Oder?'); return; }

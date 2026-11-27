@@ -45,10 +45,29 @@
       playMs: 0,
     };
   };
-  G.f = (name) => !!(G.state && G.state.flags[name]);
-  G.fv = (name) => G.state.flags[name];
+  // Abhängigkeits-Protokoll: merkt sich, welche Flags/Gegenstände eine Gesprächsantwort gelesen hat.
+  // Ändert sich davon später etwas, gilt die Dialog-Option wieder als „neu“.
+  const trackers = [];
+  let trackPause = 0;
+  function track(key, val) {
+    if (trackPause || !trackers.length) return val;
+    for (const t of trackers) if (!(key in t)) t[key] = val;
+    return val;
+  }
+  /** Funktion so umhüllen, dass ihre Lesezugriffe nicht protokolliert werden (Zeichnen, Merkzettel …) */
+  function quiet(fn) {
+    return function () { trackPause++; try { return fn.apply(this, arguments); } finally { trackPause--; } };
+  }
+  G.f = (name) => track('f:' + name, !!(G.state && G.state.flags[name]));
+  G.fv = (name) => track('v:' + name, G.state.flags[name] === undefined ? null : G.state.flags[name]);
   G.flag = (name, val = true) => { G.state.flags[name] = val; };
-  G.has = (id) => G.state.inv.includes(id);
+  G.has = (id) => track('h:' + id, G.state.inv.includes(id));
+  function depValue(key) {
+    const k = key.slice(2), t = key[0];
+    if (t === 'f') return !!G.state.flags[k];
+    if (t === 'v') return G.state.flags[k] === undefined ? null : G.state.flags[k];
+    return G.state.inv.includes(k);
+  }
 
   G.give = function (id, silent) {
     if (!G.has(id)) G.state.inv.push(id);
@@ -340,10 +359,10 @@
         const btn = document.createElement('button');
         btn.textContent = o.t;
         const sk = (key || '') + '|' + o.t;
-        if (G.state.seen[sk] && !o.end) btn.classList.add('seen');
+        if (isSeen(sk) && !o.end) btn.classList.add('seen');
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
-          G.state.seen[sk] = 1;
+          if (!G.state.seen[sk]) G.state.seen[sk] = 1;
           closeChoices();
           resolve(o);
         });
@@ -366,7 +385,18 @@
     });
   };
 
+  /** Option gilt als gelesen, wenn sie gewählt wurde und sich seither nichts geändert hat, wovon ihre Antwort abhing */
+  function isSeen(sk) {
+    const v = G.state.seen[sk];
+    if (!v) return false;
+    if (v === 1) return true;
+    return Object.keys(v).every((k) => depValue(k) === v[k]);
+  }
+
   /** Gesprächsschleife: optsFn liefert Optionen {t, if, say, silent, once, run, end} */
+  G.render = quiet(G.render); G.refresh = quiet(G.refresh); G.setActor = quiet(G.setActor);
+  renderActors = quiet(renderActors); renderHotspots = quiet(renderHotspots); checkTasks = quiet(checkTasks);
+  hotspotFromEvent = quiet(hotspotFromEvent); speakerAnchor = quiet(speakerAnchor);
   G.talk = async function (who, optsFn) {
     for (;;) {
       const opts = optsFn().filter((o) => o && (o.if === undefined || (typeof o.if === 'function' ? o.if() : o.if)));
@@ -374,7 +404,12 @@
       if (!o.silent) await G.say('fini', o.say || o.t);
       if (o.once) G.flag(o.once);
       if (o.run) {
-        const r = await o.run();
+        const deps = {};
+        trackers.push(deps);
+        let r;
+        try { r = await o.run(); }
+        finally { const i = trackers.indexOf(deps); if (i >= 0) trackers.splice(i, 1); }
+        if (!o.end) G.state.seen[(who || '') + '|' + o.t] = Object.keys(deps).length ? deps : 1;
         if (r === 'end') break;
       }
       if (o.end) break;
@@ -511,13 +546,42 @@
     else await G.say('fini', d);
   }
 
+  // ---------- Abbrechen laufender Skripte (z. B. bei „Neues Spiel“ mitten im Intro) ----------
+  const ABORT = { aborted: true };
+  G.gen = 0;
+  let runToken = 0;
+  /** lässt ein laufendes Skript beim nächsten await abbrechen, wenn inzwischen G.abort() aufgerufen wurde */
+  function guard(p) {
+    const gen = G.gen;
+    return Promise.resolve(p).then((v) => { if (G.gen !== gen) throw ABORT; return v; });
+  }
+  for (const name of ['say', 'narrate', 'choose', 'walk', 'wait', 'goto']) {
+    const orig = G[name];
+    G[name] = function () { return guard(orig.apply(this, arguments)); };
+  }
+  G.abort = function () {
+    G.gen++;
+    trackers.length = 0;
+    runToken++;
+    G.chooseQueue = null;
+    if (skipFn) skipFn();
+    if (choicesEl.classList.contains('open')) { const b = choicesEl.querySelector('button'); if (b) b.click(); }
+    G.stopWalk();
+    bubbles.innerHTML = '';
+    narrationEl.style.display = 'none';
+    hoverLabel.style.display = 'none';
+    G.busy = false;
+  };
+
   G.run = async function (fn) {
     if (G.busy) return;
     G.busy = true;
+    const token = ++runToken;
     hoverLabel.style.display = 'none';
     try { await fn(); }
-    catch (err) { console.error(err); }
+    catch (err) { if (err !== ABORT) console.error(err); }
     finally {
+      if (token !== runToken) return; // abgebrochen: der neue Spielstand ist schon aktiv
       G.busy = false;
       if (skipFn) skipFn();
       renderActors(); renderHotspots();
@@ -637,7 +701,7 @@
     }
     if (G.selected) { selectItem(null); return; }
     if (look) return;
-    if (!G.scene().noPlayer) G.walk(x, y);
+    if (!G.scene().noPlayer) G.walk(x, y).catch(() => {});
   }
 
   function onInvClick(e, look) {
