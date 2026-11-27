@@ -87,6 +87,8 @@
     const bahn = 'M846,616 L640,616 C590,616 560,630 535,660 C505,696 480,720 455,760';
     s += `<path d="${bahn}" fill="none" stroke="#b8c8e0" stroke-width="46" stroke-linecap="round" opacity=".85"/>`;
     s += `<path d="${bahn}" fill="none" stroke="#9fb3d4" stroke-width="3" transform="translate(0,-12)"/><path d="${bahn}" fill="none" stroke="#9fb3d4" stroke-width="3" transform="translate(0,12)"/>`;
+    // Zielgerade unten links
+    s += zielBahn();
     // Heuballen als Begrenzung
     s += bale(515, 596, 0.85) + bale(400, 700, 1.15);
     // Zuschauer im Tal
@@ -144,32 +146,132 @@
     return s;
   }
 
-  function raceSled(rider, c) {
-    // seitliche Ansicht: Schlitten mit Fahrer
-    if (rider === 'fini') {
-      return `<g>
-        <path d="M-50,0 Q-58,10 -44,10 H44 Q56,10 52,-4" fill="none" stroke="${OL}" stroke-width="6"/><path d="M-50,0 Q-58,10 -44,10 H44 Q56,10 52,-4" fill="none" stroke="#c0c6cf" stroke-width="3"/>
-        <rect x="-44" y="-12" width="90" height="12" rx="3" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>
-        <path d="M-20,-8 l10,4 l-4,4 l12,2" stroke="#ffd36e" stroke-width="3" fill="none"/>
-        <path d="M-24,-12 Q-26,-46 -2,-50 Q20,-48 18,-12 Z" fill="#ee7a3a" stroke="${OL}" stroke-width="3"/>
-        <path d="M10,-24 L40,-14" stroke="#ee7a3a" stroke-width="10" stroke-linecap="round"/><circle cx="42" cy="-14" r="6" fill="#2f8f8b" stroke="${OL}" stroke-width="2"/>
-        <circle cx="0" cy="-66" r="18" fill="#f6cfae" stroke="${OL}" stroke-width="3"/>
-        <path d="M-20,-70 Q-18,-96 2,-96 Q22,-94 20,-70 Z" fill="#9cff3a" stroke="${OL}" stroke-width="3"/>
-        <path d="M-18,-60 l-24,-10 M-18,-58 l-22,4" stroke="#b8492d" stroke-width="5" stroke-linecap="round"/>
-        <circle cx="8" cy="-68" r="3" fill="${OL}"/><path d="M4,-58 q6,4 12,-2" stroke="${OL}" stroke-width="2.5" fill="none"/>
-        <path d="M-10,-50 L-26,-40 L-40,-44" stroke="#f4c542" stroke-width="7" stroke-linecap="round" fill="none"/>
-        <path d="M-80,-30 h-30 M-90,-10 h-40 M-76,-50 h-24" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-      </g>`;
+  /* ---------- Rennfahrer ---------- */
+  const leg = (d, col, w) => `<path d="${d}" fill="none" stroke="${OL}" stroke-width="${w + 6}" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const speed = (y0) => `<g class="speed" style="display:none"><path d="M-110,${y0} h-50 M-120,${y0 + 22} h-70 M-104,${y0 - 24} h-36" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".85"/>
+      <circle cx="-92" cy="-4" r="9" fill="#fbfdff" stroke="#c9d6ec" stroke-width="2"/><circle cx="-108" cy="-12" r="6" fill="#fbfdff" stroke="#c9d6ec" stroke-width="2"/><circle cx="-80" cy="-14" r="5" fill="#fbfdff"/></g>`;
+
+  /** Seitenansicht, Blick nach rechts (für die Fahrt nach links wird gespiegelt). Ursprung = Boden unter dem Schlitten. */
+  function sideRider(who) {
+    let s = speed(-90);
+    s += `<ellipse cx="0" cy="2" rx="86" ry="8" fill="#1a1530" opacity=".2"/>`;
+    if (who === 'fini') {
+      // Holzschlitten „Blitzbirne“
+      const run = 'M-80,-6 Q-82,0 -72,0 H54 Q76,0 80,-14 Q84,-32 66,-34';
+      s += `<path d="${run}" fill="none" stroke="${OL}" stroke-width="8"/><path d="${run}" fill="none" stroke="#dfe4ea" stroke-width="3.5"/>`;
+      s += `<path d="M-52,0 V-26 M-8,0 V-26 M36,0 V-26 M-52,-10 L-8,-10" stroke="${OL}" stroke-width="7"/><path d="M-52,0 V-26 M-8,0 V-26 M36,0 V-26" stroke="#a8744a" stroke-width="3.5"/>`;
+      s += `<rect x="-70" y="-38" width="118" height="14" rx="4" fill="#d63a3a" stroke="${OL}" stroke-width="3"/>`;
+      s += `<path d="M-66,-34 H44" stroke="#f07a6e" stroke-width="3" stroke-linecap="round"/>`;
+      s += `<path d="M-34,-34 l12,4 l-5,3 l14,3" stroke="#ffd36e" stroke-width="3" fill="none" stroke-linejoin="round"/>`;
+      for (const x of [-60, 38]) s += `<circle cx="${x}" cy="-30" r="2" fill="${OL}"/>`;
+      // Startnummer am Schlitten
+      s += `<rect x="6" y="-37" width="22" height="12" rx="2" fill="#fffaf0" stroke="${OL}" stroke-width="1.5"/>` + A.text(17, -27.5, '13', { fs: 10, fill: '#d63a3a', maxw: 20 });
+      // Beine (hinteres zuerst)
+      s += leg('M-14,-50 L34,-62 L76,-52', '#d8692f', 17);
+      s += leg('M-20,-44 L32,-54 L74,-44', '#ee7a3a', 18);
+      s += `<path d="M4,-49 L32,-55 L56,-47" stroke="#2f8f8b" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+      s += `<path d="M68,-58 h14 q14,0 16,14 q0,6 -8,6 h-22 Z" fill="#4a3a6b" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><rect x="64" y="-60" width="10" height="20" rx="5" fill="#f4efe6" stroke="${OL}" stroke-width="2.2"/>`;
+      // Zugseil
+      s += `<path d="M66,-34 Q100,-30 96,-56 Q92,-74 62,-66" fill="none" stroke="#c98a3a" stroke-width="3.5" stroke-linecap="round"/>`;
+      s += `<g transform="translate(-30,86)">${C.fini({ flags: { glove_back: true } }, { seated: true, hat: { style: 'helmet', color: '#9cff3a' }, armRotL: 18, armRotR: -42 })}</g>`;
+    } else {
+      // TurboKufe X (ohne Motor)
+      const run = 'M-84,-6 Q-90,2 -76,2 H70 Q92,2 90,-16 Q88,-30 76,-30';
+      s += `<path d="${run}" fill="none" stroke="${OL}" stroke-width="8"/><path d="${run}" fill="none" stroke="#c8ccd6" stroke-width="3.5"/>`;
+      s += `<path d="M-74,-8 L-64,-40 H54 L84,-16 Q50,-4 -74,-8 Z" fill="#c8ccd6" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
+      s += `<path d="M-56,-30 H62" stroke="#e9ff3a" stroke-width="5"/><path d="M-60,-20 H70" stroke="#9aa1ab" stroke-width="2"/>`;
+      s += `<path d="M-74,-8 L-80,-30 Q-80,-40 -70,-40 H-64" fill="#23252e" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<circle cx="-79" cy="-22" r="3" fill="#ff4a3a" stroke="${OL}" stroke-width="1.5"/>`;
+      s += `<rect x="0" y="-38" width="22" height="12" rx="2" fill="#fffaf0" stroke="${OL}" stroke-width="1.5"/>` + A.text(11, -28.5, '1', { fs: 10, fill: '#23252e', maxw: 20 });
+      s += leg('M-14,-54 L34,-66 L76,-56', '#16171d', 17);
+      s += leg('M-20,-48 L32,-58 L74,-48', '#23252e', 18);
+      s += `<path d="M4,-53 L32,-59 L56,-51" stroke="#e9ff3a" stroke-width="4" fill="none" stroke-linecap="round"/>`;
+      s += `<path d="M68,-62 h14 q14,0 16,14 q0,6 -8,6 h-22 Z" fill="#f4f4f4" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><rect x="64" y="-64" width="10" height="20" rx="5" fill="#e9ff3a" stroke="${OL}" stroke-width="2.2"/>`;
+      s += `<g transform="translate(-30,90)">${C.konstantin({ seated: true, armRotL: 18, armRotR: -48 })}</g>`;
     }
-    return `<g>
-      <path d="M-50,0 Q-58,10 -44,10 H44 Q56,10 52,-4" fill="none" stroke="${OL}" stroke-width="6"/><path d="M-50,0 Q-58,10 -44,10 H44 Q56,10 52,-4" fill="none" stroke="#c8ccd6" stroke-width="3"/>
-      <path d="M-44,-2 L-36,-16 H40 L52,-4 Z" fill="#c8ccd6" stroke="${OL}" stroke-width="2.5"/><path d="M-30,-10 H40" stroke="#e9ff3a" stroke-width="3"/>
-      <path d="M-22,-14 Q-24,-46 0,-50 Q20,-48 18,-14 Z" fill="#c8ccd6" stroke="${OL}" stroke-width="3"/>
-      <circle cx="0" cy="-66" r="18" fill="#f5d0b5" stroke="${OL}" stroke-width="3"/>
-      <path d="M-18,-74 l-4,-22 l10,10 l6,-16 l6,14 l8,-12 l2,22 Z" fill="#f2d36b" stroke="${OL}" stroke-width="2.5"/>
-      <rect x="-14" y="-78" width="30" height="10" rx="5" fill="#7fe3ff" stroke="${OL}" stroke-width="2"/>
-      <path d="M-80,-30 h-30 M-90,-10 h-40" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/>
-    </g>`;
+    return s;
+  }
+
+  /** Rückansicht auf der Zielgeraden. Ursprung = Boden unter dem Schlitten. */
+  function rearRider(who) {
+    const fini = who === 'fini';
+    const suit = fini ? '#ee7a3a' : '#c8ccd6', stripe = fini ? '#2f8f8b' : '#e9ff3a', hand = fini ? '#2f8f8b' : '#23252e';
+    let s = `<g class="speed" style="display:none">`;
+    for (const sx of [-1, 1]) s += `<circle cx="${sx * 52}" cy="-2" r="11" fill="#fbfdff" stroke="#c9d6ec" stroke-width="2"/><circle cx="${sx * 66}" cy="6" r="8" fill="#fbfdff" stroke="#c9d6ec" stroke-width="2"/><circle cx="${sx * 40}" cy="8" r="7" fill="#fbfdff"/>`;
+    s += `</g>`;
+    s += `<ellipse cx="0" cy="2" rx="66" ry="9" fill="#1a1530" opacity=".22"/>`;
+    // Schlitten von hinten
+    s += `<path d="M-46,0 V-28 M46,0 V-28" stroke="${OL}" stroke-width="8"/><path d="M-46,0 V-28 M46,0 V-28" stroke="${fini ? '#a8744a' : '#9aa1ab'}" stroke-width="4"/>`;
+    for (const sx of [-1, 1]) s += `<rect x="${sx * 46 - 6}" y="-8" width="12" height="10" rx="3" fill="${fini ? '#dfe4ea' : '#c8ccd6'}" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<rect x="-58" y="-42" width="116" height="8" rx="3" fill="${fini ? '#e8483f' : '#dfe3ea'}" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<rect x="-60" y="-36" width="120" height="13" rx="4" fill="${fini ? '#b83232' : '#c8ccd6'}" stroke="${OL}" stroke-width="3"/>`;
+    if (fini) s += `<path d="M-14,-33 l8,4 l-4,2 l10,4" stroke="#ffd36e" stroke-width="2.5" fill="none"/>`;
+    else s += `<path d="M-56,-29 H56" stroke="#e9ff3a" stroke-width="4"/><circle cx="-48" cy="-29" r="4" fill="#ff4a3a" stroke="${OL}" stroke-width="1.5"/><circle cx="48" cy="-29" r="4" fill="#ff4a3a" stroke="${OL}" stroke-width="1.5"/>`;
+    // Rücken
+    s += `<path d="M-40,-38 Q-48,-92 -38,-130 Q0,-142 38,-130 Q48,-92 40,-38 Q0,-32 -40,-38 Z" fill="${suit}" stroke="${OL}" stroke-width="3.2" stroke-linejoin="round"/>`;
+    if (fini) s += `<rect x="-43" y="-60" width="86" height="11" fill="${stripe}" stroke="${OL}" stroke-width="2.5"/>`;
+    else s += `<path d="M-40,-70 L40,-100" stroke="#e9ff3a" stroke-width="7"/><path d="M-40,-70 L40,-100" stroke="${OL}" stroke-width="1.5" opacity=".5"/>`;
+    s += `<path d="M0,-134 V-64" stroke="${OL}" stroke-width="1.5" opacity=".35"/>`;
+    // Startnummer auf dem Rücken
+    s += `<rect x="-22" y="-122" width="44" height="38" rx="4" fill="#fffaf0" stroke="${OL}" stroke-width="2.5"/>`;
+    for (const sx of [-1, 1]) s += `<circle cx="${sx * 17}" cy="-117" r="2" fill="#bbb"/>`;
+    s += A.text(0, -94, fini ? '13' : '1', { fs: 26, fill: fini ? '#d63a3a' : '#23252e', maxw: 38 });
+    // Arme halten den Schlitten seitlich
+    for (const sx of [-1, 1]) {
+      const d = `M${sx * 34},-124 Q${sx * 56},-96 ${sx * 54},-44`;
+      s += leg(d, suit, 13);
+      s += `<path d="${d}" fill="none" stroke="${stripe}" stroke-width="3" opacity=".9"/>`;
+      s += `<ellipse cx="${sx * 54}" cy="-40" rx="10" ry="11" fill="${hand}" stroke="${OL}" stroke-width="2.6"/>`;
+    }
+    if (fini) {
+      // Schal flattert im Fahrtwind
+      s += `<path d="M-30,-136 Q0,-124 30,-136 L30,-128 Q0,-116 -30,-128 Z" fill="#f4c542" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<path d="M22,-134 Q48,-140 58,-126 Q70,-114 86,-120 L90,-110 Q72,-102 58,-114 Q46,-126 24,-124 Z" fill="#f4c542" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>`;
+      s += `<path d="M48,-132 l2,10 M66,-116 l-2,10" stroke="#e8663d" stroke-width="4"/>`;
+    }
+    // Kopf von hinten
+    s += `<rect x="-10" y="-146" width="20" height="14" fill="${fini ? '#e9bd9c' : '#e8c2a5'}" stroke="${OL}" stroke-width="2.2"/>`;
+    for (const sx of [-1, 1]) s += `<ellipse cx="${sx * 39}" cy="-170" rx="7" ry="10" fill="${fini ? '#f6cfae' : '#f5d0b5'}" stroke="${OL}" stroke-width="2.5"/>`;
+    if (fini) {
+      const br = (x1, y1, x2, y2) => {
+        let b = '';
+        for (let i = 0; i < 4; i++) { const t = (i + 0.5) / 4; b += `<ellipse cx="${(x1 + (x2 - x1) * t).toFixed(1)}" cy="${(y1 + (y2 - y1) * t).toFixed(1)}" rx="8.5" ry="7.5" fill="#b8492d" stroke="${OL}" stroke-width="2.2"/>`; }
+        return b + `<rect x="${x2 - 5}" y="${y2 - 4}" width="10" height="7" rx="2" fill="#2f8f8b" stroke="${OL}" stroke-width="1.8"/>`;
+      };
+      s += br(36, -162, 76, -186) + br(-36, -160, -52, -112);
+      s += `<circle cx="0" cy="-172" r="40" fill="#b8492d" stroke="${OL}" stroke-width="3"/>`;
+      s += `<path d="M-24,-172 q-5,14 -3,30 M-9,-174 q-3,18 -1,36 M7,-174 q3,18 1,36 M22,-172 q5,14 3,30" stroke="#8e3520" stroke-width="2.2" fill="none" stroke-linecap="round"/>`;
+      // Helm von hinten
+      s += `<path d="M-45,-176 Q-48,-226 0,-226 Q48,-226 45,-176 Q0,-188 -45,-176 Z" fill="#9cff3a" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
+      s += `<path d="M0,-226 V-184" stroke="#ff4fa3" stroke-width="7"/>`;
+      for (const sx of [-1, 1]) s += `<path d="M${sx * 14},-214 Q${sx * 18},-200 ${sx * 16},-188 M${sx * 32},-206 Q${sx * 36},-194 ${sx * 34},-182" stroke="#2b2b2b" stroke-width="5" stroke-linecap="round" fill="none"/>`;
+      s += `<path d="M-44,-178 Q0,-190 44,-178" stroke="#2b2b2b" stroke-width="4" fill="none"/><rect x="-8" y="-180" width="16" height="9" rx="3" fill="#2b2b2b"/>`;
+    } else {
+      let d = 'M-40,-170';
+      for (const [x, y] of [[-44, -196], [-30, -214], [-20, -230], [-6, -214], [4, -236], [16, -214], [30, -228], [36, -204], [44, -190], [40, -170]]) d += ` L${x},${y}`;
+      s += `<path d="${d} Q0,-140 -40,-170 Z" fill="#f2d36b" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
+      s += `<path d="M-41,-186 Q0,-196 41,-186" stroke="#23252e" stroke-width="9" fill="none"/><rect x="-9" y="-196" width="18" height="12" rx="3" fill="#e9ff3a" stroke="${OL}" stroke-width="2"/>`;
+    }
+    return s;
+  }
+
+  /** Zielgerade unten links im Tal; das Ziel-Banner ist eine eigene Figur, damit die Schlitten darunter durchfahren */
+  function zielBahn() {
+    let s = `<path d="M60,740 L190,598 L300,598 L320,740 Z" fill="#b8c8e0" opacity=".9"/>`;
+    s += `<path d="M60,740 L190,598 M320,740 L300,598" stroke="#9fb3d4" stroke-width="3" fill="none"/>`;
+    s += `<path d="M190,700 L245,612 M250,710 L268,620" stroke="#c9d6ec" stroke-width="2" stroke-dasharray="8 8"/>`;
+    // Ziellinie (kariert)
+    for (let i = 0; i < 16; i++) s += `<rect x="${174 + i * 8}" y="${612 + (i % 2) * 4}" width="8" height="4" fill="${OL}"/><rect x="${174 + i * 8}" y="${616 - (i % 2) * 4}" width="8" height="4" fill="#fff"/>`;
+    return s;
+  }
+  function zielBanner() {
+    let s = A.shadow(176, 618, 8) + A.shadow(304, 618, 8);
+    s += `<rect x="172" y="466" width="8" height="152" fill="#8a5a36" stroke="${OL}" stroke-width="2.5"/><rect x="300" y="466" width="8" height="152" fill="#8a5a36" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<circle cx="176" cy="464" r="6" fill="#d63a3a" stroke="${OL}" stroke-width="2"/><circle cx="304" cy="464" r="6" fill="#d63a3a" stroke="${OL}" stroke-width="2"/>`;
+    s += `<rect x="176" y="472" width="128" height="32" fill="#fff7e8" stroke="${OL}" stroke-width="2.5"/>`;
+    for (let i = 0; i < 16; i++) s += `<rect x="${177 + i * 7.9}" y="${473 + (i % 2) * 4}" width="7.9" height="4" fill="${OL}"/>`;
+    s += A.text(240, 498, 'ZIEL', { fs: 17, fill: '#d63a3a', maxw: 100 });
+    return s;
   }
 
   // ---------- Dialoge ----------
@@ -242,53 +344,101 @@
     return false;
   }
 
+  // ---------- Rennen ----------
+  // Startplätze hinter der Startlinie (Blick nach links), danach die Fahrt übers Plateau und den Hang hinunter
+  const START = { konstantin: [716, 608, 0.7], fini: [800, 634, 0.74] };
+  const PATH = {
+    konstantin: [[716, 608], [680, 610], [622, 616], [578, 632], [542, 660], [510, 700], [480, 750], [452, 830]],
+    fini: [[800, 634], [730, 636], [648, 640], [596, 660], [560, 694], [530, 740], [505, 800], [486, 870]],
+  };
+  function along(pts, p) {
+    const n = pts.length - 1;
+    const seg = Math.min(n - 1, Math.floor(p * n));
+    const t = p * n - seg;
+    const [x0, y0] = pts[seg], [x1, y1] = pts[seg + 1];
+    return [x0 + (x1 - x0) * t, y0 + (y1 - y0) * t, Math.atan2(y1 - y0, x0 - x1) * 57.3];
+  }
+  /** Figur direkt verschieben (mit Neigung), ohne die ganze Szene neu zu zeichnen */
+  function place(id, x, y, s, rot, flip) {
+    const a = G.actor(id); if (!a) return;
+    a.x = x; a.y = y; a.s = s; a.flip = flip;
+    const el = document.getElementById('actor-' + id);
+    if (el) el.setAttribute('transform', `translate(${x.toFixed(1)},${y.toFixed(1)}) rotate(${(rot || 0).toFixed(1)}) scale(${(flip ? -s : s).toFixed(3)},${s.toFixed(3)})`);
+  }
+  /** Zeichenreihenfolge nach Tiefe neu sortieren (wer weiter unten ist, steht vorne) */
+  function resort() {
+    const layer = document.getElementById('layer-actors');
+    const els = [...layer.children];
+    const key = (el) => { const a = G.actor(el.id.replace('actor-', '')); return a ? a.y + (a.z || 0) : 0; };
+    const sorted = els.slice().sort((a, b) => key(a) - key(b));
+    if (sorted.some((e, i) => e !== els[i])) sorted.forEach((e) => layer.appendChild(e));
+  }
+  const showSpeed = (id, on) => { const el = document.querySelector('#actor-' + id + ' .speed'); if (el) el.style.display = on ? '' : 'none'; };
+  const anim = (T, fn) => new Promise((res) => {
+    if (G.fast) { fn(1); res(); return; }
+    const t0 = performance.now();
+    T *= G.raceSlow || 1; // Testhilfe: Zeitlupe
+    function step(now) { const t = Math.min(1, Math.max(0, (now - t0) / T)); fn(t); if (t < 1) requestAnimationFrame(step); else res(); }
+    requestAnimationFrame(step);
+  });
+  const easeOut = (t) => 1 - (1 - t) * (1 - t);
+  const clamp01 = (t) => Math.max(0, Math.min(1, t));
+
   async function race() {
     const sc = G.scenes.schlittenhang;
     G.flag('racing');
     sc.noPlayer = true;
     G.refresh();
+    // beide sitzen schon während der Ansage auf ihren Schlitten
     await G.say('wimmer', 'Startnummer 13, Brandl! Startnummer 1, Protzinger! Auf die Plätze...');
+    await G.say('fini', 'Helm: auf. Handschuhe: beide. Herz: irgendwo in den Stiefeln.');
+    await G.say('konstantin', 'Wir sehen uns im Ziel, Brandl. Ich wink dir dann.');
     await G.say('wimmer', 'Fertig...');
     await G.say('wimmer', 'TRRRRRRIIIIIIIIT!');
-    const fg = document.getElementById('layer-fg');
-    fg.innerHTML = `<g id="sled-k">${raceSled('k')}</g><g id="sled-f">${raceSled('fini')}</g>`;
-    const ek = document.getElementById('sled-k'), ef = document.getElementById('sled-f');
-    const P = (p, off) => {
-      // Bahn: Plateau (800,622) -> Kante (560,628) -> Hang hinunter (440,740), danach aus dem Bild
-      const pts = [[800, 616], [700, 616], [630, 617], [575, 632], [535, 660], [505, 696], [470, 740], [440, 800]];
-      const seg = Math.min(pts.length - 2, Math.floor(p * (pts.length - 1)));
-      const t = p * (pts.length - 1) - seg;
-      const [x0, y0] = pts[seg], [x1, y1] = pts[seg + 1];
-      return [x0 + (x1 - x0) * t + off * 0.6, y0 + (y1 - y0) * t + off, 0.85 + p * 0.25];
-    };
-    const pk = (t) => (t < 0.45 ? t * 1.15 : 0.5175 + (t - 0.45) * 0.78);
-    const pf = (t) => (t < 0.45 ? t * 0.9 : 0.405 + (t - 0.45) * 1.0818);
-    let said1 = false, said2 = false, said3 = false;
-    const T = 7000, t0 = performance.now();
-    await new Promise((res) => {
-      if (G.fast) { res(); return; }
-      function step(now) {
-        const t = Math.min(1, (now - t0) / T);
-        const [kx, ky, ks] = P(Math.min(1, pk(t)), 18);
-        const [fx, fy, fs] = P(Math.min(1, pf(t)), -10);
-        ek.setAttribute('transform', `translate(${kx.toFixed(1)},${ky.toFixed(1)}) scale(${(-ks).toFixed(3)},${ks.toFixed(3)})`);
-        ef.setAttribute('transform', `translate(${fx.toFixed(1)},${fy.toFixed(1)}) scale(${(-fs).toFixed(3)},${fs.toFixed(3)})`);
-        // Reihenfolge: wer weiter vorne (unten) ist, wird oben gezeichnet
-        if (ky > fy) fg.appendChild(ek); else fg.appendChild(ef);
-        G.state.px = fx; G.state.py = fy + 60;
-        if (t > 0.08 && !said1) { said1 = true; G.say('wimmer', 'Und los geht’s! Protzinger geht in Führung!', { dur: 2200 }); }
-        if (t > 0.5 && !said2) { said2 = true; G.say('wimmer', 'Aber was is des?! Die Brandl holt auf! Und warum riecht’s auf einmal nach Zimt?!', { dur: 2600 }); }
-        if (t > 0.84 && !said3) { said3 = true; G.say('fini', has('klingel') ? 'DING DING! Platz da, ich komme!' : 'JUHUUUUU!', { dur: 1800 }); }
-        if (t < 1) requestAnimationFrame(step); else res();
+
+    // 1. Abfahrt: übers Plateau und den Hang hinunter, unten aus dem Bild
+    showSpeed('konstantin', true); showSpeed('fini', true);
+    let said1 = false, said2 = false;
+    const rot = { konstantin: 0, fini: 0 };
+    const pk = (t) => t * 1.18; // Konstantin startet schneller und ist zuerst unten
+    const pf = (t) => (t < 0.5 ? t * 0.8 : 0.4 + (t - 0.5) * 1.2); // Fini holt auf
+    await anim(3600, (t) => {
+      const te = Math.pow(t, 1.25);
+      for (const [id, pfn, s0] of [['konstantin', pk, 0.7], ['fini', pf, 0.74]]) {
+        const p = clamp01(pfn(te));
+        const [x, y, ang] = along(PATH[id], p);
+        rot[id] += (-Math.min(26, ang) - rot[id]) * 0.2;
+        place(id, x, y, s0 + p * 0.32, rot[id], true);
       }
-      requestAnimationFrame(step);
+      resort();
+      if (t > 0.06 && !said1) { said1 = true; G.say('wimmer', 'Und los geht’s! Protzinger geht in Führung!', { dur: 2200 }).catch(() => {}); }
+      if (t > 0.62 && !said2) { said2 = true; G.say('wimmer', 'Aber was is des?! Die Brandl holt auf! Und warum riecht’s auf einmal nach Zimt?!', { dur: 2800 }).catch(() => {}); }
+    });
+    await G.wait(900);
+
+    // 2. Zielgerade unten links: beide kommen von unten ins Bild und fahren (von hinten gesehen) ins Ziel
+    G.setActor('fini', { svg: rearRider('fini') });
+    G.setActor('konstantin', { svg: rearRider('konstantin') });
+    showSpeed('konstantin', true); showSpeed('fini', true);
+    const laneX = (y) => 245 - (y - 598) / 142 * 55;
+    const laneW = (y) => 110 + (y - 598) / 142 * 150;
+    const sAt = (y) => 0.36 + (y - 598) / 142 * 0.5;
+    let said3 = false;
+    await anim(3400, (t) => {
+      const yf = 830 - (830 - 604) * easeOut(t);
+      const yk = 880 - (880 - 607) * easeOut(clamp01((t - 0.22) / 0.78));
+      place('fini', laneX(yf) - laneW(yf) * 0.3, yf, sAt(yf), 0, false);
+      place('konstantin', laneX(yk) + laneW(yk) * 0.3, yk, sAt(yk), 0, false);
+      if (t > 0.85) { showSpeed('fini', false); showSpeed('konstantin', false); }
+      resort();
+      if (t > 0.2 && !said3) { said3 = true; G.say('fini', has('klingel') ? 'DING DING! Platz da, ich komme!' : 'JUHUUUUU!', { dur: 1800 }).catch(() => {}); }
     });
     await G.wait(300);
     // Konfetti
     let conf = '';
     const r = A.rng(4);
     for (let i = 0; i < 60; i++) conf += `<rect x="${(r() * 1280).toFixed(0)}" y="${(r() * 400).toFixed(0)}" width="8" height="14" fill="${['#d63a3a', '#ffd36e', '#2f8f8b', '#9cff3a', '#7b3fa0'][i % 5]}" transform="rotate(${(r() * 180).toFixed(0)})" class="steam s${1 + (i % 3)}" opacity=".9"/>`;
-    fg.insertAdjacentHTML('beforeend', conf);
+    document.getElementById('layer-fg').insertAdjacentHTML('beforeend', conf);
     await G.say('wimmer', 'ZIEEEEL!!! Siegerin des 73. Grafinger Kufen-Gaudi: Startnummer 13 – FINI BRANDL!');
     await G.say('wimmer', 'Zweiter: Protzinger. Mit Abstand. Und ohne Motor.');
     // Siegerehrung
@@ -416,11 +566,18 @@
       return s;
     },
     actors(st) {
-      const out = [{ id: 'wimmer', x: 760, y: 692, s: 0.86, svg: C.wimmer({ megaphone: true }), head: -330 },
+      const racing = f('racing');
+      const out = [{ id: 'wimmer', x: racing ? 1010 : 760, y: 692, s: 0.86, svg: C.wimmer({ megaphone: true }), head: -330 },
+        { id: 'ziel', x: 0, y: 0, z: 618, svg: zielBanner() },
         { id: 'pfosten', x: 0, y: 0, z: 662, svg: frontPole() },
         // vorderer Heuballen: immer ganz vorne, auch vor Fini
         { id: 'heuballen', x: 0, y: 0, z: 100000, svg: bale(625, 712, 1.25) }];
-      if (!f('racing')) {
+      if (racing) {
+        for (const id of ['konstantin', 'fini']) {
+          const [x, y, sc] = START[id];
+          out.push({ id, x, y, s: sc, flip: true, svg: sideRider(id), head: -242 });
+        }
+      } else {
         out.push({ id: 'konstantin', x: 960, y: 662, s: 0.76, svg: C.konstantin(), head: -310, flip: true });
         out.push({ id: 'turbokufe', x: 1070, y: 690, s: 0.9, svg: turboKufe(st) });
       }
@@ -433,6 +590,7 @@
         { name: 'Grafing in der Abendsonne', r: [0, 200, 360, 270], walk: [700, 640], look: ['Da unten liegt Grafing. Mit dem Kirchturm von St. Ägidius und lauter kleinen Lichtern.', 'Von hier oben sieht es aus wie ein Lebkuchendorf. Ein sehr leckeres Lebkuchendorf.'] },
         { name: 'Rodelbahn', p: [846, 594, 600, 594, 540, 620, 470, 740, 520, 740, 600, 650, 846, 640], walk: [700, 650], look: 'Die Rodelbahn. Steil, glatt, perfekt. Unten wartet der Ruhm. Und Strohballen. Hoffentlich in dieser Reihenfolge.' },
         { name: 'Zuschauer', r: [30, 500, 300, 220], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
+        { name: 'Ziel', r: [168, 458, 146, 166], walk: [680, 650], look: 'Da unten ist das Ziel. Da will ich hin. Als Erste. Und möglichst auf dem Schlitten, nicht daneben.' },
         { name: 'Start-Banner', r: [640, 262, 240, 112], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
         f('pigeon_sent') && { name: 'Gurrbert', r: [618, 228, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
         { name: 'Zeitnehmer-Tisch', r: [956, 520, 130, 60], walk: [1000, 650], look: 'Eine Stoppuhr, ein Tee und eine halbe Leberkässemmel. Das Equipment der Rennleitung.' },

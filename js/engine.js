@@ -278,7 +278,7 @@
   // ---------- Sprechen ----------
   let skipFn = null;
   function speakerAnchor(who) {
-    if (who === 'fini') {
+    if (who === 'fini' && !G.scene().noPlayer) {
       const s = scaleAt(G.state.py) * (G.scene().playerScale || 1);
       return [G.state.px, G.state.py - PLAYER_H * s - 14];
     }
@@ -310,7 +310,7 @@
       b.style.top = (cy / H * 100) + '%';
       const tail = clamp(50 + (ax - cx) / bw * 100, 12, 88);
       b.style.setProperty('--tail', tail + '%');
-      const el = who === 'fini' ? P.el : $('actor-' + who);
+      const el = (who === 'fini' && !G.scene().noPlayer) ? P.el : $('actor-' + who);
       if (el) el.classList.add('talking');
       if (G.log) G.log.push((NAMES[who] ? NAMES[who].name : who) + ': ' + text);
       const dur = G.fast ? 5 : (opts.dur || clamp(900 + text.replace(/<[^>]+>/g, '').length * 52, 1700, 8500));

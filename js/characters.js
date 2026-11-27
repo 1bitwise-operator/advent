@@ -175,6 +175,19 @@
         <path d="M${f(-r * 0.86)},${f(hy - r * 0.42)} Q0,${f(hy - r * 0.62)} ${f(r * 0.86)},${f(hy - r * 0.42)}" fill="none" stroke="#fff3e0" stroke-width="${f(r * 0.16)}" stroke-linecap="round"/>`;
       case 'headband': return `<path d="M${f(-r * 1.0)},${f(hy - r * 0.35)} Q0,${f(hy - r * 1.05)} ${f(r * 1.0)},${f(hy - r * 0.35)}" fill="none" stroke="${OL}" stroke-width="${f(r * 0.3)}" stroke-linecap="round"/><path d="M${f(-r * 1.0)},${f(hy - r * 0.35)} Q0,${f(hy - r * 1.05)} ${f(r * 1.0)},${f(hy - r * 0.35)}" fill="none" stroke="${c}" stroke-width="${f(r * 0.22)}" stroke-linecap="round"/><path d="M${f(-r * 0.7)},${f(hy - r * 0.62)} Q0,${f(hy - r * 0.98)} ${f(r * 0.7)},${f(hy - r * 0.62)}" fill="none" stroke="#fff" stroke-width="2" stroke-dasharray="4 4" opacity=".6"/>`;
       case 'bonnet': return `<path d="M${f(-r * 0.9)},${f(hy - r * 0.55)} Q0,${f(hy - r * 1.25)} ${f(r * 0.9)},${f(hy - r * 0.55)} Q0,${f(hy - r * 0.75)} ${f(-r * 0.9)},${f(hy - r * 0.55)} Z" fill="${c}" stroke="${OL}" stroke-width="2.5"/>`;
+      case 'helmet': {
+        // Radlhelm (Vorderansicht): Schale, Lüftungsschlitze, pinker Streifen, Kinnriemen
+        let s = `<path d="M${f(-r * 0.92)},${f(hy + r * 0.1)} L${f(-r * 0.8)},${f(hy + r * 0.95)} M${f(r * 0.92)},${f(hy + r * 0.1)} L${f(r * 0.8)},${f(hy + r * 0.95)}" stroke="#2b2b2b" stroke-width="${f(r * 0.07)}" stroke-linecap="round"/>`;
+        s += `<path d="M${f(-r * 1.12)},${f(hy - r * 0.3)} Q${f(-r * 1.15)},${f(hy - r * 1.5)} 0,${f(hy - r * 1.5)} Q${f(r * 1.15)},${f(hy - r * 1.5)} ${f(r * 1.12)},${f(hy - r * 0.3)} Q0,${f(hy - r * 0.48)} ${f(-r * 1.12)},${f(hy - r * 0.3)} Z" fill="${c}" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
+        s += `<path d="M0,${f(hy - r * 1.5)} Q${f(r * 0.06)},${f(hy - r * 0.9)} 0,${f(hy - r * 0.44)}" fill="none" stroke="#ff4fa3" stroke-width="${f(r * 0.16)}"/>`;
+        for (const sx of [-1, 1]) {
+          s += `<path d="M${f(sx * r * 0.3)},${f(hy - r * 1.3)} Q${f(sx * r * 0.42)},${f(hy - r * 1.0)} ${f(sx * r * 0.38)},${f(hy - r * 0.62)}" fill="none" stroke="#2b2b2b" stroke-width="${f(r * 0.12)}" stroke-linecap="round"/>`;
+          s += `<path d="M${f(sx * r * 0.7)},${f(hy - r * 1.1)} Q${f(sx * r * 0.86)},${f(hy - r * 0.8)} ${f(sx * r * 0.8)},${f(hy - r * 0.5)}" fill="none" stroke="#2b2b2b" stroke-width="${f(r * 0.1)}" stroke-linecap="round"/>`;
+        }
+        s += `<path d="M${f(-r * 1.1)},${f(hy - r * 0.32)} Q0,${f(hy - r * 0.5)} ${f(r * 1.1)},${f(hy - r * 0.32)}" fill="none" stroke="#2b2b2b" stroke-width="${f(r * 0.1)}"/>`;
+        s += `<path d="M${f(-r * 0.55)},${f(hy - r * 1.3)} Q${f(-r * 0.2)},${f(hy - r * 1.45)} ${f(r * 0.05)},${f(hy - r * 1.42)}" fill="none" stroke="#fff" stroke-width="${f(r * 0.08)}" stroke-linecap="round" opacity=".6"/>`;
+        return s;
+      }
       case 'goggles': return `<path d="M${f(-r * 1.0)},${f(hy - r * 0.62)} Q0,${f(hy - r * 0.95)} ${f(r * 1.0)},${f(hy - r * 0.62)}" fill="none" stroke="${OL}" stroke-width="${f(r * 0.24)}"/>
         <rect x="${f(-r * 0.85)}" y="${f(hy - r * 1.05)}" width="${f(r * 1.7)}" height="${f(r * 0.42)}" rx="${f(r * 0.2)}" fill="${c}" stroke="${OL}" stroke-width="3"/>
         <rect x="${f(-r * 0.72)}" y="${f(hy - r * 0.98)}" width="${f(r * 1.44)}" height="${f(r * 0.28)}" rx="${f(r * 0.13)}" fill="#7fe3ff" stroke="${OL}" stroke-width="2"/>
@@ -269,6 +282,7 @@
     const front = o.front ? o.front(ctx) : '';
     const topx = o.topExtra ? o.topExtra(ctx) : '';
     const shadow = `<ellipse cx="0" cy="0" rx="${f(Math.max(wh, legX + legW) * 1.25)}" ry="${f(r * 0.22)}" fill="#1a1530" opacity=".22"/>`;
+    if (o.seated) return `<g class="bodyall"><g class="breathe">${torso}${front}${arms}${head}${topx}</g></g>`;
     return `${shadow}${legs}<g class="bodyall"><g class="breathe">${torso}${front}${arms}${head}${topx}</g></g>`;
   };
 
@@ -277,10 +291,10 @@
      ========================================================= */
 
   // ---- Fini (Spielerin) ----
-  C.fini = function (st) {
+  C.fini = function (st, extra) {
     const both = st && st.flags && st.flags.glove_back;
     const suit = '#ee7a3a', panel = '#2f8f8b', mit = '#2f8f8b';
-    return C.person({
+    return C.person(Object.assign({
       h: 300, r: 44, hip: 0.42,
       skin: '#f6cfae',
       top: suit, pants: suit, legStripe: panel, sleeveStripe: panel,
@@ -305,7 +319,7 @@
         `<path d="M${f(r * 0.3)},${f(shY + r * 0.05)} L${f(r * 0.55)},${f(shY + r * 1.1)} L${f(r * 0.85)},${f(shY + r * 1.0)} L${f(r * 0.6)},${f(shY)} Z" fill="#f4c542" stroke="${OL}" stroke-width="2.6" stroke-linejoin="round"/>` +
         `<path d="M${f(r * 0.42)},${f(shY + r * 0.4)} l${f(r * 0.28)},${f(-r * 0.05)} M${f(r * 0.5)},${f(shY + r * 0.7)} l${f(r * 0.28)},${f(-r * 0.05)}" stroke="#e8663d" stroke-width="4"/>` +
         `<path d="M${f(r * 0.55)},${f(shY + r * 1.1)} l-3,8 M${f(r * 0.65)},${f(shY + r * 1.08)} l0,9 M${f(r * 0.75)},${f(shY + r * 1.04)} l3,8" stroke="#f4c542" stroke-width="3" stroke-linecap="round"/>`,
-    });
+    }, extra || {}));
   };
 
   // ---- Resi, Bäckerin bei Kreitmampf ----
@@ -439,7 +453,7 @@
   });
 
   // ---- Konstantin Protzinger ----
-  C.konstantin = () => C.person({
+  C.konstantin = (extra) => C.person(Object.assign({
     h: 304, r: 41, ws: 42, wh: 35,
     skin: '#f5d0b5', top: '#c8ccd6', pants: '#23252e', shoes: '#f4f4f4', boots: true, bootTrim: '#e9ff3a',
     hair: { style: 'spiky', color: '#f2d36b' },
@@ -452,7 +466,7 @@
       `<path d="M${f(-ws * 0.9)},${f(shY + r * 0.6)} L${f(ws * 0.9)},${f(shY + r * 1.1)}" stroke="${OL}" stroke-width="1.5" opacity=".5"/>` +
       `<path d="M${f(-ws * 0.6)},${f(shY + r * 0.25)} q${f(ws * 0.2)},${f(r * 0.6)} 0,${f(r * 1.4)} M${f(ws * 0.6)},${f(shY + r * 0.25)} q${f(-ws * 0.2)},${f(r * 0.6)} 0,${f(r * 1.4)}" stroke="#fff" stroke-width="3" opacity=".55" fill="none"/>` +
       `<path d="M${f(-r * 0.12)},${f(shY + r * 1.55)} l${f(r * 0.2)},0 l${f(-r * 0.1)},${f(r * 0.22)} l${f(r * 0.18)},0 l${f(-r * 0.3)},${f(r * 0.38)} l${f(r * 0.08)},${f(-r * 0.26)} l${f(-r * 0.16)},0 Z" fill="#e9ff3a" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>`,
-  });
+  }, extra || {}));
 
   // ---- Gurrbert, die Brieftaube ----
   C.gurrbert = (o = {}) => {
