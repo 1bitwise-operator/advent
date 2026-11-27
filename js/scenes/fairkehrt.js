@@ -21,10 +21,18 @@
   const playerEl = () => document.getElementById('player');
 
   async function climbUp() {
-    await G.say('fini', 'Rauf da! ...*knarz*... Hallo, dritte Stufe.');
+    await G.say('fini', 'Rauf da!');
     await G.walk(STEP(0)[0], STEP(0)[1], { free: true, speed: 260 });
     G.face(1);
-    for (let i = 1; i <= TOP_STEP; i++) await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+    for (let i = 1; i <= TOP_STEP; i++) {
+      await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+      if (i === 2) {
+        // die berühmte dritte Stufe
+        if (window.Sound) Sound.play('knarz');
+        await G.wait(300);
+        await G.say('fini', 'Hallo 3. Stufe.');
+      }
+    }
     const el = playerEl();
     if (el && !G.fast) { el.style.transition = 'opacity .35s'; el.style.opacity = '0'; await G.wait(380); }
   }
@@ -33,7 +41,10 @@
     const el = playerEl();
     G.place(STEP(TOP_STEP)[0], STEP(TOP_STEP)[1], -1);
     if (el && !G.fast) { el.style.opacity = '0'; el.style.transition = 'opacity .35s'; void el.getBoundingClientRect(); el.style.opacity = '1'; }
-    for (let i = TOP_STEP - 1; i >= 0; i--) await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+    for (let i = TOP_STEP - 1; i >= 0; i--) {
+      await G.walk(STEP(i)[0], STEP(i)[1], { free: true, speed: 190 });
+      if (i === 2 && window.Sound) Sound.play('knarz'); // dritte Stufe knarzt auch beim Runtergehen
+    }
     await G.walk(990, 640, { speed: 260 });
   }
 
@@ -79,9 +90,14 @@
     // Geländer im Hintergrund – Fini geht davor die Treppe hinauf
     s += `<path d="M930,560 L1250,70" stroke="${OL}" stroke-width="8"/><path d="M930,560 L1250,70" stroke="#8a5a36" stroke-width="4"/>`;
     for (let i = 0; i < 8; i++) s += `<path d="M${944 + i * 40},${538 - i * 61} V${600 - i * 61 - 10}" stroke="#6b4128" stroke-width="4"/>`;
-    s += `<rect x="1060" y="170" width="190" height="62" rx="4" fill="#fff7e8" stroke="${OL}" stroke-width="2.5" transform="rotate(-4 1155 200)"/>`;
-    s += A.text(1155, 194, '↑ Speichls Radlwerkstatt', { fs: 15, fill: '#6b2a20', rot: -4, maxw: 176 }) + A.text(1155, 214, '(geschlossen seit 2009)', { fs: 13, fill: '#6b2a20', rot: -4, maxw: 176 });
-    s += `<rect x="986" y="464" width="132" height="38" rx="3" fill="#f4c542" stroke="${OL}" stroke-width="2" transform="rotate(8 1052 483)"/>` + A.text(1052, 489, '3. Stufe knarzt!', { fs: 15, fill: OL, rot: 8, maxw: 122 });
+    // Schild an der Wand neben dem Geländer
+    s += `<rect x="936" y="196" width="190" height="62" rx="4" fill="#fff7e8" stroke="${OL}" stroke-width="2.5"/>`;
+    for (const [nx, ny] of [[946, 206], [1116, 206]]) s += `<circle cx="${nx}" cy="${ny}" r="3" fill="#9aa1ab" stroke="${OL}" stroke-width="1.2"/>`;
+    s += A.text(1031, 222, '↑ Speichls Radlwerkstatt', { fs: 15, fill: '#6b2a20', maxw: 176 }) + A.text(1031, 242, '(geschlossen seit 2009)', { fs: 13, fill: '#6b2a20', maxw: 176 });
+    // Warnschild seitlich an der Treppe, neben der 3. Stufe (ragt nicht über die Stufen)
+    s += `<rect x="1068" y="494" width="128" height="36" rx="3" fill="#f4c542" stroke="${OL}" stroke-width="2"/>`;
+    for (const nx of [1075, 1189]) s += `<circle cx="${nx}" cy="512" r="2.5" fill="#9aa1ab" stroke="${OL}" stroke-width="1"/>`;
+    s += A.text(1132, 518, '3. Stufe knarzt!', { fs: 15, fill: OL, maxw: 106 });
     // Tür links
     s += `<rect x="20" y="320" width="110" height="270" fill="#2f6e4a" stroke="${OL}" stroke-width="4"/><rect x="36" y="336" width="78" height="120" fill="#3d4d7a" stroke="${OL}" stroke-width="3"/><path d="M36,436 q40,-14 78,0 V456 H36 Z" fill="#fff"/><circle cx="116" cy="470" r="6" fill="#e8c35a" stroke="${OL}" stroke-width="2"/>`;
     // Boden
@@ -115,6 +131,7 @@
   async function buyCandle() {
     await G.say('fini', 'Ich nehm eine Bienenwachskerze! Hier, drei Euro!');
     G.take('geld');
+    if (window.Sound) Sound.play('kasse');
     await G.say('fairhuber', 'Wunderbar! Fair gehandelt, aus einer Imkerei-Kooperative. Die Bienen lassen schön grüßen.');
     G.give('kerze');
     G.flag('kerze_bought');
@@ -188,7 +205,7 @@
         { name: 'Globus', r: [748, 336, 86, 110], walk: [790, 640], look: 'Ein Globus. Grafing ist nicht drauf. Skandal. Ich schreib einen Brief. Den ich dann vergesse.' },
         { name: 'Poster', r: [756, 106, 150, 186], walk: [830, 640], look: '„Fair statt mehr!“ Ich glaube, das ist ein Wortspiel. Hier gibt’s viele Wortspiele. Sogar der Laden ist eins.' },
         { name: 'Wandteppich', r: [36, 86, 158, 230], walk: [200, 640], look: 'Ein bunter Wandteppich mit Zickzack-Muster. Wenn ich zu lange draufschaue, wird mir schwindlig. Auf eine gemütliche Art.' },
-        { name: 'Zur Radlwerkstatt (nach oben)', r: [1056, 160, 200, 80], walk: [990, 630],
+        { name: 'Zur Radlwerkstatt (nach oben)', r: [936, 196, 190, 62], walk: [990, 630],
           look: '„Speichls Radlwerkstatt – geschlossen seit 2009.“ Und daneben: „3. Stufe knarzt!“ Gut zu wissen. Ich bin ja sehr leise. Nie.',
           exit: { to: 'radladen', x: 230, y: 650, face: 1 },
           use: climbUp },

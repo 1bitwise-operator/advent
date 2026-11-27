@@ -38,6 +38,7 @@ Die Namen der Geschäfte und Figuren sind augenzwinkernd verfremdet und frei erf
 | Text überspringen | Klick / Leertaste | Tippen |
 | Merkzettel (Aufgaben) | 📝 oder Taste `M` | 📝 |
 | Menü | ☰ oder `Esc` | ☰ |
+| Ton an/aus | 🔊 (Musik und Geräusche einzeln im Menü) | 🔊 |
 
 Das Spiel speichert automatisch im Browser (localStorage).
 
@@ -47,6 +48,7 @@ Wer nicht weiterkommt, findet den kompletten Lösungsweg in [LOESUNG.md](LOESUNG
 
 - Reines HTML/CSS/JavaScript ohne Build-Schritt und ohne externe Abhängigkeiten
 - Alle Grafiken sind handgeschriebene SVGs im Comic-Stil (`js/art.js`, `js/characters.js`)
+- Musik und Geräusche werden im Browser erzeugt (Web Audio API, `js/audio.js`), ganz ohne Audiodateien
 - Kleine eigene Adventure-Engine (`js/engine.js`): Szenen, Laufen mit Tiefenskalierung, Sprechblasen, Dialogbäume, Inventar mit Kombinationen, Merkzettel, Spielstand
 - Jede Szene ist eine eigene Datei in `js/scenes/`
 

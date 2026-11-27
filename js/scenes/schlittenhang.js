@@ -414,6 +414,7 @@
     await G.say('konstantin', 'Wir sehen uns im Ziel, Brandl. Ich wink dir dann.');
     await G.say('wimmer', 'Fertig...');
     await G.say('wimmer', 'TRRRRRRIIIIIIIIT!');
+    if (window.Sound) { Sound.music('race'); Sound.play('kufen', { dur: 4.2 * (G.raceSlow || 1) }); }
 
     // 1. Abfahrt: übers Plateau und den Hang hinunter, unten aus dem Bild
     showSpeed('konstantin', true); showSpeed('fini', true);
@@ -441,6 +442,7 @@
     if (G.actor('konstantin')) G.actor('konstantin').z = 0;
     G.setActor('fini', { svg: rearRider('fini') });
     G.setActor('konstantin', { svg: rearRider('konstantin') });
+    if (window.Sound) Sound.play('kufen', { dur: 3.4 * (G.raceSlow || 1) });
     showSpeed('konstantin', true); showSpeed('fini', true);
     const laneX = (y) => 245 - (y - 598) / 142 * 55;
     const laneW = (y) => 110 + (y - 598) / 142 * 150;
@@ -460,6 +462,7 @@
         G.setActor('fini', { svg: rearRider('fini', true) });
         place('fini', laneX(yf) - laneW(yf) * 0.3, yf, sAt(yf), 0, false);
         G.say('fini', 'JAAAAA! JUHUUUU! ERSTE!', { dur: 2200 }).catch(() => {});
+        if (window.Sound) Sound.play('jubel');
       }
     });
     await G.wait(300);
@@ -472,6 +475,7 @@
     await G.say('wimmer', 'Zweiter: Protzinger. Mit Abstand. Und ohne Motor.');
     // Siegerehrung
     sc.noPlayer = false;
+    if (window.Sound) Sound.music('hang');
     G.flag('racing', false);
     G.flag('won');
     G.place(660, 690, 1);
@@ -479,6 +483,7 @@
     await G.wait(400);
     await G.say('wimmer', 'Fini Brandl, im Namen der Rennleitung und laut Paragraph 20: die Goldene Kufe!');
     G.give('pokal');
+    if (window.Sound) { Sound.music('title'); Sound.fanfare(); Sound.play('jubel'); }
     G.playerPose = {
       armRotL: 158, armRotR: -162, smile: 0.55, mouthW: 0.38, lid: 0.08, browTilt: -0.1,
       holdR: (x, y, r) => `<g transform="rotate(162 ${x.toFixed(1)} ${y.toFixed(1)})">${goldeneKufe(x, y, r)}</g>`,

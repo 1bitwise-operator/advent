@@ -151,7 +151,7 @@ body {
   pointer-events: none;
 }
 #topbar button { pointer-events: auto; }
-#btn-menu { margin-left: auto; }
+#btn-sound { margin-left: auto; }
 #topbar button, .overlay button {
   font-family: var(--font-ui);
   font-size: 1.25cqw;

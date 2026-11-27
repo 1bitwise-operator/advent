@@ -267,7 +267,7 @@
         { name: 'Schaufenster Fairkehrte', r: [940, 390, 186, 118], walk: [1030, 585],
           look: 'Der Fairkehrte-Laden. Kaffee, Schokolade, Kerzen – alles fair gehandelt. Sogar das Schaufenster wirkt irgendwie gerecht.' },
         { name: 'Kreidetafel', r: [1192, 450, 92, 102], walk: [1170, 600], look: ['„Heute fair: Kerzen!“', 'Was heute wohl unfair ist?'] },
-        { name: 'Fairkehrt-Laden', r: [1134, 400, 60, 125], walk: [1164, 582], exit: { to: 'fairkehrt', x: 170, y: 660, face: 1 },
+        { name: 'Fairkehrte-Laden', r: [1134, 400, 60, 125], walk: [1164, 582], exit: { to: 'fairkehrt', x: 170, y: 660, face: 1 },
           look: 'Fairkehrte – der Weltladen. Über dem Laden war früher eine Radlwerkstatt, glaub ich.' },
         { name: 'Mariensäule', r: [282, 156, 72, 400], walk: [318, 590],
           look: ['Die Mariensäule. Steht hier seit 1923 und hat schon jedes Kufen-Gaudi gesehen.', 'Wenn sie reden könnte, würde sie wahrscheinlich sagen: „Fini, du hast deinen Schlitten vergessen.“'],

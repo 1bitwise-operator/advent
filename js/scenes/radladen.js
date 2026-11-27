@@ -297,7 +297,7 @@
           look: 'Gustl Speichl. Groß, dünn, freundlich, mit Hut. Er hat Hände, die aussehen, als könnten sie aus einer Gabel ein Fahrrad bauen.',
           use: gustlTalk,
           items: gustlItems },
-        { name: 'Treppe runter zum Fairkehrt', p: [40, 600, 180, 600, 150, 690, 0, 690, 0, 640], walk: [220, 650], exit: { to: 'fairkehrt', x: 1252, y: 198, face: -1 } },
+        { name: 'Treppe runter zur Fairkehrte', p: [40, 600, 180, 600, 150, 690, 0, 690, 0, 640], walk: [220, 650], exit: { to: 'fairkehrt', x: 1252, y: 198, face: -1 } },
       ];
     },
   };

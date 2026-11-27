@@ -190,6 +190,7 @@
       await G.say('fini', 'Ich hab eine Tasse gefunden! Pfand-Rettung!');
       await G.say('gerti', 'A Tass’n vom Christkindlmarkt! Pfand san drei Euro, bittschön.');
       G.take('tasse'); G.give('geld'); G.flag('tasse_returned');
+      if (window.Sound) Sound.play('kasse');
       await G.say('fini', 'Drei Euro! Ich bin reich! ...Für meine Verhältnisse.');
     },
     geld: async () => {

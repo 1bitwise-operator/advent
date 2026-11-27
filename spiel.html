@@ -26,6 +26,7 @@
       <div id="topbar">
         <button id="btn-notes" title="Merkzettel (M)">📝 <span>Merkzettel</span></button>
         <button id="btn-mode" title="Zwischen Benutzen und Ansehen wechseln (Rechtsklick = Ansehen)">✋ <span>Benutzen</span></button>
+        <button id="btn-sound" title="Ton aus" aria-label="Ton aus">🔊</button>
         <button id="btn-menu" title="Menü (Esc)">☰</button>
       </div>
       <div id="narration"></div>
@@ -52,6 +53,8 @@
           <h2>Pause</h2>
           <button id="menu-resume">Weiterspielen</button>
           <button id="menu-help">Hilfe</button>
+          <button id="menu-music">Musik: an</button>
+          <button id="menu-sfx">Geräusche: an</button>
           <button id="menu-restart">Neues Spiel</button>
         </div>
         <div id="menu-confirm" class="hidden">
@@ -74,6 +77,7 @@
           <li><b>Klick während jemand redet</b> – Text überspringen. Ein Klick in die Szene beendet ein Gespräch.</li>
           <li><b>Nochmal fragen lohnt sich!</b> – Manche Gesprächsthemen tauchen erst auf, wenn Fini etwas Bestimmtes erfahren oder gefunden hat. Sprich Leute später im Spiel ruhig noch einmal an. Genauso bei Dingen: Manches kann Fini erst nehmen oder benutzen, wenn sie weiß, wofür sie es braucht. Probier es später ruhig noch einmal.</li>
           <li><b>📝 Merkzettel</b> – was Fini noch erledigen muss (sie vergisst sonst alles)</li>
+          <li><b>🔊 Ton</b> – oben an- und ausschalten. Musik und Geräusche lassen sich im Menü (☰) auch einzeln abschalten.</li>
           <li>Das Spiel speichert automatisch.</li>
         </ul>
         <button class="close">Alles klar</button>
@@ -104,6 +108,7 @@
 
   <div id="drag-item"></div>
 
+  <script src="js/audio.js"></script>
   <script src="js/engine.js"></script>
   <script src="js/art.js"></script>
   <script src="js/characters.js"></script>

@@ -70,6 +70,7 @@
 
   // ---------- Ende ----------
   G.showEnding = function () {
+    if (window.Sound) Sound.music('title');
     const min = Math.max(1, Math.round(G.state.playMs / 60000));
     const extra = f('foto_given')
       ? '<p>Gustl hängt das alte Foto seines Vaters neben den neuen Zeitungsartikel. Zwei Speichl-Schlitten, zwei Siege. Er hat dabei ein bisschen geweint. „Staub im Auge“, sagt er.</p>'

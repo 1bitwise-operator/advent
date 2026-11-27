@@ -72,7 +72,7 @@
   G.give = function (id, silent) {
     if (!G.has(id)) G.state.inv.push(id);
     renderInventory(id);
-    if (!silent) G.toastItem(id);
+    if (!silent) { G.toastItem(id); window.Sound && Sound.play('pickup'); }
   };
   G.take = function (id) {
     G.state.inv = G.state.inv.filter((x) => x !== id);
@@ -242,7 +242,7 @@
     if (G.fast) { G.state.px = x; G.state.py = y; placePlayer(); resortPlayer(); return Promise.resolve(true); }
     return new Promise((resolve) => {
       const speed = (opts.speed || 330);
-      let last = performance.now();
+      let last = performance.now(), stepAcc = 0;
       const dx0 = x - G.state.px;
       if (Math.abs(dx0) > 2) G.state.face = dx0 < 0 ? -1 : 1;
       P.walking = true;
@@ -260,6 +260,8 @@
         G.state.px += dx / dist * v;
         G.state.py += (dy / dist * v) / 1.6;
         P.phase += dt * 11;
+        stepAcc += v;
+        if (stepAcc > (sc.outdoor ? 92 : 46) * s) { stepAcc = 0; window.Sound && Sound.play(sc.outdoor ? 'stepSnow' : 'stepWood'); } // im Schnee seltener
         placePlayer(); resortPlayer();
         requestAnimationFrame(step);
       }
@@ -293,6 +295,7 @@
   G.say = function (who, text, opts = {}) {
     if (who === 'narrator') return G.narrate(text);
     if (G.fast) { if (G.log) G.log.push((NAMES[who] ? NAMES[who].name : who) + ": " + text); return Promise.resolve(); }
+    if (window.Sound) Sound.onSay(who, text);
     return new Promise((resolve) => {
       const [ax, ay] = speakerAnchor(who);
       const b = document.createElement('div');
@@ -312,12 +315,14 @@
       b.style.setProperty('--tail', tail + '%');
       const el = (who === 'fini' && !G.scene().noPlayer) ? P.el : $('actor-' + who);
       if (el) el.classList.add('talking');
+      const stopBabble = window.Sound ? Sound.babble(who, text) : () => {};
       if (G.log) G.log.push((NAMES[who] ? NAMES[who].name : who) + ': ' + text);
       const dur = G.fast ? 5 : (opts.dur || clamp(900 + text.replace(/<[^>]+>/g, '').length * 52, 1700, 8500));
       let done = false;
       const finish = () => {
         if (done) return; done = true;
         clearTimeout(t);
+        stopBabble();
         if (el) el.classList.remove('talking');
         b.remove();
         skipFn = null;
@@ -362,6 +367,7 @@
         if (isSeen(sk) && !o.end) btn.classList.add('seen');
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
+          window.Sound && Sound.play('click');
           if (!G.state.seen[sk]) G.state.seen[sk] = 1;
           closeChoices();
           resolve(o);
@@ -422,6 +428,7 @@
     fadeEl.classList.add('on');
     await wait(G.fast ? 1 : 360);
     G.stopWalk();
+    if (window.Sound) Sound.sceneChange(G.state.scene, sceneId);
     G.state.scene = sceneId;
     const sc = G.scene();
     const e = sc.entry || {};
@@ -514,6 +521,7 @@
   /** spielt auf den beiden Rucksack-Feldern die Erfolgs- bzw. Fehler-Animation ab */
   async function combineFx(a, b, ok) {
     const cls = ok ? 'combine-ok' : 'combine-fail';
+    window.Sound && Sound.play(ok ? 'ok' : 'fail');
     for (const id of [a, b]) { const el = slotEl(id); if (el) { el.classList.remove('combine-ok', 'combine-fail', 'target'); void el.offsetWidth; el.classList.add(cls); } }
     if (!ok) showToast('Das lässt sich nicht kombinieren.');
     await new Promise((r) => setTimeout(r, G.fast ? 0 : 550));
@@ -634,6 +642,7 @@
     if (lastTaskSig && sig !== lastTaskSig) {
       const b = $('btn-notes');
       b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
+      window.Sound && Sound.play('notes');
     }
     lastTaskSig = sig;
   }
@@ -841,6 +850,7 @@
     document.querySelectorAll('.overlay .close').forEach((b) => b.addEventListener('click', () => b.closest('.overlay').classList.add('hidden')));
     $('notes').addEventListener('click', (e) => { if (e.target.id === 'notes') $('notes').classList.add('hidden'); });
     $('menu-resume').addEventListener('click', () => $('menu').classList.add('hidden'));
+    if (window.Sound) Sound.initUI();
     $('menu-help').addEventListener('click', () => { $('menu').classList.add('hidden'); $('help').classList.remove('hidden'); });
 
     document.addEventListener('keydown', (e) => {
@@ -871,6 +881,7 @@
   G.start = function (state) {
     G.playerPose = null;
     G.state = state;
+    if (window.Sound) { Sound.unlock(); Sound.sceneMusic(state.scene); }
     const sc0 = G.scenes[state.scene];
     if (sc0 && sc0.walk) { const w = sc0.walk; state.px = clamp(state.px, w.x1, w.x2); state.py = clamp(state.py, w.y1, w.y2); }
     selectItem(null);
