@@ -94,14 +94,29 @@
 
   function sideBooths() {
     let s = '';
-    s += A.booth(-40, 520, 210, 150, { label: 'Lebkuchen-Herzen', roof: '#2f6e4a', seed: 61 });
-    s += A.booth(1100, 520, 220, 150, { label: 'Kräuterhexe', roof: '#7b3fa0', seed: 62 });
-    const r = A.rng(5);
-    const coats = ['#3f6fb5', '#7b3fa0', '#2f6e4a', '#b8322b', '#5b4a3a', '#e8663d'];
-    for (let i = 0; i < 6; i++) s += A.crowdPerson(30 + r() * 230, 566 + r() * 6, 0.62 + r() * 0.1, coats[i], coats[(i + 2) % 6]);
-    for (let i = 0; i < 5; i++) s += A.crowdPerson(1050 + r() * 200, 566 + r() * 6, 0.62 + r() * 0.1, coats[(i + 1) % 6], coats[(i + 4) % 6]);
+    s += A.booth(-50, 585, 300, 250, { label: 'Lebkuchen-Herzen', roof: '#2f6e4a', seed: 61 });
+    s += A.booth(1020, 585, 300, 250, { label: 'Kräuterhexe', roof: '#7b3fa0', seed: 62 });
+    // Ware in den Buden
+    for (let i = 0; i < 5; i++) s += `<path d="M${-40 + i * 52},420 q-14,-16 0,-26 q14,10 0,26 Z" fill="#c0392b" stroke="${OL}" stroke-width="2"/><path d="M${-52 + i * 52},410 q12,8 24,0" fill="none" stroke="#fff" stroke-width="2"/>`;
+    for (let i = 0; i < 5; i++) s += `<rect x="${1090 + i * 44}" y="${400 + (i % 2) * 6}" width="26" height="34" rx="4" fill="${['#7b3fa0', '#2f6e4a', '#e8c35a'][i % 3]}" stroke="${OL}" stroke-width="2"/>`;
     return s;
   }
+
+  const mug = (c) => (x, y) => `<g transform="rotate(40 ${x} ${y})"><path d="M${x - 9},${y - 20} h18 l-2,22 q-7,4 -14,0 Z" fill="${c}" stroke="${OL}" stroke-width="2.5"/><path d="M${x + 8},${y - 14} q8,2 5,9 q-2,4 -7,3" fill="none" stroke="${OL}" stroke-width="2.5"/></g>`;
+  const besucher = [
+    () => C.extra({ h: 290, top: '#3f6fb5', pants: '#2f3440', shoes: '#3a2a22', hair: { style: 'long', color: '#3a2a20' }, hat: { style: 'bobble', color: '#f4efe6', pom: '#d63a3a', stripe: '#d63a3a' }, smile: 0.25, armRotR: -60, armLenR: 70, holdR: mug('#b8322b') }),
+    () => C.extra({ h: 315, belly: 14, top: '#2f6e4a', pants: '#5b4a3a', shoes: '#3a2a22', hat: { style: 'cap', color: '#5b4a3a' }, mustache: '#7a4b2d', nose: 'big', lid: 0.5, smile: 0.1, armRotL: 60, armLenL: 70, holdL: mug('#2f6fb5') }),
+    () => C.extra({ h: 280, top: '#7b3fa0', pants: '#3b2350', shoes: '#c0392b', coatY: 0.15, flare: 1.2, hair: { style: 'bun', color: '#d9d2c5' }, glasses: '#6b2a20', smile: 0.2, armRotR: -55, armLenR: 70, holdR: mug('#2f6e4a') }),
+    () => C.extra({ h: 305, top: '#e8663d', pants: '#2f3440', shoes: '#3a2a22', hair: { style: 'short', color: '#6b4128' }, hat: { style: 'bobble', color: '#2f3440', pom: '#f4c542' }, stubble: '#6b4128', lid: 0.35, smile: 0.2 }),
+  ];
+
+  const stehtisch = () => `${A.shadow(0, 0, 70)}
+    <path d="M0,-170 V0 M-40,0 H40" stroke="${OL}" stroke-width="10"/><path d="M0,-170 V0 M-40,0 H40" stroke="#6b4128" stroke-width="6"/>
+    <ellipse cx="0" cy="-174" rx="74" ry="15" fill="#a8744a" stroke="${OL}" stroke-width="3.5"/>
+    <path d="M-62,-180 q62,-14 124,0" stroke="#fff" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M-30,-178 h18 l-2,-22 q-7,-4 -14,0 Z" fill="#b8322b" stroke="${OL}" stroke-width="2.5"/>
+    <path class="steam" d="M-21,-206 q-6,-10 0,-20" stroke="#fff" stroke-width="3" fill="none" opacity=".7"/>
+    <path d="M14,-178 h18 l-2,-22 q-7,-4 -14,0 Z" fill="#2f6fb5" stroke="${OL}" stroke-width="2.5"/>`;
 
   async function gertiTalk() {
     if (!f('met_gerti')) {
@@ -193,7 +208,7 @@
     title: 'Christkindlmarkt – Glühweinbude „Zum glühenden Bären“',
     outdoor: true,
     snowDensity: 0.7,
-    walk: { x1: 60, x2: 1230, y1: 596, y2: 702, s1: 0.66, s2: 0.78 },
+    walk: { x1: 60, x2: 1230, y1: 600, y2: 702, s1: 0.88, s2: 0.98 },
     entry: { x: 1150, y: 650 },
     draw(st) {
       let s = A.defs();
@@ -207,14 +222,17 @@
       s += booth(st);
       // Kabel über den Boden nach rechts
       s += `<path d="M941,434 Q960,520 990,590 Q1060,640 1180,610 Q1240,596 1290,620" fill="none" stroke="${OL}" stroke-width="7" stroke-linecap="round"/><path d="M941,434 Q960,520 990,590 Q1060,640 1180,610 Q1240,596 1290,620" fill="none" stroke="#ff8a00" stroke-width="4" stroke-linecap="round"/>`;
-      // Stehtisch
-      s += `<path d="M150,640 V700 M120,702 H180" stroke="${OL}" stroke-width="7"/><path d="M150,640 V700 M120,702 H180" stroke="#6b4128" stroke-width="4"/><ellipse cx="150" cy="636" rx="50" ry="10" fill="#a8744a" stroke="${OL}" stroke-width="3"/><path d="M110,632 q40,-8 80,0" stroke="#fff" stroke-width="5" fill="none"/>`;
       s += A.exitArrow(1254, 640, 'r', 'Zurück zum Marktplatz');
       return s;
     },
     actors(st) {
       return [
-        { id: 'gerti', x: 640, y: 548, svg: C.gerti({ relaxed: f('tap_fixed') }), head: -300, s: 1.0 },
+        { id: 'gerti', x: 640, y: 548, svg: C.gerti({ relaxed: f('tap_fixed') }), head: -300, s: 0.96 },
+        { id: 'besucher1', x: 70, y: 596, s: 0.9, svg: besucher[0]() },
+        { id: 'besucher2', x: 250, y: 592, s: 0.9, svg: besucher[1](), flip: true },
+        { id: 'stehtisch', x: 160, y: 704, svg: stehtisch() },
+        { id: 'besucher3', x: 1090, y: 594, s: 0.9, svg: besucher[2](), flip: true },
+        { id: 'besucher4', x: 1240, y: 590, s: 0.9, svg: besucher[3](), flip: true },
         { id: 'theke', x: 0, y: 0, z: 566, svg: counter(st) },
       ];
     },
@@ -253,9 +271,9 @@
             await G.say('fini', 'Das Kabel führt raus aus dem Markt. Richtung Schlittenhang. Das ist doch kein Zufall. Das ist... ein Kabel.');
           },
           use: async () => { await G.say('fini', 'Rausziehen? Nein, dann krieg ich Ärger mit Gerti. Und das Kabel ist ja kein Beweis für irgendwas. Noch nicht.'); } },
-        { name: 'Stehtisch', r: [96, 622, 110, 84], walk: [210, 660], look: 'Ein Stehtisch. Für Leute, die beim Glühwein lieber stehen. Oder nicht mehr sitzen können.' },
-        { name: 'Lebkuchen-Bude', r: [-40, 370, 250, 170], walk: [140, 620], look: '„I mog di“, „Schatzi“, „Grafing 4ever“. Lebkuchenherzen mit Botschaften. Ich hätte gern eins mit „Kufenkönigin“.' },
-        { name: 'Kräuterhexe', r: [1090, 370, 190, 170], walk: [1150, 620], look: 'Ein Stand mit Kräutern und Tees. „Gegen alles, was man hat. Und gegen alles, was man nicht hat.“ Klingt nach Vergesslichkeits-Tee. Brauch ich.' },
+        { name: 'Stehtisch', r: [86, 510, 150, 200], walk: [270, 680], look: 'Ein Stehtisch. Für Leute, die beim Glühwein lieber stehen. Oder nicht mehr sitzen können.' },
+        { name: 'Lebkuchen-Bude', r: [0, 250, 260, 260], walk: [150, 620], look: '„I mog di“, „Schatzi“, „Grafing 4ever“. Lebkuchenherzen mit Botschaften. Ich hätte gern eins mit „Kufenkönigin“.' },
+        { name: 'Kräuterhexe', r: [1030, 250, 250, 260], walk: [1100, 630], look: 'Ein Stand mit Kräutern und Tees. „Gegen alles, was man hat. Und gegen alles, was man nicht hat.“ Klingt nach Vergesslichkeits-Tee. Brauch ich.' },
         { name: 'Glühwein-Gerti', r: [580, 250, 130, 230], walk: [510, 625], face: 'r',
           look: () => f('tap_fixed') ? 'Glühwein-Gerti. Entspannt, glücklich, mit beiden Händen frei. Ich hab einen Menschen befreit!' : 'Glühwein-Gerti. Mit Bärenmütze. Sie hält mit einer Hand einen Schraubenschlüssel an den Hahn. Sie sieht müde aus. Und tapfer.',
           use: gertiTalk,
