@@ -34,6 +34,7 @@
     <div id="bottombar">
       <div id="inventory"></div>
       <div id="choices"></div>
+      <div id="inv-toast" role="status"></div>
     </div>
 
     <div id="notes" class="overlay hidden">
@@ -49,19 +50,21 @@
       <div class="panel">
         <h2>Pause</h2>
         <button id="menu-resume">Weiterspielen</button>
-        <button id="menu-help">Steuerung</button>
+        <button id="menu-help">Hilfe</button>
         <button id="menu-restart">Neues Spiel</button>
       </div>
     </div>
 
     <div id="help" class="overlay hidden">
       <div class="panel">
-        <h2>Steuerung</h2>
+        <h2>Hilfe</h2>
         <ul class="help-list">
-          <li><b>Linksklick</b> – hingehen, benutzen, nehmen, reden</li>
-          <li><b>Rechtsklick</b> – ansehen (am Handy: Knopf „✋/👁“ oben)</li>
-          <li><b>Gegenstand im Rucksack anklicken</b> – auswählen, dann auf etwas in der Szene oder einen anderen Gegenstand klicken</li>
-          <li><b>Klick während jemand redet</b> – Text überspringen</li>
+          <li><b>Klicken / Tippen</b> – hingehen, benutzen, nehmen, mit Leuten reden</li>
+          <li><b>Rechtsklick</b> – genauer ansehen (am Handy: oben auf „✋“ tippen, bis „👁“ erscheint)</li>
+          <li><b>Gegenstand benutzen</b> – Gegenstand aus dem Rucksack mit gedrückter Maustaste oder dem Finger ziehen und dort loslassen, wo er benutzt werden soll: auf einer Person oder einem Ding in der Szene.</li>
+          <li><b>Gegenstände kombinieren</b> – einen Gegenstand auf einen anderen im Rucksack ziehen. Grün heißt: passt. Rot heißt: passt nicht.</li>
+          <li><b>Klick während jemand redet</b> – Text überspringen. Ein Klick in die Szene beendet ein Gespräch.</li>
+          <li><b>Nochmal fragen lohnt sich!</b> – Manche Gesprächsthemen tauchen erst auf, wenn Fini etwas Bestimmtes erfahren oder gefunden hat. Sprich Leute später im Spiel ruhig noch einmal an.</li>
           <li><b>📝 Merkzettel</b> – was Fini noch erledigen muss (sie vergisst sonst alles)</li>
           <li>Das Spiel speichert automatisch.</li>
         </ul>
@@ -76,9 +79,8 @@
         <div class="title-buttons">
           <button id="btn-continue" class="hidden">Weiterspielen</button>
           <button id="btn-new">Neues Spiel</button>
-          <button id="btn-help2">Steuerung</button>
+          <button id="btn-help2">Hilfe</button>
         </div>
-        <p class="title-note">Spielzeit ca. 20–30 Minuten · speichert automatisch</p>
       </div>
     </div>
 

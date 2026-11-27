@@ -195,8 +195,10 @@
         s += `<rect x="${x1}" y="${b + 2}" width="${x2 - x1}" height="${560 - b}" fill="#000" opacity=".18"/>`;
       }
       // Lichterketten
-      s += A.lights(180, 236, 372, 250, 30, 9, 4);
-      s += A.lights(906, 250, 1120, 262, 34, 10, 12);
+      // Lichterketten hängen an Fensterbrettern (Haken an beiden Enden)
+      const hook = (x, y) => `<circle cx="${x}" cy="${y}" r="3.5" fill="#3a2c2c" stroke="${OL}" stroke-width="1.5"/>`;
+      s += A.lights(236, 269, 368, 284, 24, 8, 4) + hook(236, 269) + hook(368, 284);
+      s += A.lights(712, 251, 956, 281, 34, 11, 12) + hook(712, 251) + hook(956, 281);
       // Boden
       s += A.snowGround(530, 3);
       s += `<path d="M0,560 C300,548 900,548 1280,560" fill="none" stroke="#c9d8ec" stroke-width="3"/>`;
@@ -214,8 +216,8 @@
     },
     actors(st) {
       return [
-        { id: 'muell', x: 1172, y: 606, svg: trashSVG(st) },
-        { id: 'schneemann', x: 118, y: 652, svg: snowmanSVG(), head: -230 },
+        { id: 'muell', x: 872, y: 600, svg: trashSVG(st) },
+        { id: 'schneemann', x: 432, y: 690, s: 0.88, svg: snowmanSVG(), head: -230 },
       ];
     },
     hotspots(st) {
@@ -259,7 +261,7 @@
             await G.say('fini', 'Die nehm ich mit. Das ist kein Diebstahl. Das ist... Pfand-Rettung.');
             G.flag('tasse_taken'); G.give('tasse');
           } },
-        { name: 'Mülleimer', r: [1140, 500, 64, 108], walk: [1150, 640],
+        { name: 'Mülleimer', r: [840, 494, 64, 108], walk: [880, 640],
           look: () => f('prospekt_taken') ? 'Ein Mülleimer. Ich hab genug darin gewühlt für ein ganzes Leben.' : 'Ein Mülleimer. Da schaut ein glänzender Prospekt raus. Glänzend. Im Müll. Verdächtig.',
           use: async () => {
             if (f('prospekt_taken')) { await G.say('fini', 'Da ist nur noch Müll drin. Normaler, ehrlicher Müll.'); return; }
@@ -267,7 +269,7 @@
             G.flag('prospekt_taken'); G.give('prospekt');
             await G.say('fini', 'Ein Prospekt für einen Hightech-Schlitten. Den sollte ich mir mal genauer anschauen.');
           } },
-        { name: 'Schneemann', r: [64, 430, 110, 225], walk: [210, 650],
+        { name: 'Schneemann', r: [388, 494, 88, 196], walk: [550, 680],
           look: ['Ein Schneemann mit Kohle-Augen und einer sehr ernsten Miene.', 'Er sieht aus, als hätte er auch was vergessen. Vielleicht seinen Sommer.'],
           use: async () => {
             await G.say('fini', 'Hallo, Herr Schneemann. Haben Sie zufällig einen roten Schlitten gesehen?');

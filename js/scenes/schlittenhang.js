@@ -26,41 +26,100 @@
     return s;
   }
 
+  /** runder Heuballen (Seitenansicht), y = Aufstandspunkt */
+  function bale(x, y, sc) {
+    let s = `<g transform="translate(${x},${y}) scale(${sc})">`;
+    s += `<ellipse cx="0" cy="0" rx="46" ry="7" fill="#1a1530" opacity=".18"/>`;
+    s += `<path d="M-40,-62 H24 A14,31 0 0 1 24,0 H-40 A14,31 0 0 1 -40,-62 Z" fill="#e2c26a" stroke="${OL}" stroke-width="3"/>`;
+    for (const yy of [-50, -40, -30, -20, -10]) s += `<path d="M-46,${yy} q34,${yy % 20 ? 3 : -3} 68,0" stroke="#b8962e" stroke-width="1.6" fill="none"/>`;
+    s += `<path d="M-14,-62 V0 M6,-62 V0" stroke="#c0392b" stroke-width="3"/>`;
+    s += `<ellipse cx="24" cy="-31" rx="14" ry="31" fill="#d4ae4e" stroke="${OL}" stroke-width="3"/>`;
+    s += `<path d="M24,-31 m-2,0 a3,5 0 1 1 4,4 a7,12 0 1 1 -8,-9 a11,19 0 1 1 12,15" fill="none" stroke="#a8862a" stroke-width="1.6"/>`;
+    for (const [dx, dy] of [[-30, -64], [-8, -66], [12, -65]]) s += `<path d="M${dx},${dy} l-4,-6 M${dx + 4},${dy} l3,-7" stroke="#e2c26a" stroke-width="2" stroke-linecap="round"/>`;
+    s += `<path d="M-46,-58 Q-40,-72 -10,-70 Q16,-74 28,-60 Q-8,-56 -46,-58 Z" fill="#fbfdff" stroke="${OL}" stroke-width="2"/>`;
+    return s + '</g>';
+  }
+
+  const mitHut = (c, pom) => ({ style: 'bobble', color: c, pom: pom || '#fff7e8', stripe: '#fff7e8' });
+  /** Zuschauer im Comic-Stil, teils jubelnd */
+  function zuschauer() {
+    const leute = [
+      { x: 70, y: 566, s: 0.3, o: { h: 290, top: '#3f6fb5', pants: '#2f3440', hair: { style: 'long', color: '#6b4128' }, hat: mitHut('#c0392b'), smile: 0.3, armRotL: 150, armRotR: -150 } },
+      { x: 118, y: 572, s: 0.31, o: { h: 300, top: '#5b7fb0', pants: '#2f3440', hair: { style: 'short', color: '#3a2a20' }, hat: mitHut('#f4c542', '#c0392b'), glasses: '#2a1f2d', smile: 0.3, armRotR: -130 } },
+      { x: 164, y: 566, s: 0.28, o: { h: 240, top: '#e8663d', pants: '#2f3440', hair: { style: 'braids', color: '#3a2a20' }, hat: mitHut('#7b3fa0', '#f4c542'), smile: 0.35, armRotL: 160, armRotR: -160 } },
+      { x: 208, y: 574, s: 0.3, o: { h: 285, top: '#7b3fa0', pants: '#3b2350', coatY: 0.15, flare: 1.2, hair: { style: 'bun', color: '#d9d2c5' }, glasses: '#6b2a20', smile: 0.2 } },
+      { x: 252, y: 580, s: 0.32, o: { h: 300, top: '#b8322b', pants: '#2f3440', hair: { style: 'short', color: '#e0ac45' }, hat: mitHut('#2f8f8b'), stubble: '#a5742a', smile: 0.3, armRotL: 140, armRotR: -8 } },
+      { x: 300, y: 590, s: 0.34, o: { h: 270, top: '#f4c542', pants: '#3f6fb5', hair: { style: 'bob', color: '#3a2a20' }, hat: mitHut('#3f6fb5'), smile: 0.3, armRotR: -150 } },
+    ];
+    let s = '';
+    for (const p of leute) s += `<g transform="translate(${p.x},${p.y}) scale(${p.s})">${C.extra(p.o)}</g>`;
+    // Schild „Hopp, hopp!“
+    s += `<path d="M140,574 V520" stroke="${OL}" stroke-width="3"/><path d="M140,574 V520" stroke="#8a5a36" stroke-width="1.5"/>`;
+    s += `<rect x="114" y="500" width="54" height="24" rx="3" fill="#fffaf0" stroke="${OL}" stroke-width="2" transform="rotate(-6 141 512)"/>` + A.text(141, 517, 'Hopp, hopp!', { fs: 11, fill: '#c0392b', rot: -6, maxw: 48 });
+    // Absperrband vor den Zuschauern
+    s += `<path d="M40,592 Q180,600 330,606" fill="none" stroke="#d63a3a" stroke-width="3" stroke-dasharray="10 8"/>`;
+    for (const x of [40, 140, 240, 330]) s += `<path d="M${x},${596 + (x - 40) / 30} v-22" stroke="${OL}" stroke-width="3"/>`;
+    return s;
+  }
+
   function hill() {
     let s = '';
-    // ferne Hügel
+    // ferne Hügel und Grafing am Horizont
     s += `<path d="M0,380 Q300,300 640,340 Q980,300 1280,330 V720 H0 Z" fill="#c9d6ec"/>`;
     s += town();
-    // der Hang: von rechts oben (Start) nach links unten
-    s += `<path d="M360,470 Q520,520 700,590 L1280,560 V720 H0 V470 Z" fill="url(#gSnowShade)" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path d="M0,470 Q300,450 360,470" fill="none" stroke="${OL}" stroke-width="3"/>`;
-    // Rodelspur
-    s += `<path d="M720,630 Q450,600 140,450" fill="none" stroke="#b8c8e0" stroke-width="40" stroke-linecap="round" opacity=".7"/>`;
-    s += `<path d="M720,615 Q450,585 140,440 M720,645 Q450,615 140,460" fill="none" stroke="#9fb3d4" stroke-width="3" opacity=".8"/>`;
-    // Strohballen am Rand
-    for (const [x, y, sc] of [[560, 566, 0.9], [430, 530, 0.7], [300, 490, 0.55], [600, 672, 1.0], [470, 640, 0.8]]) {
-      s += `<g transform="translate(${x},${y}) scale(${sc})"><rect x="-34" y="-26" width="68" height="34" rx="6" fill="#e2c26a" stroke="${OL}" stroke-width="3"/><path d="M-30,-18 h60 M-30,-8 h60 M-30,2 h60" stroke="#b8962e" stroke-width="2"/><path d="M-30,-28 q30,-10 60,0" fill="#fbfdff" stroke="${OL}" stroke-width="2"/></g>`;
-    }
-    // Zuschauer
-    const coats = ['#3f6fb5', '#7b3fa0', '#2f6e4a', '#b8322b', '#5b4a3a', '#e8663d', '#c0392b'];
-    const r = A.rng(99);
-    for (let i = 0; i < 9; i++) { const t = i / 9; s += A.crowdPerson(300 + t * 330 + r() * 20, 470 + t * 70 - 14, 0.34 + t * 0.25, coats[i % 7], coats[(i + 3) % 7]); }
-    for (let i = 0; i < 6; i++) { const t = i / 6; s += A.crowdPerson(240 + t * 300 + r() * 20, 560 + t * 70, 0.4 + t * 0.25, coats[(i + 2) % 7], coats[(i + 5) % 7]); }
+    // Tal (weiter weg, leicht bläulich)
+    s += `<defs><linearGradient id="gTal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e6edf7"/><stop offset="1" stop-color="#bccbe3"/></linearGradient>
+      <linearGradient id="gHang" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3f7fc"/><stop offset=".55" stop-color="#d3dff0"/><stop offset="1" stop-color="#a9bcd8"/></linearGradient></defs>`;
+    s += `<path d="M0,470 Q300,456 640,474 Q900,488 1280,478 V720 H0 Z" fill="url(#gTal)" stroke="${OL}" stroke-width="2.5"/>`;
+    for (let i = 0; i < 7; i++) s += `<path d="M${30 + i * 70},${500 + (i % 3) * 18} q30,-5 60,0" stroke="#c9d6ec" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    // kleine Tannen im Tal
+    for (const [x, y, h] of [[430, 500, 60], [470, 506, 46], [880, 496, 54], [930, 500, 40]]) s += fir(x, y, h);
+    // das Plateau mit dem Start; links bricht es steil zum Tal ab
+    const plateau = 'M1280,486 L560,500 C500,530 420,630 330,720 L1280,720 Z';
+    s += `<path d="${plateau}" fill="url(#gSnowShade)" stroke="${OL}" stroke-width="3.5" stroke-linejoin="round"/>`;
+    // Hangfläche (der Abbruch) dunkler schattiert, damit man sieht, dass es bergab geht
+    s += `<path d="M560,500 C500,530 420,630 330,720 L640,720 C640,650 660,570 700,506 Z" fill="url(#gHang)"/>`;
+    s += `<path d="M560,500 C500,530 420,630 330,720" fill="none" stroke="${OL}" stroke-width="3.5"/>`;
+    s += `<path d="M690,506 C640,560 610,650 600,720" fill="none" stroke="#a9bcd8" stroke-width="3" stroke-dasharray="10 8"/>`;
+    // Falllinien
+    for (const [x1, y1, x2, y2] of [[560, 540, 505, 600], [610, 540, 560, 610], [530, 590, 470, 660], [620, 600, 580, 670], [575, 650, 530, 712], [470, 650, 430, 710]]) s += `<path d="M${x1},${y1} Q${(x1 + x2) / 2 + 6},${(y1 + y2) / 2} ${x2},${y2}" stroke="#9fb3d4" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+    // Rodelbahn: übers Plateau, dann den Hang hinunter
+    const bahn = 'M846,616 L640,616 C590,616 560,630 535,660 C505,696 480,720 455,760';
+    s += `<path d="${bahn}" fill="none" stroke="#b8c8e0" stroke-width="46" stroke-linecap="round" opacity=".85"/>`;
+    s += `<path d="${bahn}" fill="none" stroke="#9fb3d4" stroke-width="3" transform="translate(0,-12)"/><path d="${bahn}" fill="none" stroke="#9fb3d4" stroke-width="3" transform="translate(0,12)"/>`;
+    // Heuballen als Begrenzung
+    s += bale(515, 596, 0.85) + bale(400, 700, 1.15);
+    // Zuschauer im Tal
+    s += zuschauer();
     return s;
   }
 
   function startBanner() {
     let s = '';
-    for (const x of [600, 860]) {
-      s += `<rect x="${x - 7}" y="270" width="14" height="350" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
-      s += `<circle cx="${x}" cy="266" r="10" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>`;
-    }
-    s += `<path d="M607,290 Q730,310 853,290 L853,350 Q730,370 607,350 Z" fill="#fff7e8" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path d="M607,290 Q730,310 853,290 L853,302 Q730,322 607,302 Z" fill="#d63a3a"/><path d="M607,338 Q730,358 853,338 L853,350 Q730,370 607,350 Z" fill="#2f6e4a"/>`;
-    s += A.text(730, 333, 'START · 73. Kufen-Gaudi', { fs: 19, fill: '#2a1f2d', maxw: 230 });
-    s += A.lights(600, 276, 860, 276, 8, 9, 71);
+    // hinterer Pfosten (links, weiter weg: kleiner, Fuß höher)
+    s += `<rect x="634" y="280" width="12" height="310" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
+    s += `<circle cx="640" cy="276" r="9" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>`;
+    s += A.shadow(640, 590, 16);
+    // Banner vom hinteren zum vorderen Pfosten (vorne größer)
+    s += `<path d="M646,296 Q760,314 874,284 L874,348 Q760,374 646,352 Z" fill="#fff7e8" stroke="${OL}" stroke-width="3"/>`;
+    s += `<path d="M646,296 Q760,314 874,284 L874,298 Q760,328 646,308 Z" fill="#d63a3a"/><path d="M646,340 Q760,362 874,334 L874,348 Q760,374 646,352 Z" fill="#2f6e4a"/>`;
+    s += A.text(760, 336, 'START · 73. Kufen-Gaudi', { fs: 19, fill: '#2a1f2d', maxw: 200, rot: -3 });
+    s += A.lights(640, 282, 880, 266, 8, 9, 71);
     // Startlinie
-    s += `<path d="M640,622 L860,612" stroke="#d63a3a" stroke-width="7" stroke-dasharray="14 10"/>`;
+    s += `<path d="M646,592 L874,660" stroke="#fbfdff" stroke-width="11"/><path d="M646,592 L874,660" stroke="#d63a3a" stroke-width="7" stroke-dasharray="12 8"/>`;
+    return s;
+  }
+
+  /** vorderer Startpfosten: eigene Figur, damit Fini korrekt davor oder dahinter steht */
+  function frontPole() {
+    let s = A.shadow(880, 662, 20);
+    s += `<rect x="872" y="262" width="16" height="400" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
+    s += `<circle cx="880" cy="258" r="11" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>`;
+    return s;
+  }
+
+  function zeitnehmer() {
+    let s = '';
     // Zeitnehmer-Tisch
     s += `<rect x="960" y="560" width="120" height="12" fill="#a8744a" stroke="${OL}" stroke-width="3"/><path d="M970,572 V612 M1070,572 V612" stroke="${OL}" stroke-width="5"/>`;
     s += `<rect x="962" y="526" width="64" height="34" rx="4" fill="#2f3440" stroke="${OL}" stroke-width="2"/><rect x="968" y="532" width="52" height="20" fill="#7cf0a0"/>` + A.text(994, 548, "00:00", { fs: 15, fill: OL, font: "Courier New, monospace", maxw: 48 });
@@ -195,9 +254,12 @@
     fg.innerHTML = `<g id="sled-k">${raceSled('k')}</g><g id="sled-f">${raceSled('fini')}</g>`;
     const ek = document.getElementById('sled-k'), ef = document.getElementById('sled-f');
     const P = (p, off) => {
-      const sx = 760, sy = 620 + off, cx = 450, cy = 600 + off, fx = 120, fy = 440 + off * 0.4;
-      const u = 1 - p;
-      return [u * u * sx + 2 * u * p * cx + p * p * fx, u * u * sy + 2 * u * p * cy + p * p * fy, 0.9 - p * 0.55];
+      // Bahn: Plateau (800,622) -> Kante (560,628) -> Hang hinunter (440,740), danach aus dem Bild
+      const pts = [[800, 616], [700, 616], [630, 617], [575, 632], [535, 660], [505, 696], [470, 740], [440, 800]];
+      const seg = Math.min(pts.length - 2, Math.floor(p * (pts.length - 1)));
+      const t = p * (pts.length - 1) - seg;
+      const [x0, y0] = pts[seg], [x1, y1] = pts[seg + 1];
+      return [x0 + (x1 - x0) * t + off * 0.6, y0 + (y1 - y0) * t + off, 0.85 + p * 0.25];
     };
     const pk = (t) => (t < 0.45 ? t * 1.15 : 0.5175 + (t - 0.45) * 0.78);
     const pf = (t) => (t < 0.45 ? t * 0.9 : 0.405 + (t - 0.45) * 1.0818);
@@ -347,29 +409,32 @@
       s += A.stars(70, 91, 260);
       s += A.glow(260, 90, 90, 'gCool', 0.9) + `<circle cx="260" cy="90" r="28" fill="#fff6d8" stroke="${OL}" stroke-width="3"/>`;
       s += hill();
-      s += fir(1180, 560, 300) + fir(1040, 520, 200) + fir(1260, 600, 220);
-      s += startBanner();
-      if (f('pigeon_sent') && !f('racing')) s += `<g transform="translate(600,262) scale(0.4)" class="bob">${C.gurrbert({ hat: true })}</g>`;
+      s += fir(1040, 562, 200) + A.snowPile(1010, 566, 60, 12) + fir(1180, 580, 300) + A.snowPile(1140, 584, 80, 14) + fir(1262, 606, 220) + A.snowPile(1226, 610, 74, 12);
+      s += startBanner() + zeitnehmer();
+      if (f('pigeon_sent') && !f('racing')) s += `<g transform="translate(640,272) scale(0.4)"><g class="bob">${C.gurrbert({ hat: true })}</g></g>`;
       s += A.exitArrow(1254, 640, 'r', 'Zurück in die Stadt');
       return s;
     },
     actors(st) {
-      const out = [{ id: 'wimmer', x: 760, y: 640, s: 0.8, svg: C.wimmer({ megaphone: true }), head: -330 }];
+      const out = [{ id: 'wimmer', x: 760, y: 692, s: 0.86, svg: C.wimmer({ megaphone: true }), head: -330 },
+        { id: 'pfosten', x: 0, y: 0, z: 662, svg: frontPole() },
+        // vorderer Heuballen: immer ganz vorne, auch vor Fini
+        { id: 'heuballen', x: 0, y: 0, z: 100000, svg: bale(625, 712, 1.25) }];
       if (!f('racing')) {
         out.push({ id: 'konstantin', x: 960, y: 662, s: 0.76, svg: C.konstantin(), head: -310, flip: true });
         out.push({ id: 'turbokufe', x: 1070, y: 690, s: 0.9, svg: turboKufe(st) });
       }
-      if (f('pigeon_sent')) out.push({ id: 'gurrbert', x: 600, y: 262, s: 0.4, svg: '', head: -110 });
+      if (f('pigeon_sent')) out.push({ id: 'gurrbert', x: 640, y: 272, s: 0.4, svg: '', head: -110 });
       return out;
     },
     hotspots(st) {
       if (f('racing')) return [];
       return [
         { name: 'Grafing in der Abendsonne', r: [0, 200, 360, 270], walk: [700, 640], look: ['Da unten liegt Grafing. Mit dem Kirchturm von St. Ägidius und lauter kleinen Lichtern.', 'Von hier oben sieht es aus wie ein Lebkuchendorf. Ein sehr leckeres Lebkuchendorf.'] },
-        { name: 'Rodelbahn', p: [140, 440, 720, 610, 720, 650, 140, 470], walk: [700, 650], look: 'Die Rodelbahn. Steil, glatt, perfekt. Unten wartet der Ruhm. Und Strohballen. Hoffentlich in dieser Reihenfolge.' },
-        { name: 'Zuschauer', r: [230, 450, 400, 140], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
-        { name: 'Start-Banner', r: [600, 260, 260, 110], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
-        f('pigeon_sent') && { name: 'Gurrbert', r: [578, 218, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
+        { name: 'Rodelbahn', p: [846, 594, 600, 594, 540, 620, 470, 740, 520, 740, 600, 650, 846, 640], walk: [700, 650], look: 'Die Rodelbahn. Steil, glatt, perfekt. Unten wartet der Ruhm. Und Strohballen. Hoffentlich in dieser Reihenfolge.' },
+        { name: 'Zuschauer', r: [30, 500, 300, 220], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
+        { name: 'Start-Banner', r: [640, 262, 240, 112], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
+        f('pigeon_sent') && { name: 'Gurrbert', r: [618, 228, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
         { name: 'Zeitnehmer-Tisch', r: [956, 520, 130, 60], walk: [1000, 650], look: 'Eine Stoppuhr, ein Tee und eine halbe Leberkässemmel. Das Equipment der Rennleitung.' },
         { name: 'Tannen', r: [1000, 220, 280, 340], walk: [1150, 650], look: 'Tannen mit Schneehauben. Wie Christbäume, die sich noch nicht entschieden haben.' },
         { name: 'TurboKufe X', r: [980, 630, 200, 70], walk: [1120, 690],
@@ -385,7 +450,7 @@
             klingel: async () => { await G.say('konstantin', 'Eine Fahrradklingel? Wie retro. Meine TurboKufe hat eine Hupe mit 14 Melodien.'); },
             '*': async () => { await G.say('konstantin', 'Behalt deinen Kram, Brandl. Ich brauch nichts. Ich hab alles.'); },
           } },
-        { name: 'Rennleiter Wimmer', r: [716, 360, 100, 280], walk: [670, 668], face: 'r',
+        { name: 'Rennleiter Wimmer', r: [710, 400, 108, 296], walk: [665, 690], face: 'r',
           look: 'Rennleiter Schorsch Wimmer. Lodenjanker, Schnauzbart, Megafon. Er kennt die Satzung von 1953 auswendig. Vermutlich auch rückwärts.',
           use: wimmerTalk,
           items: {

@@ -143,6 +143,7 @@
     G.take('formular');
     G.give('formular_voll');
   };
+  G.combos['formular+stift'].real = true; // echte Kombination (verändert den Rucksack)
   G.combos['kerze+zimt'] = async () => {
     await G.say('fini', 'Gustl hat gesagt, er rührt das zusammen. Wenn ICH Wachs schmelze, brennt am Ende halb Grafing. Schon wieder.');
   };

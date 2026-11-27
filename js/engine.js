@@ -314,16 +314,14 @@
     return new Promise((resolve) => {
       narrationEl.innerHTML = text + '<span class="more">(klicken zum Weiterlesen)</span>';
       narrationEl.style.display = 'block';
-      const dur = G.fast ? 5 : clamp(2500 + text.length * 55, 4000, 14000);
+      // Erzähltexte bleiben stehen, bis geklickt wird (kein Zeitablauf)
       let done = false;
       const finish = () => {
         if (done) return; done = true;
-        clearTimeout(t);
         narrationEl.style.display = 'none';
         skipFn = null;
         setTimeout(resolve, 120);
       };
-      const t = setTimeout(finish, dur);
       skipFn = finish;
     });
   };
@@ -477,9 +475,30 @@
     await G.say('fini', G.pick(FAIL_USE));
   }
 
+  const slotEl = (id) => invEl.querySelector(`.slot[data-id="${id}"]`);
+  /** spielt auf den beiden Rucksack-Feldern die Erfolgs- bzw. Fehler-Animation ab */
+  async function combineFx(a, b, ok) {
+    const cls = ok ? 'combine-ok' : 'combine-fail';
+    for (const id of [a, b]) { const el = slotEl(id); if (el) { el.classList.remove('combine-ok', 'combine-fail', 'target'); void el.offsetWidth; el.classList.add(cls); } }
+    if (!ok) showToast('Das lässt sich nicht kombinieren.');
+    await new Promise((r) => setTimeout(r, G.fast ? 0 : 550));
+  }
+
+  let toastTimer = null;
+  function showToast(text) {
+    const t = $('inv-toast');
+    if (!t || G.fast) return;
+    t.textContent = text;
+    t.classList.remove('show'); void t.offsetWidth; t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
   async function doCombine(a, b) {
     const key = [a, b].sort().join('+');
     const fn = G.combos[key];
+    const ok = !!(fn && fn.real);
+    if (a !== b) await combineFx(a, b, ok);
     if (fn) { await fn(); return; }
     if (a === b) { await G.say('fini', 'Das ist dasselbe Ding. Ich bin chaotisch, aber nicht SO chaotisch.'); return; }
     await G.say('fini', G.pick(FAIL_COMBINE));
@@ -604,6 +623,7 @@
 
   function onStageClick(e, look) {
     if (overlayOpen()) return;
+    if (Date.now() - lastDragEnd < 350) return; // Klick, der nur das Loslassen eines gezogenen Gegenstands war
     if (G.endChoice) { G.endChoice(); return; }
     if (G.busy) { if (skipFn) skipFn(); return; }
     if (G.inputLock) return;
@@ -621,6 +641,7 @@
   }
 
   function onInvClick(e, look) {
+    if (suppressInvClick) { suppressInvClick = false; return; }
     const slot = e.target.closest('.slot');
     if (!slot || G.busy || overlayOpen()) { if (G.busy && skipFn) skipFn(); return; }
     const id = slot.dataset.id;
@@ -628,6 +649,50 @@
     if (G.selected && G.selected !== id) { const a = G.selected; selectItem(null); G.run(() => doCombine(a, id)); return; }
     if (G.selected === id) { selectItem(null); return; }
     selectItem(id);
+  }
+
+  // ---------- Ziehen im Rucksack ----------
+  let suppressInvClick = false;
+  let lastDragEnd = 0;
+  let touchDrag = null;
+  function markTarget(slot) {
+    invEl.querySelectorAll('.slot.target').forEach((el) => { if (el !== slot) el.classList.remove('target'); });
+    if (slot && G.selected && slot.dataset.id !== G.selected && !G.busy) slot.classList.add('target');
+  }
+  function onInvPointerDown(e) {
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+    const slot = e.target.closest('.slot');
+    if (!slot || G.busy || overlayOpen() || G.mode === 'look') return;
+    touchDrag = { id: slot.dataset.id, x: e.clientX, y: e.clientY, moved: false };
+  }
+  function onDragMove(e) {
+    if (!touchDrag) return;
+    if (!touchDrag.moved && Math.hypot(e.clientX - touchDrag.x, e.clientY - touchDrag.y) > 10) {
+      touchDrag.moved = true;
+      selectItem(touchDrag.id);
+    }
+    if (!touchDrag.moved) return;
+    e.preventDefault();
+    dragEl.style.left = e.clientX + 'px';
+    dragEl.style.top = e.clientY + 'px';
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    markTarget(el && el.closest ? el.closest('#inventory .slot') : null);
+  }
+  function onDragEnd(e) {
+    const d = touchDrag;
+    touchDrag = null;
+    if (!d || !d.moved) return;
+    suppressInvClick = true;
+    lastDragEnd = Date.now();
+    setTimeout(() => { suppressInvClick = false; }, 400);
+    markTarget(null);
+    const a = d.id;
+    selectItem(null);
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const slot = el && el.closest ? el.closest('#inventory .slot') : null;
+    if (slot && slot.dataset.id !== a) { const b = slot.dataset.id; G.run(() => doCombine(a, b)); return; }
+    const hs = el && el.closest ? el.closest('#stage .hs') : null;
+    if (hs) { const h = hotspots[+hs.dataset.i]; if (h) G.run(() => doUseItem(a, h)); }
   }
 
   function setMode(m) {
@@ -695,6 +760,14 @@
     });
     stageWrap.addEventListener('contextmenu', (e) => { e.preventDefault(); if (e.target.closest('#topbar')) return; onStageClick(e, true); });
     invEl.addEventListener('click', (e) => onInvClick(e, false));
+    // Maus: ausgewählten Gegenstand über einen anderen bewegen -> Ziel leuchtet auf
+    invEl.addEventListener('pointermove', (e) => { if (e.pointerType === 'mouse') markTarget(e.target.closest && e.target.closest('.slot')); });
+    invEl.addEventListener('pointerleave', () => { if (!touchDrag) markTarget(null); });
+    // Maus, Touch und Stift: Gegenstand ziehen und auf einem anderen Gegenstand oder in der Szene loslassen
+    invEl.addEventListener('pointerdown', onInvPointerDown);
+    document.addEventListener('pointermove', onDragMove, { passive: false });
+    document.addEventListener('pointerup', onDragEnd);
+    document.addEventListener('pointercancel', () => { if (touchDrag && touchDrag.moved) selectItem(null); touchDrag = null; markTarget(null); });
     invEl.addEventListener('contextmenu', (e) => { e.preventDefault(); onInvClick(e, true); });
     $('bottombar').addEventListener('click', (e) => { if (G.busy && skipFn && !e.target.closest('#choices')) skipFn(); });
 

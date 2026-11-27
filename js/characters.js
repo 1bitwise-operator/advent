@@ -422,13 +422,20 @@
     skin: '#f0bfa0', top: '#3f6b45', pants: '#5b4a3a', shoes: '#3a2a22',
     hat: { style: 'cap', color: '#7d7a70' },
     lid: 0.5, look: 0.03, smile: 0.0, mustache: '#7a4b2d', brow: '#5a3520', browTilt: -0.4, nose: 'big',
-    armRotL: 10, armRotR: o.megaphone ? -95 : -10, armLenR: o.megaphone ? 70 : undefined,
+    armRotL: 10, armRotR: o.megaphone ? -165 : -10, armLenR: o.megaphone ? 40 : undefined,
     torsoExtra: ({ r, shY, hipY, ws, coatB }) =>
       `<path d="M${f(-ws * 0.3)},${f(shY - 2)} L0,${f(shY + r * 0.7)} L${f(ws * 0.3)},${f(shY - 2)}" fill="#e9e2cf" stroke="${OL}" stroke-width="2.4"/>` +
       [0, 1, 2, 3].map((i) => `<ellipse cx="${f(ws * 0.08)}" cy="${f(shY + r * 0.95 + i * r * 0.5)}" rx="4" ry="3.2" fill="#d8c3a0" stroke="${OL}" stroke-width="1.5"/>`).join('') +
       `<rect x="${f(-ws * 1.02)}" y="${f(shY + r * 0.5)}" width="${f(ws * 0.5)}" height="${f(r * 0.38)}" fill="#d63a3a" stroke="${OL}" stroke-width="2" transform="rotate(-8 ${f(-ws * 0.8)} ${f(shY + r * 0.7)})"/>` +
       `<path d="M${f(-ws * 0.1)},${f(shY + r * 0.1)} q${f(ws * 0.3)},${f(r * 0.9)} ${f(ws * 0.45)},${f(r * 1.2)}" stroke="#d63a3a" stroke-width="2" fill="none"/><circle cx="${f(ws * 0.36)}" cy="${f(shY + r * 1.32)}" r="5" fill="#c9c9c9" stroke="${OL}" stroke-width="1.5"/>`,
-    holdR: o.megaphone ? (x, y, r) => `<g transform="rotate(95 ${f(x)} ${f(y)})"><path d="M${f(x - 6)},${f(y - 8)} L${f(x + 40)},${f(y - 22)} L${f(x + 40)},${f(y + 22)} L${f(x - 6)},${f(y + 8)} Z" fill="#f4f4f4" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><ellipse cx="${f(x + 40)}" cy="${f(y)}" rx="6" ry="22" fill="#d63a3a" stroke="${OL}" stroke-width="3"/></g>` : undefined,
+    // Megafon wird nach dem Kopf gezeichnet, damit es vor dem Gesicht liegt
+    topExtra: o.megaphone ? ({ r, hy }) => {
+      const my = hy + r * 0.5;
+      return `<path d="M6,${f(my - 7)} L56,${f(my - 24)} L56,${f(my + 22)} L6,${f(my + 7)} Z" fill="#f4f4f4" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>` +
+        `<ellipse cx="56" cy="${f(my - 1)}" rx="7" ry="23" fill="#d63a3a" stroke="${OL}" stroke-width="3"/>` +
+        `<rect x="26" y="${f(my + 9)}" width="9" height="16" rx="2" fill="#2f3440" stroke="${OL}" stroke-width="2"/>` +
+        `<circle cx="31" cy="${f(my + 18)}" r="${f(r * 0.17)}" fill="#f0bfa0" stroke="${OL}" stroke-width="2.4"/>`;
+    } : undefined,
   });
 
   // ---- Konstantin Protzinger ----

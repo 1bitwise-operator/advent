@@ -298,6 +298,6 @@
   A.exitArrow = function (x, y, dir = 'r', label) {
     const rot = { r: 0, l: 180, u: -90, d: 90 }[dir];
     return `<g class="exit-ui"><g transform="translate(${x},${y}) rotate(${rot})" opacity=".85"><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>` +
-      (label ? A.text(x + (dir === 'l' ? 16 : dir === 'r' ? -16 : 0), y + (dir === 'u' ? 34 : -22), label, { fs: 17, fill: '#fff', outline: OL, outlineW: 5, anchor: dir === 'l' ? 'start' : dir === 'r' ? 'end' : 'middle' }) : '') + '</g>';
+      (label ? A.text(x + (dir === 'l' ? -12 : dir === 'r' ? 12 : 0), y + (dir === 'd' ? -22 : 34), label, { fs: 17, fill: '#fff', outline: OL, outlineW: 5, anchor: dir === 'l' ? 'start' : dir === 'r' ? 'end' : 'middle' }) : '') + '</g>';
   };
 })();

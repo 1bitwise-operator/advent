@@ -344,3 +344,44 @@ body {
 #ending-text { font-size: 1.5cqw; line-height: 1.55; text-align: left; margin-bottom: 1.2cqw; }
 #ending-text p { margin: .6cqw 0; }
 
+
+/* Steuerung muss auch über dem Titelbildschirm liegen */
+#help { z-index: 30; }
+
+/* Kombinieren im Rucksack */
+#inventory .slot { touch-action: none; }
+#inventory .slot.target {
+  background: rgba(255, 211, 110, .5);
+  border-color: #ffd36e;
+  box-shadow: 0 0 1.2cqw rgba(255, 211, 110, .9), inset 0 0 .6cqw rgba(0,0,0,.2);
+}
+#inventory .slot.combine-ok { animation: combineOk .55s ease-out; }
+@keyframes combineOk {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18); background: rgba(124, 240, 160, .7); border-color: #7cf0a0; box-shadow: 0 0 1.6cqw #7cf0a0; }
+  100% { transform: scale(1); }
+}
+#inventory .slot.combine-fail { animation: combineFail .5s ease-in-out; }
+@keyframes combineFail {
+  0%, 100% { transform: translateX(0); }
+  15%, 55% { transform: translateX(-.5cqw); background: rgba(214, 58, 58, .55); border-color: #ff7a7a; }
+  35%, 75% { transform: translateX(.5cqw); background: rgba(214, 58, 58, .55); border-color: #ff7a7a; }
+}
+#inv-toast {
+  position: absolute;
+  left: 50%; bottom: calc(100% + .6cqw);
+  transform: translate(-50%, .6cqw);
+  background: rgba(42, 31, 45, .95);
+  color: #ffd7cf;
+  border: .18cqw solid #ff7a7a;
+  border-radius: .8cqw;
+  padding: .4cqw 1cqw;
+  font-size: 1.3cqw;
+  font-weight: 700;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .25s, transform .25s;
+}
+#inv-toast.show { opacity: 1; transform: translate(-50%, 0); }
+#help .panel { max-height: 94%; overflow-y: auto; }

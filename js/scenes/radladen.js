@@ -60,7 +60,24 @@
     s += `<rect x="40" y="240" width="250" height="12" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
     s += `<path d="M90,236 q30,-50 60,0 Z" fill="#e8663d" stroke="${OL}" stroke-width="2.5"/><path d="M170,236 q30,-50 60,0 Z" fill="#2f6fb5" stroke="${OL}" stroke-width="2.5"/>`;
     if (!has('helm') && !f('helm_given')) s += `<path d="M60,326 q34,-58 68,0 Z" fill="#9cff3a" stroke="${OL}" stroke-width="2.8"/><path d="M76,316 l6,-24 M94,326 v-34 M112,316 l-6,-24" stroke="${OL}" stroke-width="1.8" opacity=".5"/>`;
-    if (!has('lampe') && !f('lampe_taken')) s += `<g transform="translate(200,328)"><path d="M-22,-4 L6,-12 L6,-40 L-22,-32 Z" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/><ellipse cx="8" cy="-26" rx="7" ry="15" fill="#ffe08a" stroke="${OL}" stroke-width="2.5"/><path d="M-16,-4 l-2,4 h12" stroke="${OL}" stroke-width="3" fill="none"/></g>`;
+    if (!has('lampe') && !f('lampe_taken')) {
+      // alte Dynamo-Radllampe mit Handkurbel: Chromgehäuse, Glas mit Reflektor, Halterung
+      s += `<g transform="translate(200,330)">
+        ${A.glow(20, -30, 34, 'gWarm', 0.7)}
+        <path d="M-10,0 L-4,-14 H8 L14,0 Z" fill="#5b5f6a" stroke="${OL}" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M2,-14 V-20" stroke="${OL}" stroke-width="4"/>
+        <path d="M-22,-46 Q-24,-22 -2,-18 L18,-18 L18,-50 L-2,-50 Q-20,-50 -22,-46 Z" fill="#c0392b" stroke="${OL}" stroke-width="2.8" stroke-linejoin="round"/>
+        <path d="M-14,-44 Q-16,-30 -4,-26" stroke="#fff" stroke-width="3" fill="none" opacity=".5" stroke-linecap="round"/>
+        <path d="M-6,-50 V-18" stroke="${OL}" stroke-width="1.5" opacity=".4"/>
+        <ellipse cx="18" cy="-34" rx="9" ry="17" fill="#c9ced8" stroke="${OL}" stroke-width="2.8"/>
+        <ellipse cx="19" cy="-34" rx="6" ry="13" fill="#fff3c4" stroke="${OL}" stroke-width="1.5"/>
+        <ellipse cx="20" cy="-34" rx="3" ry="6" fill="#ffd36e"/>
+        <path d="M17,-44 l3,4 M16,-28 l3,4" stroke="#fff" stroke-width="1.5" opacity=".8"/>
+        <circle cx="-10" cy="-34" r="5" fill="#9aa3ad" stroke="${OL}" stroke-width="2"/>
+        <path d="M-10,-34 L-26,-24" stroke="${OL}" stroke-width="4" stroke-linecap="round"/><path d="M-10,-34 L-26,-24" stroke="#9aa3ad" stroke-width="2" stroke-linecap="round"/>
+        <rect x="-32" y="-28" width="9" height="12" rx="3" fill="#2f3440" stroke="${OL}" stroke-width="2" transform="rotate(-30 -27 -22)"/>
+      </g>`;
+    }
     s += `<rect x="250" y="300" width="30" height="30" fill="#6b4128" stroke="${OL}" stroke-width="2"/><rect x="206" y="196" width="84" height="44" fill="#a8744a" stroke="${OL}" stroke-width="2"/>` + A.text(248, 215, 'Schrauben', { fs: 13, fill: OL, maxw: 78 }) + A.text(248, 232, '(fast sortiert)', { fs: 11, fill: OL, maxw: 78 });
     // Hängende Fahrräder
     s += bike(1152, 546, 1.55, "#c0392b");
@@ -247,7 +264,7 @@
             await G.say('gustl', 'Freilich! Neongrün, Baujahr 1987. Sicherer als a Banktresor.');
             G.flag('helm_given'); G.give('helm');
           } },
-        !has('lampe') && !f('lampe_taken') && { name: 'Dynamo-Radllampe', r: [172, 280, 50, 52], walk: [200, 640],
+        !has('lampe') && !f('lampe_taken') && { name: 'Dynamo-Radllampe', r: [164, 270, 76, 64], walk: [200, 640],
           look: 'Eine alte rote Fahrradlampe mit Handkurbel. Leuchtet, wenn man kurbelt. Wie ein Hamsterrad, nur heller.',
           use: async () => {
             await G.say('fini', 'Darf ich mir die Lampe ausleihen, Gustl?');

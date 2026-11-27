@@ -34,7 +34,7 @@ Die Namen der Geschäfte und Figuren sind augenzwinkernd verfremdet und frei erf
 | --- | --- | --- |
 | Hingehen, benutzen, nehmen, reden | Linksklick | Tippen |
 | Ansehen | Rechtsklick | Knopf „✋/👁“ oben umschalten |
-| Gegenstand benutzen | Gegenstand im Rucksack anklicken, dann auf etwas in der Szene oder einen anderen Gegenstand | genauso |
+| Gegenstand benutzen / kombinieren | Gegenstand aus dem Rucksack ziehen und auf dem Ziel loslassen (oder anklicken, dann aufs Ziel klicken) | Gegenstand mit dem Finger ziehen und loslassen |
 | Text überspringen | Klick / Leertaste | Tippen |
 | Merkzettel (Aufgaben) | 📝 oder Taste `M` | 📝 |
 | Menü | ☰ oder `Esc` | ☰ |

@@ -94,7 +94,7 @@
     s += `<rect x="${x + 140}" y="200" width="40" height="34" fill="#1b1424" stroke="${OL}" stroke-width="3"/>`;
     s += `<rect x="${x + 132}" y="232" width="56" height="8" fill="#a8744a" stroke="${OL}" stroke-width="2"/>`;
     // Tauben auf dem Brett
-    s += `<g transform="translate(${x + 146},232) scale(0.32)" class="bob">${C.gurrbert()}</g>`;
+    s += `<g transform="translate(${x + 146},232) scale(0.32)"><g class="bob">${C.gurrbert()}</g></g>`;
     s += `<g transform="translate(${x + 178},232) scale(-0.3,0.3)">${C.gurrbert()}</g>`;
     s += `<g transform="translate(${x + 330},196) scale(0.28)">${C.gurrbert()}</g>`;
     // Fenster
