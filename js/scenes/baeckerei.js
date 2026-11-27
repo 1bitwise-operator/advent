@@ -43,7 +43,7 @@
     [215, 290, 365].forEach((y, row) => {
       s += `<rect x="430" y="${y + 18}" width="420" height="10" fill="#a8744a" stroke="${OL}" stroke-width="2.5"/>`;
       for (let i = 0; i < 6; i++) s += bread(470 + i * 68, y, kinds[(i + row) % kinds.length], 0.95);
-      for (let i = 0; i < 3; i++) s += `<rect x="${470 + i * 140}" y="${y + 30}" width="54" height="24" fill="#1d201c" stroke="#fff" stroke-width="1"/>` + A.text(497 + i * 140, y + 46, ['Dinkel', 'Bauern', 'Roggen'][(i + row) % 3], { fs: 10, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive' });
+      for (const i of [0, 2]) s += `<rect x="${462 + i * 140}" y="${y + 29}" width="70" height="26" fill="#1d201c" stroke="#fff" stroke-width="1"/>` + A.text(497 + i * 140, y + 47, ['Dinkel', 'Bauern', 'Roggen'][(i + row) % 3], { fs: 13, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 });
     });
     // Seitenregale mit Brezn & Körben
     [[250, 230], [250, 330], [870, 230], [870, 330]].forEach(([x, y], i) => {
@@ -66,9 +66,9 @@
     s += A.text(85, 300, 'ZIEHEN', { fs: 13, fill: '#fff' });
     s += `<rect x="120" y="440" width="10" height="70" rx="4" fill="#c9ced8" stroke="${OL}" stroke-width="2"/>`;
     // Kreidetafel Frühstück
-    s += `<rect x="160" y="150" width="62" height="270" fill="#2b2f2a" stroke="${OL}" stroke-width="3"/>`;
-    s += A.text(191, 180, 'Früh-', { fs: 14, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive' }) + A.text(191, 198, 'stück', { fs: 14, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive' });
-    ['Kaffee', 'Kakao', 'Brezn', 'Krapfen', 'Semmel', 'Weißwurst'].forEach((t, i) => { s += A.text(191, 232 + i * 28, t, { fs: 10, fill: '#ffe7b8', font: 'Segoe Print, Comic Sans MS, cursive' }); });
+    s += `<rect x="156" y="146" width="88" height="280" fill="#2b2f2a" stroke="${OL}" stroke-width="3"/>`;
+    s += A.text(200, 178, 'Frühstück', { fs: 16, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 78 });
+    ['Kaffee', 'Kakao', 'Brezn', 'Krapfen', 'Semmel', 'Weißwurst'].forEach((t, i) => { s += A.text(200, 218 + i * 34, t, { fs: 14, fill: '#ffe7b8', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 78 }); });
     // Samowar
     s += `<g transform="translate(1000,0)">
       <rect x="-30" y="300" width="60" height="140" rx="12" fill="#b07a3a" stroke="${OL}" stroke-width="3.5"/>
@@ -99,7 +99,7 @@
     s += `<path d="M260,446 l40,60 M700,446 l40,60" stroke="#fff" stroke-width="5" opacity=".35"/>`;
     // Preisschilder
     [['Krapfen', '1,80'], ['Vanillekipferl', '0,60'], ['Nussschnecke', '2,10'], ['Brezn', '1,10']].forEach(([t, p], i) => {
-      s += `<rect x="${290 + i * 200}" y="520" width="96" height="26" fill="#1d201c" stroke="${OL}" stroke-width="1.5"/>` + A.text(338 + i * 200, 532, t, { fs: 9, fill: '#fff' }) + A.text(338 + i * 200, 543, '€ ' + p, { fs: 9, fill: '#ffd36e' });
+      s += `<rect x="${276 + i * 200}" y="520" width="124" height="34" fill="#1d201c" stroke="${OL}" stroke-width="1.5"/>` + A.text(338 + i * 200, 535, t, { fs: 13, fill: '#fff', maxw: 116 }) + A.text(338 + i * 200, 550, '€ ' + p, { fs: 12, fill: '#ffd36e', maxw: 116 });
     });
     // Holzfront
     s += `<rect x="216" y="520" width="868" height="66" fill="#c49a66" stroke="${OL}" stroke-width="3.5"/>`;
@@ -111,7 +111,7 @@
       s += `<ellipse cx="330" cy="424" rx="52" ry="10" fill="#fff" stroke="${OL}" stroke-width="2.5"/>`;
       s += `<g transform="translate(316,420) scale(0.42)"><path d="M0,-80 a14,14 0 1 1 -0.1,0 Z M-16,-56 H16 L36,-46 L33,-34 L16,-40 L18,-14 L12,0 L2,0 L0,-12 L-8,-12 L-14,-32 L-32,-32 L-32,-44 Z" fill="#b86a35" stroke="${OL}" stroke-width="5" stroke-linejoin="round"/></g>`;
       s += `<path d="M346,418 l10,-6 l6,4 l-4,6 Z M360,420 l8,-2 l2,6 Z" fill="#b86a35" stroke="${OL}" stroke-width="2"/>`;
-      s += `<rect x="356" y="384" width="60" height="22" fill="#fffaf0" stroke="${OL}" stroke-width="1.5" transform="rotate(6 386 395)"/>` + A.text(386, 399, 'BRUCH', { fs: 11, fill: '#c0392b', rot: 6 });
+      s += `<rect x="352" y="380" width="72" height="28" fill="#fffaf0" stroke="${OL}" stroke-width="1.5" transform="rotate(6 388 394)"/>` + A.text(388, 400, 'BRUCH', { fs: 15, fill: '#c0392b', rot: 6, maxw: 64 });
     }
     // Brösel-Schublade
     s += `<rect x="600" y="540" width="100" height="30" rx="3" fill="#b0875a" stroke="${OL}" stroke-width="2.5"/><rect x="636" y="552" width="28" height="6" rx="3" fill="#7a5233" stroke="${OL}" stroke-width="1.5"/>`;

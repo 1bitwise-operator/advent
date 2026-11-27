@@ -52,21 +52,20 @@
   function startBanner() {
     let s = '';
     for (const x of [600, 860]) {
-      s += `<rect x="${x - 7}" y="330" width="14" height="290" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
-      s += `<circle cx="${x}" cy="326" r="10" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<rect x="${x - 7}" y="270" width="14" height="350" fill="#8a5a36" stroke="${OL}" stroke-width="3"/>`;
+      s += `<circle cx="${x}" cy="266" r="10" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/>`;
     }
-    s += `<path d="M607,350 Q730,370 853,350 L853,410 Q730,430 607,410 Z" fill="#fff7e8" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path d="M607,350 Q730,370 853,350 L853,362 Q730,382 607,362 Z" fill="#d63a3a"/><path d="M607,398 Q730,418 853,398 L853,410 Q730,430 607,410 Z" fill="#2f6e4a"/>`;
-    s += A.text(730, 386, 'START · 73. Kufen-Gaudi', { fs: 18, fill: '#2a1f2d' });
-    s += A.lights(600, 336, 860, 336, 8, 9, 71);
+    s += `<path d="M607,290 Q730,310 853,290 L853,350 Q730,370 607,350 Z" fill="#fff7e8" stroke="${OL}" stroke-width="3"/>`;
+    s += `<path d="M607,290 Q730,310 853,290 L853,302 Q730,322 607,302 Z" fill="#d63a3a"/><path d="M607,338 Q730,358 853,338 L853,350 Q730,370 607,350 Z" fill="#2f6e4a"/>`;
+    s += A.text(730, 333, 'START · 73. Kufen-Gaudi', { fs: 19, fill: '#2a1f2d', maxw: 230 });
+    s += A.lights(600, 276, 860, 276, 8, 9, 71);
     // Startlinie
     s += `<path d="M640,622 L860,612" stroke="#d63a3a" stroke-width="7" stroke-dasharray="14 10"/>`;
     // Zeitnehmer-Tisch
     s += `<rect x="960" y="560" width="120" height="12" fill="#a8744a" stroke="${OL}" stroke-width="3"/><path d="M970,572 V612 M1070,572 V612" stroke="${OL}" stroke-width="5"/>`;
-    s += `<rect x="975" y="534" width="40" height="26" rx="4" fill="#2f3440" stroke="${OL}" stroke-width="2"/><rect x="980" y="540" width="30" height="12" fill="#7cf0a0"/>` + A.text(995, 550, '00:00', { fs: 9, fill: OL, font: 'Courier New, monospace' });
+    s += `<rect x="962" y="526" width="64" height="34" rx="4" fill="#2f3440" stroke="${OL}" stroke-width="2"/><rect x="968" y="532" width="52" height="20" fill="#7cf0a0"/>` + A.text(994, 548, "00:00", { fs: 15, fill: OL, font: "Courier New, monospace", maxw: 48 });
     s += `<path d="M1030,560 h20 l-2,-20 h-16 Z" fill="#fff" stroke="${OL}" stroke-width="2"/><path class="steam" d="M1040,532 q-6,-10 0,-18" stroke="#fff" stroke-width="3" fill="none"/>`;
     s += `<path d="M1050,556 q14,-10 26,-2 q-6,8 -26,2 Z" fill="#e9b07a" stroke="${OL}" stroke-width="2"/>`;
-    s += A.text(1063, 584, 'Leberkäs', { fs: 8, fill: OL });
     return s;
   }
 
@@ -76,7 +75,7 @@
     s += `<path d="M-84,-8 L-70,-40 H70 L92,-14 Q60,-2 -84,-8 Z" fill="#c8ccd6" stroke="${OL}" stroke-width="3"/>`;
     s += `<path d="M-60,-30 L70,-30" stroke="#e9ff3a" stroke-width="5"/>`;
     s += `<path d="M-74,-40 Q-80,-64 -50,-60 L-40,-40 Z" fill="#23252e" stroke="${OL}" stroke-width="3"/>`;
-    s += A.text(10, -16, 'TURBOKUFE X', { fs: 10, fill: '#23252e' });
+    s += A.text(4, -15, 'TURBOKUFE X', { fs: 13, fill: '#23252e', maxw: 120 });
     if (!f('cheat_exposed')) {
       s += `<rect x="60" y="-46" width="30" height="20" rx="4" fill="#23252e" stroke="${OL}" stroke-width="2.5"/><path d="M68,-40 h14 M68,-34 h14" stroke="#e9ff3a" stroke-width="2"/>`;
       s += `<path d="M90,-34 Q140,-20 160,10 Q200,30 260,20" fill="none" stroke="${OL}" stroke-width="6"/><path d="M90,-34 Q140,-20 160,10 Q200,30 260,20" fill="none" stroke="#ff8a00" stroke-width="3"/>`;
@@ -350,7 +349,7 @@
       s += hill();
       s += fir(1180, 560, 300) + fir(1040, 520, 200) + fir(1260, 600, 220);
       s += startBanner();
-      if (f('pigeon_sent') && !f('racing')) s += `<g transform="translate(600,322) scale(0.4)" class="bob">${C.gurrbert({ hat: true })}</g>`;
+      if (f('pigeon_sent') && !f('racing')) s += `<g transform="translate(600,262) scale(0.4)" class="bob">${C.gurrbert({ hat: true })}</g>`;
       s += A.exitArrow(1254, 640, 'r', 'Zurück in die Stadt');
       return s;
     },
@@ -360,7 +359,7 @@
         out.push({ id: 'konstantin', x: 960, y: 662, s: 0.76, svg: C.konstantin(), head: -310, flip: true });
         out.push({ id: 'turbokufe', x: 1070, y: 690, s: 0.9, svg: turboKufe(st) });
       }
-      if (f('pigeon_sent')) out.push({ id: 'gurrbert', x: 600, y: 322, s: 0.4, svg: '', head: -110 });
+      if (f('pigeon_sent')) out.push({ id: 'gurrbert', x: 600, y: 262, s: 0.4, svg: '', head: -110 });
       return out;
     },
     hotspots(st) {
@@ -369,8 +368,8 @@
         { name: 'Grafing in der Abendsonne', r: [0, 200, 360, 270], walk: [700, 640], look: ['Da unten liegt Grafing. Mit dem Kirchturm von St. Ägidius und lauter kleinen Lichtern.', 'Von hier oben sieht es aus wie ein Lebkuchendorf. Ein sehr leckeres Lebkuchendorf.'] },
         { name: 'Rodelbahn', p: [140, 440, 720, 610, 720, 650, 140, 470], walk: [700, 650], look: 'Die Rodelbahn. Steil, glatt, perfekt. Unten wartet der Ruhm. Und Strohballen. Hoffentlich in dieser Reihenfolge.' },
         { name: 'Zuschauer', r: [230, 450, 400, 140], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
-        { name: 'Start-Banner', r: [600, 320, 260, 110], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
-        f('pigeon_sent') && { name: 'Gurrbert', r: [578, 278, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
+        { name: 'Start-Banner', r: [600, 260, 260, 110], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
+        f('pigeon_sent') && { name: 'Gurrbert', r: [578, 218, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
         { name: 'Zeitnehmer-Tisch', r: [956, 520, 130, 60], walk: [1000, 650], look: 'Eine Stoppuhr, ein Tee und eine halbe Leberkässemmel. Das Equipment der Rennleitung.' },
         { name: 'Tannen', r: [1000, 220, 280, 340], walk: [1150, 650], look: 'Tannen mit Schneehauben. Wie Christbäume, die sich noch nicht entschieden haben.' },
         { name: 'TurboKufe X', r: [980, 630, 200, 70], walk: [1120, 690],

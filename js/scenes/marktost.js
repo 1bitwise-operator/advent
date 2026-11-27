@@ -57,7 +57,7 @@
     s += `<path d="M760,250 V140" stroke="${OL}" stroke-width="3"/><path d="M760,142 L800,150 L760,160 Z" fill="#fff" stroke="${OL}" stroke-width="2"/><path d="M760,150 L800,150 L760,160 Z" fill="#5aa0d8"/>`;
     // Spaßkasse-Nachbarhaus
     s += A.gableHouse({ x: 765, base: 505, w: 130, h: 230, gh: 70, color: '#d7e3ef', gable: 'plain', rows: 2, cols: 2, ww: 26, groundH: 70, seed: 3 });
-    s += A.sign(775, 438, 110, 24, 'Spaßkasse', { fs: 14, bg: '#d63a3a', fg: '#fff', font: 'Trebuchet MS, sans-serif' });
+    s += A.sign(775, 414, 110, 24, 'Spaßkasse', { fs: 14, bg: '#d63a3a', fg: '#fff', font: 'Trebuchet MS, sans-serif' });
     return s;
   }
 
@@ -106,8 +106,8 @@
     } else {
       s += `<path d="M${x + 50},${base} V${base - 82} L${x + 30},${base - 90} L${x + 30},${base + 4} Z" fill="#4f7d4a" stroke="${OL}" stroke-width="3"/>`;
     }
-    s += `<rect x="${x + 38}" y="${base - 150}" width="82" height="30" rx="4" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>`;
-    s += A.text(x + 79, base - 138, 'TAUBEN', { fs: 11, fill: '#6b2a20' }) + A.text(x + 79, base - 126, 'Tür zu, bitte!', { fs: 9, fill: '#6b2a20' });
+    s += `<rect x="${x + 22}" y="${base - 164}" width="114" height="44" rx="4" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>`;
+    s += A.text(x + 79, base - 145, 'TAUBEN', { fs: 15, fill: '#6b2a20', maxw: 104 }) + A.text(x + 79, base - 127, 'Tür zu, bitte!', { fs: 13, fill: '#6b2a20', maxw: 104 });
     // Wegweiser
     s += `<rect x="1180" y="450" width="8" height="${base - 410}" fill="#6b4128" stroke="${OL}" stroke-width="2.5"/>`;
     s += `<path d="M1120,456 H1236 L1252,470 L1236,484 H1120 Z" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>` + A.text(1184, 475, 'Bärenbuckel ↗', { fs: 13, fill: '#2f6e4a' });
@@ -134,8 +134,8 @@
       s += marktBuden();
       s += kircherl();
       s += taubenhaus(st);
-      s += A.lamp(452, 594, 220);
-      s += A.lamp(840, 598, 210);
+      s += A.lamp(436, 594, 220);
+      s += A.lamp(1098, 600, 210);
       s += A.footprints([[300, 600], [322, 620], [344, 642], [990, 590], [1010, 606], [1032, 624]]);
       s += A.snowPile(1180, 590, 120, 34) + A.snowPile(-30, 590, 120, 36);
       s += A.exitArrow(26, 620, 'l', 'Zum Café Kreitmampf');

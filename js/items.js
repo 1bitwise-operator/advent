@@ -10,7 +10,7 @@
     kaugummi: {
       name: 'Kaugummi',
       desc: 'Mein Notfall-Kaugummi. Seit Dienstag im Einsatz. Er hat schon viel gesehen. Zu viel.',
-      icon: ic(`<rect x="16" y="28" width="48" height="24" rx="6" fill="#ff9ec4"/><path d="M16,40 H64" stroke-width="2" opacity=".4"/><rect x="28" y="28" width="12" height="24" fill="#fff" opacity=".6" stroke="none"/><text x="40" y="45" font-size="9" text-anchor="middle" stroke="none" fill="${OL}" font-family="Trebuchet MS" font-weight="700">MINZ</text>`),
+      icon: ic(`<rect x="16" y="28" width="48" height="24" rx="6" fill="#ff9ec4"/><path d="M16,40 H64" stroke-width="2" opacity=".4"/><rect x="28" y="28" width="12" height="24" fill="#fff" opacity=".6" stroke="none"/><text x="46" y="46" font-size="13" text-anchor="middle" stroke="none" fill="${OL}" font-family="Trebuchet MS" font-weight="800">MINZ</text>`),
     },
     handschuh: {
       name: 'Linker Handschuh',
@@ -40,7 +40,7 @@
     kufenschluessel: {
       name: 'Kufenschlüssel',
       desc: 'Ein riesiger Schraubenschlüssel mit Gravur: „G. Speichl – Finger weg!“. Ups.',
-      icon: ic(`<g transform="rotate(-40 40 40)"><rect x="34" y="22" width="12" height="46" rx="5" fill="#b9c1cc"/><path d="M28,8 Q40,2 52,8 L50,24 L44,22 L44,12 L36,12 L36,22 L30,24 Z" fill="#b9c1cc"/><text x="40" y="54" font-size="7" text-anchor="middle" stroke="none" fill="${OL}" font-weight="700" transform="rotate(90 40 50)">SPEICHL</text></g>`),
+      icon: ic(`<g transform="rotate(-40 40 40)"><rect x="34" y="22" width="12" height="46" rx="5" fill="#b9c1cc"/><path d="M28,8 Q40,2 52,8 L50,24 L44,22 L44,12 L36,12 L36,22 L30,24 Z" fill="#b9c1cc"/></g>`),
     },
     kerze: {
       name: 'Bienenwachskerze',
@@ -50,7 +50,7 @@
     jute: {
       name: 'Jutebeutel',
       desc: 'Aufdruck: „Ich bin kein Plastiksackerl.“ Sehr selbstbewusster Beutel. Ich mag ihn.',
-      icon: ic(`<path d="M18,30 H62 L58,70 H22 Z" fill="#d9c49a"/><path d="M28,30 Q28,12 40,12 Q52,12 52,30" fill="none" stroke-width="4"/><text x="40" y="50" font-size="8" text-anchor="middle" stroke="none" fill="#4f8a4a" font-weight="800" font-family="Trebuchet MS">KEIN</text><text x="40" y="60" font-size="7" text-anchor="middle" stroke="none" fill="#4f8a4a" font-weight="800" font-family="Trebuchet MS">PLASTIK</text>`),
+      icon: ic(`<path d="M18,30 H62 L58,70 H22 Z" fill="#d9c49a"/><path d="M28,30 Q28,12 40,12 Q52,12 52,30" fill="none" stroke-width="4"/><path d="M28,56 q12,-22 24,0 q-12,10 -24,0 Z M28,56 h24" fill="#7cc47a" stroke-width="2"/>`),
     },
     formular: {
       name: 'Nachmeldeformular',
@@ -111,7 +111,7 @@
           ? ['„TurboKufe X – Die Zukunft des Rodelns. Jetzt mit diskretem 2000-Watt-Rückenwind-Motor!“', 'Kleingedrucktes: „Nicht für Wettkämpfe zugelassen.“', 'Ein Schlitten mit MOTOR? Da steht „Protzinger Sportwelt“ drauf. Protzinger... wie Konstantin Protzinger!', 'Das sollte der Rennleiter sehen.']
           : '„TurboKufe X – mit diskretem 2000-Watt-Rückenwind-Motor. Nicht für Wettkämpfe zugelassen.“ Das ist ein Fall für Rennleiter Wimmer!';
       },
-      icon: ic(`<rect x="16" y="12" width="48" height="58" rx="3" fill="#23252e"/><path d="M22,48 L52,40 L58,46 L24,54 Z" fill="#c8ccd6" stroke-width="2"/><path d="M24,56 H56" stroke="#e9ff3a" stroke-width="3"/><text x="40" y="28" font-size="9" text-anchor="middle" stroke="none" fill="#e9ff3a" font-weight="800" font-family="Trebuchet MS">TURBO</text><text x="40" y="37" font-size="8" text-anchor="middle" stroke="none" fill="#fff" font-weight="800" font-family="Trebuchet MS">KUFE X</text><path d="M60,44 l8,-4 M60,48 h10 M60,52 l8,4" stroke="#e9ff3a" stroke-width="2"/>`),
+      icon: ic(`<rect x="16" y="12" width="48" height="58" rx="3" fill="#23252e"/><path d="M22,48 L52,40 L58,46 L24,54 Z" fill="#c8ccd6" stroke-width="2"/><path d="M24,56 H56" stroke="#e9ff3a" stroke-width="3"/><text x="40" y="34" font-size="13" text-anchor="middle" stroke="none" fill="#e9ff3a" font-weight="900" font-family="Trebuchet MS">TURBO</text><path d="M60,44 l8,-4 M60,48 h10 M60,52 l8,4" stroke="#e9ff3a" stroke-width="2"/>`),
     },
     schlitten: {
       name: 'Renn-Schlitten „Blitzbirne“',

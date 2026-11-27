@@ -30,7 +30,7 @@
     s += `<rect x="40" y="110" width="330" height="410" fill="url(#gCool)" opacity=".8"/>`;
     s += `<path d="M40,300 L120,250 L200,280 L280,240 L370,270 V520 H40 Z" fill="#7b6aa0" opacity=".5"/>`;
     for (let i = 0; i < 14; i++) s += `<circle cx="${60 + (i * 47) % 300}" cy="${130 + (i * 71) % 250}" r="${1.5 + i % 3}" fill="#fff" opacity=".8"/>`;
-    s += `<path d="M205,110 V520" stroke="#f8eef4" stroke-width="7"/>`;
+    s += `<path d="M205,156 V520" stroke="#f8eef4" stroke-width="7"/><path d="M40,156 H370" stroke="#f8eef4" stroke-width="5"/>`;
     s += A.text(205, 140, 'NEDEOM REIEMHO', { fs: 18, fill: '#ffe08a', font: 'Georgia, serif' });
     // Podest im Fenster
     s += `<rect x="120" y="470" width="170" height="54" rx="6" fill="#c0392b" stroke="${OL}" stroke-width="3"/>`;
@@ -74,8 +74,8 @@
       <path d="M-40,-140 h80 M-42,-128 h84" stroke="#fff" stroke-width="3" opacity=".5"/>
       <ellipse cx="0" cy="-180" rx="14" ry="10" fill="#f1e6dc" stroke="${OL}" stroke-width="3"/>
       <path d="M-34,-100 h68" stroke="#c9a227" stroke-width="5"/>
-      <rect x="20" y="-210" width="46" height="26" rx="4" fill="#fff" stroke="${OL}" stroke-width="2" transform="rotate(10 43 -197)"/>
-      <text x="43" y="-192" text-anchor="middle" font-size="9" font-family="Trebuchet MS" font-weight="700" fill="#c0392b" transform="rotate(10 43 -197)">799 €</text>`;
+      <rect x="16" y="-214" width="62" height="32" rx="4" fill="#fff" stroke="${OL}" stroke-width="2" transform="rotate(10 47 -198)"/>
+      <text data-maxw="56" x="47" y="-192" text-anchor="middle" font-size="15" font-family="Trebuchet MS" font-weight="700" fill="#c0392b" transform="rotate(10 47 -198)">799 €</text>`;
   }
 
   function counterSVG(st) {
@@ -86,9 +86,9 @@
     // Kasse
     s += `<rect x="40" y="-180" width="80" height="50" rx="6" fill="#c9a227" stroke="${OL}" stroke-width="3"/><rect x="52" y="-172" width="40" height="14" fill="#fff8d0" stroke="${OL}" stroke-width="2"/>`;
     // Stiftebecher
-    s += `<rect x="-110" y="-170" width="36" height="40" rx="4" fill="#ffe08a" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<rect x="-118" y="-170" width="52" height="40" rx="4" fill="#ffe08a" stroke="${OL}" stroke-width="2.5"/>`;
     for (let i = 0; i < 5; i++) s += `<rect x="${-106 + i * 6}" y="${-196 + (i % 2) * 6}" width="5" height="34" rx="2" fill="#7b3fa0" stroke="${OL}" stroke-width="1.5" transform="rotate(${(i - 2) * 6} ${-104 + i * 6} -160)"/>`;
-    s += A.text(-92, -146, 'GRATIS', { fs: 8, fill: '#7b3fa0' });
+    s += A.text(-92, -144, 'GRATIS', { fs: 12, fill: '#7b3fa0', maxw: 46 });
     // Hutständer
     s += `<path d="M-30,-132 V-200" stroke="${OL}" stroke-width="3"/><path d="M-60,-210 Q-30,-240 0,-210 Z" fill="#c0392b" stroke="${OL}" stroke-width="2.5"/><path d="M-70,-208 h80" stroke="${OL}" stroke-width="4"/>`;
     return s;

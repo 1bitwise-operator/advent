@@ -48,8 +48,8 @@
     s += `<path d="M930,560 L1250,70" stroke="${OL}" stroke-width="8"/><path d="M930,560 L1250,70" stroke="#8a5a36" stroke-width="4"/>`;
     for (let i = 0; i < 8; i++) s += `<path d="M${944 + i * 40},${538 - i * 61} V${600 - i * 61 - 10}" stroke="#6b4128" stroke-width="4"/>`;
     s += `<rect x="1060" y="170" width="190" height="62" rx="4" fill="#fff7e8" stroke="${OL}" stroke-width="2.5" transform="rotate(-4 1155 200)"/>`;
-    s += A.text(1155, 194, '↑ Speichls Radlwerkstatt', { fs: 13, fill: '#6b2a20', rot: -4 }) + A.text(1155, 214, '(geschlossen seit 2009)', { fs: 11, fill: '#6b2a20', rot: -4 });
-    s += `<rect x="1004" y="470" width="96" height="30" rx="3" fill="#f4c542" stroke="${OL}" stroke-width="2" transform="rotate(8 1052 485)"/>` + A.text(1052, 490, '3. Stufe knarzt!', { fs: 10, fill: OL, rot: 8 });
+    s += A.text(1155, 194, '↑ Speichls Radlwerkstatt', { fs: 15, fill: '#6b2a20', rot: -4, maxw: 176 }) + A.text(1155, 214, '(geschlossen seit 2009)', { fs: 13, fill: '#6b2a20', rot: -4, maxw: 176 });
+    s += `<rect x="986" y="464" width="132" height="38" rx="3" fill="#f4c542" stroke="${OL}" stroke-width="2" transform="rotate(8 1052 483)"/>` + A.text(1052, 489, '3. Stufe knarzt!', { fs: 15, fill: OL, rot: 8, maxw: 122 });
     // Tür links
     s += `<rect x="20" y="320" width="110" height="270" fill="#2f6e4a" stroke="${OL}" stroke-width="4"/><rect x="36" y="336" width="78" height="120" fill="#3d4d7a" stroke="${OL}" stroke-width="3"/><path d="M36,436 q40,-14 78,0 V456 H36 Z" fill="#fff"/><circle cx="116" cy="470" r="6" fill="#e8c35a" stroke="${OL}" stroke-width="2"/>`;
     // Boden
@@ -71,10 +71,10 @@
       s += `<rect x="${-180 + i * 28}" y="${-150 - h}" width="20" height="${h}" rx="2" fill="#f2c14e" stroke="${OL}" stroke-width="2"/><path d="M${-170 + i * 28},${-150 - h} v-6" stroke="${OL}" stroke-width="2"/>`;
       if (i === 1) s += `<path class="flicker" d="M${-170 + i * 28},${-156 - h} q-5,-8 0,-14 q5,6 0,14" fill="#ffb347" stroke="${OL}" stroke-width="1.5"/>` + A.glow(-170 + i * 28, -166 - h, 30, 'gWarm', 1);
     }
-    s += `<rect x="-150" y="-128" width="74" height="18" fill="#fff7e8" stroke="${OL}" stroke-width="1.5"/>` + A.text(-113, -115, 'Bienenwachs 3 €', { fs: 9, fill: '#6b2a20' });
+    s += `<rect x="-196" y="-130" width="134" height="24" fill="#fff7e8" stroke="${OL}" stroke-width="1.5"/>` + A.text(-129, -112, 'Bienenwachs 3 €', { fs: 13, fill: '#6b2a20', maxw: 126 });
     // Jutebeutel-Stapel
-    s += `<path d="M40,-124 h70 l-6,-30 h-58 Z" fill="#d9c49a" stroke="${OL}" stroke-width="2.5"/><path d="M52,-154 q23,-26 46,0" fill="none" stroke="${OL}" stroke-width="3"/><path d="M44,-136 h62" stroke="${OL}" stroke-width="1.5" opacity=".5"/>`;
-    s += A.text(75, -140, 'KEIN PLASTIK', { fs: 7, fill: '#4f8a4a' });
+    s += `<path d="M28,-124 h96 l-6,-40 h-84 Z" fill="#d9c49a" stroke="${OL}" stroke-width="2.5"/><path d="M46,-164 q30,-30 60,0" fill="none" stroke="${OL}" stroke-width="3"/>`;
+    s += A.text(76, -139, "KEIN", { fs: 12, fill: "#4f8a4a", maxw: 80 }) + A.text(76, -127, "PLASTIK", { fs: 12, fill: "#4f8a4a", maxw: 80 });
     // Kasse
     s += `<rect x="130" y="-166" width="64" height="42" rx="6" fill="#6b4128" stroke="${OL}" stroke-width="3"/><rect x="140" y="-158" width="34" height="12" fill="#fff8d0" stroke="${OL}" stroke-width="1.5"/>`;
     return s;
@@ -162,7 +162,7 @@
             G.flag('need_money');
           },
           items: { geld: async () => { if (has('kerze') || f('gave_kerze')) return; await buyCandle(); } } },
-        { name: 'Jutebeutel', r: [552, 400, 76, 50], walk: [580, 640], look: '„Ich bin kein Plastiksackerl.“ Ein Stapel selbstbewusster Jutebeutel.',
+        { name: 'Jutebeutel', r: [548, 430, 96, 50], walk: [580, 640], look: '„Ich bin kein Plastiksackerl.“ Ein Stapel selbstbewusster Jutebeutel.',
           use: async () => { await G.say('fairhuber', 'Die gibt’s gratis zu jedem Einkauf, Fini!'); } },
         { name: 'Frau Fairhuber', r: [470, 260, 100, 220], walk: [690, 645], face: 'l',
           look: 'Frau Fairhuber. Bunte Strickjacke, Stirnband, sehr freundliches Lächeln. Ich glaube, sie hat noch nie in ihrem Leben ein Plastiksackerl angefasst.',

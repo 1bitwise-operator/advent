@@ -38,8 +38,8 @@
     s += `<path d="M440,300 q110,-16 220,0" fill="#fff" stroke="${OL}" stroke-width="2"/>`;
     s += `<rect x="430" y="298" width="240" height="14" fill="#a8744a" stroke="${OL}" stroke-width="3"/>`;
     // Plakat & Kalender
-    s += `<rect x="340" y="120" width="80" height="120" fill="#f4ead6" stroke="${OL}" stroke-width="3" transform="rotate(-4 380 180)"/>`;
-    s += A.text(380, 150, 'SPEICHLS', { fs: 12, fill: '#c0392b', rot: -4 }) + A.text(380, 166, 'RADL-', { fs: 12, fill: '#c0392b', rot: -4 }) + A.text(380, 182, 'WERKSTATT', { fs: 10, fill: '#c0392b', rot: -4 }) + A.text(380, 222, 'seit 1961', { fs: 10, fill: OL, rot: -4 });
+    s += `<rect x="330" y="110" width="100" height="140" fill="#f4ead6" stroke="${OL}" stroke-width="3" transform="rotate(-4 380 180)"/>`;
+    s += A.text(380, 140, 'SPEICHLS', { fs: 15, fill: '#c0392b', rot: -4, maxw: 88 }) + A.text(380, 158, 'RADL-', { fs: 15, fill: '#c0392b', rot: -4, maxw: 88 }) + A.text(380, 176, 'WERKSTATT', { fs: 14, fill: '#c0392b', rot: -4, maxw: 88 }) + A.text(380, 236, 'seit 1961', { fs: 13, fill: OL, rot: -4, maxw: 88 });
     s += `<g transform="rotate(-4 380 200)">${bike(380, 204, 0.28, '#2f6fb5')}</g>`;
     s += `<rect x="690" y="130" width="70" height="90" fill="#fff" stroke="${OL}" stroke-width="2.5"/><rect x="690" y="130" width="70" height="22" fill="#c0392b" stroke="${OL}" stroke-width="2.5"/>` + A.text(725, 146, 'DEZ 2009', { fs: 11, fill: '#fff' });
     for (let r = 0; r < 4; r++) for (let c = 0; c < 6; c++) s += `<rect x="${695 + c * 10.5}" y="${158 + r * 14}" width="8" height="10" fill="#eee" stroke="${OL}" stroke-width=".6"/>`;
@@ -61,7 +61,7 @@
     s += `<path d="M90,236 q30,-50 60,0 Z" fill="#e8663d" stroke="${OL}" stroke-width="2.5"/><path d="M170,236 q30,-50 60,0 Z" fill="#2f6fb5" stroke="${OL}" stroke-width="2.5"/>`;
     if (!has('helm') && !f('helm_given')) s += `<path d="M60,326 q34,-58 68,0 Z" fill="#9cff3a" stroke="${OL}" stroke-width="2.8"/><path d="M76,316 l6,-24 M94,326 v-34 M112,316 l-6,-24" stroke="${OL}" stroke-width="1.8" opacity=".5"/>`;
     if (!has('lampe') && !f('lampe_taken')) s += `<g transform="translate(200,328)"><path d="M-22,-4 L6,-12 L6,-40 L-22,-32 Z" fill="#d63a3a" stroke="${OL}" stroke-width="2.5"/><ellipse cx="8" cy="-26" rx="7" ry="15" fill="#ffe08a" stroke="${OL}" stroke-width="2.5"/><path d="M-16,-4 l-2,4 h12" stroke="${OL}" stroke-width="3" fill="none"/></g>`;
-    s += `<rect x="250" y="300" width="30" height="30" fill="#6b4128" stroke="${OL}" stroke-width="2"/><rect x="236" y="206" width="44" height="34" fill="#a8744a" stroke="${OL}" stroke-width="2"/>` + A.text(258, 226, 'Schrauben', { fs: 7, fill: OL }) + A.text(258, 234, '(fast sortiert)', { fs: 6, fill: OL });
+    s += `<rect x="250" y="300" width="30" height="30" fill="#6b4128" stroke="${OL}" stroke-width="2"/><rect x="206" y="196" width="84" height="44" fill="#a8744a" stroke="${OL}" stroke-width="2"/>` + A.text(248, 215, 'Schrauben', { fs: 13, fill: OL, maxw: 78 }) + A.text(248, 232, '(fast sortiert)', { fs: 11, fill: OL, maxw: 78 });
     // Hängende Fahrräder
     s += bike(1170, 560, 0.85, "#c0392b");
     // Boden
@@ -91,7 +91,7 @@
       </g>`;
     }
     // Lötlampe & Dose
-    s += `<rect x="-190" y="-186" width="26" height="36" rx="4" fill="#e8c35a" stroke="${OL}" stroke-width="2.5"/>` + A.text(-177, -164, 'WACHS', { fs: 6, fill: OL });
+    s += `<rect x="-196" y="-192" width="46" height="42" rx="4" fill="#e8c35a" stroke="${OL}" stroke-width="2.5"/>` + A.text(-173, -166, 'WACHS', { fs: 11, fill: OL, maxw: 40 });
     s += `<rect x="-60" y="-178" width="40" height="28" rx="6" fill="#c0392b" stroke="${OL}" stroke-width="2.5"/><path d="M-20,-170 l26,-6" stroke="${OL}" stroke-width="5"/>`;
     return s;
   }
@@ -237,7 +237,7 @@
         { name: 'Werkzeugwand', r: [800, 110, 170, 220], walk: [880, 640],
           look: () => f('gave_schluessel') ? 'Die Werkzeugwand. Der Kufenschlüssel hängt wieder an seinem Platz. Alles ist gut in der Welt der Werkzeuge.'
             : ['Eine Lochwand mit Werkzeugen. Ganz rechts ist nur ein gestrichelter Umriss.', 'Da fehlt ein riesiger Schraubenschlüssel. Ich hab ihn nicht genommen. Glaub ich. Diesmal wirklich nicht.'] },
-        { name: 'Schraubenkiste', r: [232, 202, 52, 40], walk: [260, 640], look: '„Schrauben (fast sortiert)“. Das „fast“ ist mit Bleistift dazugeschrieben. Mehrmals.' },
+        { name: 'Schraubenkiste', r: [206, 196, 84, 44], walk: [260, 640], look: '„Schrauben (fast sortiert)“. Das „fast“ ist mit Bleistift dazugeschrieben. Mehrmals.' },
         { name: 'Alte Helme', r: [86, 190, 150, 50], walk: [180, 640], look: 'Ein orangefarbener und ein blauer Fahrradhelm. Beide sehen aus, als hätten sie schon einiges abgekriegt. Respekt.' },
         !has('helm') && !f('helm_given') && { name: 'Neongrüner Helm', r: [56, 266, 76, 62], walk: [180, 640],
           look: 'Ein neongrüner Fahrradhelm. Ich bin nicht sicher, ob er schützt oder ob man nur nicht hinschauen kann.',

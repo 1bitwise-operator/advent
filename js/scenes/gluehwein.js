@@ -8,10 +8,10 @@
     // Bärenkopf-Schild auf dem Dach
     return `<g transform="translate(640,92)">
       ${A.glow(0, 0, 120, 'gWarm', 0.8)}
-      <rect x="-170" y="-28" width="340" height="56" rx="12" fill="#3b2418" stroke="${OL}" stroke-width="4"/>
-      <rect x="-162" y="-20" width="324" height="40" rx="8" fill="none" stroke="#ffd36e" stroke-width="2" opacity=".7"/>
-      <text x="22" y="10" text-anchor="middle" font-family="Georgia, serif" font-size="27" font-weight="700" fill="#ffd36e">Zum glühenden Bären</text>
-      <g transform="translate(-180,-4)">
+      <rect x="-150" y="-28" width="380" height="56" rx="12" fill="#3b2418" stroke="${OL}" stroke-width="4"/>
+      <rect x="-142" y="-20" width="364" height="40" rx="8" fill="none" stroke="#ffd36e" stroke-width="2" opacity=".7"/>
+      <text data-maxw="300" x="52" y="10" text-anchor="middle" font-family="Georgia, serif" font-size="27" font-weight="700" fill="#ffd36e">Zum glühenden Bären</text>
+      <g transform="translate(-160,-4)">
         <circle cx="-22" cy="-30" r="14" fill="#7a4b2d" stroke="${OL}" stroke-width="3"/><circle cx="22" cy="-30" r="14" fill="#7a4b2d" stroke="${OL}" stroke-width="3"/>
         <circle cx="0" cy="0" r="38" fill="#7a4b2d" stroke="${OL}" stroke-width="3.5"/>
         <ellipse cx="0" cy="14" rx="18" ry="14" fill="#d9a77a" stroke="${OL}" stroke-width="2.5"/>
@@ -38,12 +38,12 @@
       }
     }
     // Preistafel
-    s += `<rect x="640" y="200" width="250" height="160" rx="6" fill="#2b2f2a" stroke="#8a5a36" stroke-width="8"/>`;
-    s += A.text(765, 232, 'PREISE', { fs: 18, fill: '#ffd36e' });
-    s += A.text(660, 262, 'Glühwein (ab 18) ....... 4,50', { fs: 13, fill: '#fff', anchor: 'start' });
-    s += A.text(660, 286, 'Kinderpunsch ............. 3,50', { fs: 13, fill: '#fff', anchor: 'start' });
-    s += A.text(660, 310, 'Bärentatzen-Punsch .... 5,00', { fs: 13, fill: '#fff', anchor: 'start' });
-    s += A.text(660, 340, 'Tassenpfand: 3 €', { fs: 15, fill: '#9be2ff', anchor: 'start' });
+    s += `<rect x="712" y="200" width="244" height="160" rx="6" fill="#2b2f2a" stroke="#8a5a36" stroke-width="8"/>`;
+    s += A.text(834, 232, 'PREISE', { fs: 19, fill: '#ffd36e' });
+    s += A.text(728, 262, 'Glühwein (ab 18) ....... 4,50', { fs: 14, fill: '#fff', anchor: 'start', maxw: 212 });
+    s += A.text(728, 286, 'Kinderpunsch ............. 3,50', { fs: 14, fill: '#fff', anchor: 'start', maxw: 212 });
+    s += A.text(728, 310, 'Bärentatzen-Punsch .... 5,00', { fs: 14, fill: '#fff', anchor: 'start', maxw: 212 });
+    s += A.text(728, 342, 'Tassenpfand: 3 €', { fs: 16, fill: '#9be2ff', anchor: 'start', maxw: 212 });
     // Lichterkette innen
     s += A.lights(310, 172, 970, 172, 14, 20, 44);
     // Steckdose + Kabel
@@ -73,15 +73,15 @@
     s += `<rect x="404" y="420" width="44" height="52" rx="6" fill="#dff0ff" fill-opacity=".55" stroke="${OL}" stroke-width="3"/>`;
     for (let i = 0; i < 5; i++) s += `<rect x="${410 + i * 7}" y="${404 + (i % 2) * 6}" width="6" height="60" rx="3" fill="#9a5a2e" stroke="${OL}" stroke-width="1.5" transform="rotate(${(i - 2) * 5} ${413 + i * 7} 460)"/>`;
     s += `<rect x="400" y="414" width="52" height="10" rx="3" fill="#c0392b" stroke="${OL}" stroke-width="2"/>`;
-    s += A.text(426, 446, 'ZIMT', { fs: 10, fill: '#6b2a20' });
+    s += `<rect x="400" y="436" width="52" height="20" rx="3" fill="#fffaf0" stroke="${OL}" stroke-width="2"/>` + A.text(426, 451, 'ZIMT', { fs: 14, fill: '#6b2a20', maxw: 46 });
     // Glühweinkessel mit Hahn
     s += `<ellipse cx="790" cy="470" rx="64" ry="10" fill="#6b4128" stroke="${OL}" stroke-width="3"/>`;
     s += `<path d="M730,470 V384 Q790,368 850,384 V470 Q790,482 730,470 Z" fill="#c8743c" stroke="${OL}" stroke-width="3.5"/>`;
     s += `<path d="M730,408 Q790,394 850,408 M730,446 Q790,432 850,446" stroke="#8a4a22" stroke-width="5" fill="none"/>`;
     s += `<ellipse cx="790" cy="384" rx="60" ry="10" fill="#5b1f2a" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path class="steam" d="M770,370 q-10,-16 0,-30 q10,-14 0,-28" stroke="#fff" stroke-width="4" fill="none" opacity=".7" stroke-linecap="round"/>`;
-    s += `<path class="steam s2" d="M800,372 q-10,-16 0,-30 q10,-14 0,-28" stroke="#fff" stroke-width="4" fill="none" opacity=".7" stroke-linecap="round"/>`;
-    s += `<path class="steam s3" d="M826,374 q-10,-16 0,-30" stroke="#fff" stroke-width="4" fill="none" opacity=".7" stroke-linecap="round"/>`;
+    s += `<g opacity=".55"><path class="steam" d="M770,370 q-10,-16 0,-30 q10,-14 0,-28" stroke="#fff" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>`;
+    s += `<path class="steam s2" d="M800,372 q-10,-16 0,-30 q10,-14 0,-28" stroke="#fff" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>`;
+    s += `<path class="steam s3" d="M826,374 q-10,-16 0,-30" stroke="#fff" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/></g>`;
     s += A.text(790, 430, 'HEISS!', { fs: 12, fill: '#fff3c4' });
     // Hahn
     s += `<rect x="712" y="436" width="22" height="12" rx="3" fill="#c9a227" stroke="${OL}" stroke-width="2.5"/><path d="M714,448 v10" stroke="${OL}" stroke-width="5"/><path d="M714,448 v10" stroke="#c9a227" stroke-width="2.5"/>`;
@@ -107,7 +107,7 @@
     () => C.extra({ h: 290, top: '#3f6fb5', pants: '#2f3440', shoes: '#3a2a22', hair: { style: 'long', color: '#3a2a20' }, hat: { style: 'bobble', color: '#f4efe6', pom: '#d63a3a', stripe: '#d63a3a' }, smile: 0.25, armRotR: -60, armLenR: 70, holdR: mug('#b8322b') }),
     () => C.extra({ h: 315, belly: 14, top: '#2f6e4a', pants: '#5b4a3a', shoes: '#3a2a22', hat: { style: 'cap', color: '#5b4a3a' }, mustache: '#7a4b2d', nose: 'big', lid: 0.5, smile: 0.1, armRotL: 60, armLenL: 70, holdL: mug('#2f6fb5') }),
     () => C.extra({ h: 280, top: '#7b3fa0', pants: '#3b2350', shoes: '#c0392b', coatY: 0.15, flare: 1.2, hair: { style: 'bun', color: '#d9d2c5' }, glasses: '#6b2a20', smile: 0.2, armRotR: -55, armLenR: 70, holdR: mug('#2f6e4a') }),
-    () => C.extra({ h: 305, top: '#e8663d', pants: '#2f3440', shoes: '#3a2a22', hair: { style: 'short', color: '#6b4128' }, hat: { style: 'bobble', color: '#2f3440', pom: '#f4c542' }, stubble: '#6b4128', lid: 0.35, smile: 0.2 }),
+    () => C.extra({ h: 272, top: '#e8663d', pants: '#2f3440', shoes: '#3a2a22', hair: { style: 'short', color: '#6b4128' }, hat: { style: 'bobble', color: '#2f3440', pom: '#f4c542' }, stubble: '#6b4128', lid: 0.35, smile: 0.2 }),
   ];
 
   const stehtisch = () => `${A.shadow(0, 0, 70)}
@@ -238,7 +238,7 @@
     },
     hotspots(st) {
       return [
-        { name: 'Preistafel', r: [636, 196, 258, 168], walk: [760, 610], look: () => [
+        { name: 'Preistafel', r: [708, 196, 252, 168], walk: [820, 615], look: () => [
           'Glühwein 4,50. Kinderpunsch 3,50. Bärentatzen-Punsch 5 Euro.', 'Was ist in einem Bärentatzen-Punsch? Ich will es wissen. Und gleichzeitig will ich es nicht wissen.',
           'Und: „Tassenpfand 3 €“. Gut zu wissen.'] },
         { name: 'Tassenregal', r: [336, 214, 260, 130], walk: [470, 610], look: 'Lauter Tassen. Rot, grün, blau. Gerti hat mehr Tassen als ich Socken. Und ich hab viele Socken. Einzelne.' },

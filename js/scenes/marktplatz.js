@@ -40,7 +40,6 @@
     // Schriftzug
     s += A.text(x + w / 2, 320, 'Bäckerei · Café · Konditorei · Bistro', { fs: 19, fill: '#4a2c1b', font: 'Georgia, \'Times New Roman\', serif', italic: true });
     // Ladenfront
-    s += A.sign(x + 140, 412, w - 280, 24, 'KREITMAMPF', { fs: 17, bg: '#4a2c1b', fg: '#e8c35a', ls: 3, inner: false });
     s += A.glow(x + w / 2, 475, 220, 'gWarm', 0.9);
     const fx = x + 44, fw = w - 88;
     s += `<rect x="${fx}" y="438" width="${fw}" height="${base - 438}" fill="url(#gWinLit)" stroke="${OL}" stroke-width="3"/>`;
@@ -60,7 +59,7 @@
       s += `<path d="M${ux},404 V${base}" stroke="${OL}" stroke-width="5"/><path d="M${ux},404 V${base}" stroke="#9aa3ad" stroke-width="2.5"/>`;
       s += `<path d="M${ux - 100},426 L${ux},392 L${ux + 100},426 Z" fill="#ece8df" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
       s += A.snowLine(`M${ux - 92},420 L${ux},390 L${ux + 92},420`, 7);
-      s += `<rect x="${ux - 100}" y="426" width="200" height="16" fill="#ece8df" stroke="${OL}" stroke-width="2.5"/>` + A.text(ux, 439, "KREITMAMPF", { fs: 13, fill: "#4a2c1b", font: "Georgia, serif" });
+      s += `<rect x="${ux - 100}" y="426" width="200" height="16" fill="#ece8df" stroke="${OL}" stroke-width="2.5"/>` + A.text(ux, 440, "KREITMAMPF", { fs: 15, fill: "#4a2c1b", font: "Georgia, serif", maxw: 184 });
     }
     // Girlande über dem Laden
     s += `<path d="M${x + 20},436 Q${x + w / 2},452 ${x + w - 20},436" fill="none" stroke="#2f7d4f" stroke-width="8" stroke-linecap="round"/>`;
@@ -83,10 +82,10 @@
       s += `<path d="M86,468 Q105,442 124,468 L120,476 Q105,482 90,476 Z" fill="#d8b4e8" stroke="${OL}" stroke-width="2.5"/>`;
       s += `<circle cx="105" cy="447" r="10" fill="#f6d5b8" stroke="${OL}" stroke-width="2.5"/>`;
       s += `<circle cx="105" cy="440" r="15" fill="none" stroke="#ffd36e" stroke-width="2.5"/>`;
-      s += A.text(105, 420, '„Christkind Couture“', { fs: 12, fill: '#7b3fa0', font: 'Georgia, serif', italic: true });
+      s += A.text(105, 420, '„Christkind Couture“', { fs: 15, fill: '#7b3fa0', font: 'Georgia, serif', italic: true, maxw: 166 });
     } else {
       s += `<g transform="translate(105,478) scale(0.62)"><path d="M0,-80 a14,14 0 1 1 -0.1,0 Z M-16,-56 H16 L36,-46 L33,-34 L16,-40 L18,-14 L12,0 L2,0 L0,-12 L-8,-12 L-14,-32 L-32,-32 L-32,-44 Z" fill="#b86a35" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/><circle cx="-5" cy="-68" r="2.5" fill="#fff"/><circle cx="5" cy="-68" r="2.5" fill="#fff"/></g>`;
-      s += A.text(105, 420, '„Avantgarde mit Kante“', { fs: 12, fill: '#7b3fa0', font: 'Georgia, serif', italic: true });
+      s += A.text(105, 420, '„Avantgarde mit Kante“', { fs: 15, fill: '#7b3fa0', font: 'Georgia, serif', italic: true, maxw: 166 });
     }
     s += `<path d="M24,398 l30,-6 M150,398 l34,-4" stroke="#fff" stroke-width="3" opacity=".5"/>`;
     s += A.door(198, 404, 50, 121, { color: '#7b3fa0', glass: true, lit: true });
@@ -97,7 +96,6 @@
     let s = A.gableHouse({ x: 928, base: 525, w: 380, h: 320, gh: 160, color: '#a9d3b2', gable: 'curved', rows: 2, cols: 4, groundH: 150, seed: 5, trim: '#eef8ef', curtain: '#f4c542' });
     s += `<rect x="934" y="372" width="346" height="153" fill="#5b4a2f" stroke="${OL}" stroke-width="3"/>`;
     s += A.sign(950, 340, 300, 34, 'FAIRKEHRT · Weltladen', { fs: 19, bg: '#2f6e4a', fg: '#f4efe6', ls: 1 });
-    s += `<path d="M960,357 q10,-14 20,0 q-10,8 -20,0 Z" fill="#9be08a" stroke="${OL}" stroke-width="1.5"/>`;
     // Schaufenster
     s += A.glow(1030, 450, 110, 'gWarm', 0.7);
     s += `<rect x="942" y="392" width="182" height="114" fill="url(#gWinLit)" stroke="${OL}" stroke-width="3"/>`;
@@ -108,8 +106,8 @@
     for (let i = 0; i < 4; i++) s += `<path d="M${966 + i * 40},492 v-10 m-4,10 h8" stroke="${OL}" stroke-width="2"/><path d="M${966 + i * 40},478 q-4,-8 0,-12 q4,4 0,12" fill="#ffb347" stroke="${OL}" stroke-width="1.5" class="flicker"/>`;
     s += A.door(1136, 404, 56, 121, { color: '#2f6e4a', glass: true, lit: true, wreath: true });
     // Kreidetafel-Aufsteller
-    s += `<path d="M1205,525 L1222,455 L1262,455 L1279,525" fill="none" stroke="${OL}" stroke-width="3"/><rect x="1214" y="455" width="56" height="62" fill="#2b2f2a" stroke="#8a5a36" stroke-width="5"/>`;
-    s += A.text(1242, 474, 'Heute', { fs: 10, fill: '#fff' }) + A.text(1242, 488, 'fair:', { fs: 10, fill: '#fff' }) + A.text(1242, 503, 'Kerzen!', { fs: 10, fill: '#ffd36e' });
+    s += `<path d="M1196,525 L1212,446 L1262,446 L1278,525" fill="none" stroke="${OL}" stroke-width="3"/><rect x="1200" y="446" width="74" height="74" fill="#2b2f2a" stroke="#8a5a36" stroke-width="5"/>`;
+    s += A.text(1237, 468, 'Heute', { fs: 13, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 }) + A.text(1237, 487, 'fair:', { fs: 13, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 }) + A.text(1237, 508, 'Kerzen!', { fs: 14, fill: '#ffd36e', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 });
     return s;
   }
 
@@ -150,11 +148,11 @@
     ${A.shadow(0, 0, 30)}
     <path d="M-24,-80 L24,-80 L20,0 L-20,0 Z" fill="#3f6b45" stroke="${OL}" stroke-width="3"/>
     <path d="M-12,-74 V-8 M0,-74 V-8 M12,-74 V-8" stroke="${OL}" stroke-width="1.6" opacity=".4"/>
-    ${!f('prospekt_taken') ? `<g transform="rotate(-14 4 -88)"><rect x="-6" y="-104" width="26" height="34" fill="#23252e" stroke="${OL}" stroke-width="2.5"/><path d="M-2,-86 L16,-92" stroke="#e9ff3a" stroke-width="3"/><text x="7" y="-94" font-size="6" text-anchor="middle" fill="#e9ff3a" font-weight="800" font-family="Trebuchet MS">TURBO</text></g>` : ''}
+    ${!f('prospekt_taken') ? `<g transform="rotate(-14 4 -88)"><rect x="-6" y="-104" width="26" height="34" fill="#23252e" stroke="${OL}" stroke-width="2.5"/><path d="M-2,-86 L16,-92" stroke="#e9ff3a" stroke-width="3"/></g>` : ''}
     <rect x="-28" y="-88" width="56" height="10" rx="4" fill="#2f5236" stroke="${OL}" stroke-width="3"/>
     ${A.snowLine('M-24,-90 H24', 5)}
-    <rect x="-12" y="-52" width="24" height="16" rx="2" fill="#f4efe6" stroke="${OL}" stroke-width="1.5"/>
-    <text x="0" y="-41" font-size="7" text-anchor="middle" fill="${OL}" font-family="Trebuchet MS" font-weight="700">BITTE</text>`;
+    <circle cx="0" cy="-44" r="11" fill="#f4efe6" stroke="${OL}" stroke-width="1.5"/>
+    <path d="M-5,-48 q5,-6 10,0 M0,-48 v10 M-4,-38 h8" stroke="#3f6b45" stroke-width="2" fill="none" stroke-linecap="round"/>`;
 
   const snowmanSVG = () => `
     ${A.shadow(0, 0, 50)}
@@ -199,7 +197,7 @@
       s += `<path d="M0,560 C300,548 900,548 1280,560" fill="none" stroke="#c9d8ec" stroke-width="3"/>`;
       s += A.footprints([[600, 620], [622, 640], [646, 662], [672, 684], [700, 704], [380, 600], [356, 618], [334, 640]]);
       s += mariensaeule();
-      s += A.xmasTree(918, 566, 330, 9);
+      s += A.xmasTree(958, 566, 300, 9);
       s += A.lamp(372, 590, 230);
       s += A.lamp(1110, 588, 220);
       s += bench(st);
@@ -237,13 +235,13 @@
           look: 'Die Tür zum Kreitmampf. Aus dem Spalt riecht es nach frischen Brezn. Und nach Klatsch und Tratsch.' },
         { name: 'Schaufenster Fairkehrt', r: [940, 390, 186, 118], walk: [1030, 585],
           look: 'Der Fairkehrt-Laden. Kaffee, Schokolade, Kerzen – alles fair gehandelt. Sogar das Schaufenster wirkt irgendwie gerecht.' },
-        { name: 'Kreidetafel', r: [1206, 452, 70, 72], walk: [1200, 590], look: '„Heute fair: Bienenwachskerzen!“ Wer schreibt so was auf eine Tafel? Ach so. Ein Laden. Klar.' },
+        { name: 'Kreidetafel', r: [1196, 444, 82, 80], walk: [1200, 590], look: '„Heute fair: Bienenwachskerzen!“ Wer schreibt so was auf eine Tafel? Ach so. Ein Laden. Klar.' },
         { name: 'Fairkehrt-Laden', r: [1134, 400, 60, 125], walk: [1164, 582], exit: { to: 'fairkehrt', x: 170, y: 660, face: 1 },
           look: 'Fairkehrt – der Weltladen. Über dem Laden war früher eine Radlwerkstatt, glaub ich.' },
         { name: 'Mariensäule', r: [282, 156, 72, 400], walk: [318, 590],
           look: ['Die Mariensäule. Steht hier seit 1923 und hat schon jedes Kufen-Gaudi gesehen.', 'Wenn sie reden könnte, würde sie wahrscheinlich sagen: „Fini, du hast deinen Schlitten vergessen.“'],
           use: async () => { await G.say('fini', 'Draufklettern? Damit ich das ganze Rennen von oben sehe? ... Nein. Ich will mitfahren, nicht zuschauen.'); } },
-        { name: 'Christbaum', p: [918, 210, 1080, 560, 760, 560], walk: [918, 590],
+        { name: 'Christbaum', p: [958, 240, 1100, 560, 816, 560], walk: [958, 590],
           look: ['Der Christbaum vom Marktplatz. Wunderschön.', 'Und definitiv zu groß für jedes Wohnzimmer in Grafing. Ich hab gefragt. Mehrmals.'],
           use: async () => { await G.say('fini', 'Eine Kugel klauen? Nein. Ich bin chaotisch, aber nicht kriminell.'); } },
         { name: "Straßenlaterne", r: [350, 356, 46, 232], walk: [420, 600], look: 'Eine Laterne mit Tannenzweig. Grafing gibt sich echt Mühe mit der Gemütlichkeit.' },

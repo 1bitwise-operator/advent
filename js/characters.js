@@ -320,7 +320,8 @@
       `<path d="M${f(-ws * 0.62)},${f(shY + r * 0.2)} L${f(ws * 0.62)},${f(shY + r * 0.2)} L${f(ws * 0.8)},${f(coatB - 6)} L${f(-ws * 0.8)},${f(coatB - 6)} Z" fill="#fffaf2" stroke="${OL}" stroke-width="2.8" stroke-linejoin="round"/>` +
       `<path d="M${f(-ws * 0.8)},${f(coatB - 12)} L${f(ws * 0.8)},${f(coatB - 12)}" stroke="#d63a3a" stroke-width="5" stroke-dasharray="6 5"/>` +
       `<rect x="${f(-ws * 0.3)}" y="${f(shY + r * 1.4)}" width="${f(ws * 0.6)}" height="${f(r * 0.5)}" rx="4" fill="none" stroke="${OL}" stroke-width="2" opacity=".5"/>` +
-      `<text x="0" y="${f(shY + r * 0.85)}" text-anchor="middle" font-size="${f(r * 0.28)}" font-family="Georgia,serif" font-weight="700" fill="#6b2a20">Kreitmampf</text>`,
+      // Brezn-Emblem statt Schrift
+      `<path d="M${f(-r * 0.32)},${f(shY + r * 0.86)} q-4,-24 12,-22 q8,2 8,12 q0,-10 8,-12 q16,-2 12,22 q-8,10 -20,-4 q-12,14 -20,4 Z" fill="#b86a35" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>`,
     holdR: (x, y, r) => `<path d="M${f(x - 3)},${f(y - 4)} l${f(r * 0.5)},${f(-r * 0.9)}" stroke="#e8c35a" stroke-width="5" stroke-linecap="round"/><path d="M${f(x - 3)},${f(y - 4)} l${f(r * 0.5)},${f(-r * 0.9)}" stroke="${OL}" stroke-width="1.5" fill="none"/>`,
   });
 
@@ -407,7 +408,10 @@
       for (let i = -3; i <= 3; i++) s += `<path d="M${f(i * ws * 0.28)},${f(shY - 4)} V${f(coatB)}" stroke="#7d1f1a" stroke-width="3" opacity=".6"/>`;
       for (let i = 0; i < 6; i++) s += `<path d="M${f(-ws * 1.05)},${f(shY + r * 0.25 + i * r * 0.4)} H${f(ws * 1.05)}" stroke="#7d1f1a" stroke-width="3" opacity=".6"/>`;
       s += `<path d="M${f(-ws * 0.7)},${f(shY + r * 0.9)} L${f(ws * 0.7)},${f(shY + r * 0.9)} L${f(ws * 0.85)},${f(coatB + 6)} L${f(-ws * 0.85)},${f(coatB + 6)} Z" fill="#3b2a20" stroke="${OL}" stroke-width="2.6"/>`;
-      s += `<text x="0" y="${f(shY + r * 1.65)}" text-anchor="middle" font-size="${f(r * 0.27)}" font-family="Georgia,serif" font-weight="700" fill="#ffd36e">Zum glühenden</text><text x="0" y="${f(shY + r * 2.0)}" text-anchor="middle" font-size="${f(r * 0.3)}" font-family="Georgia,serif" font-weight="700" fill="#ffd36e">Bären</text>`;
+      // Bärentatze statt Schrift
+      const py = shY + r * 1.75;
+      s += `<ellipse cx="0" cy="${f(py)}" rx="${f(r * 0.3)}" ry="${f(r * 0.24)}" fill="#ffd36e" stroke="${OL}" stroke-width="2"/>`;
+      for (const [dx, dy] of [[-0.3, -0.36], [-0.1, -0.5], [0.12, -0.5], [0.32, -0.36]]) s += `<circle cx="${f(r * dx)}" cy="${f(py + r * dy)}" r="${f(r * 0.1)}" fill="#ffd36e" stroke="${OL}" stroke-width="1.8"/>`;
       return s;
     },
   });
@@ -440,7 +444,7 @@
       `<path d="M${f(-ws * 0.9)},${f(shY + r * 0.6)} L${f(ws * 0.9)},${f(shY + r * 1.1)}" stroke="#e9ff3a" stroke-width="7"/>` +
       `<path d="M${f(-ws * 0.9)},${f(shY + r * 0.6)} L${f(ws * 0.9)},${f(shY + r * 1.1)}" stroke="${OL}" stroke-width="1.5" opacity=".5"/>` +
       `<path d="M${f(-ws * 0.6)},${f(shY + r * 0.25)} q${f(ws * 0.2)},${f(r * 0.6)} 0,${f(r * 1.4)} M${f(ws * 0.6)},${f(shY + r * 0.25)} q${f(-ws * 0.2)},${f(r * 0.6)} 0,${f(r * 1.4)}" stroke="#fff" stroke-width="3" opacity=".55" fill="none"/>` +
-      `<text x="0" y="${f(shY + r * 2.0)}" text-anchor="middle" font-size="${f(r * 0.26)}" font-family="Trebuchet MS,sans-serif" font-weight="800" fill="#23252e">PROTZ</text>`,
+      `<path d="M${f(-r * 0.12)},${f(shY + r * 1.55)} l${f(r * 0.2)},0 l${f(-r * 0.1)},${f(r * 0.22)} l${f(r * 0.18)},0 l${f(-r * 0.3)},${f(r * 0.38)} l${f(r * 0.08)},${f(-r * 0.26)} l${f(-r * 0.16)},0 Z" fill="#e9ff3a" stroke="${OL}" stroke-width="2" stroke-linejoin="round"/>`,
   });
 
   // ---- Gurrbert, die Brieftaube ----

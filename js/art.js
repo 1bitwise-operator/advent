@@ -210,10 +210,10 @@
     const fs = o.fs || h * 0.52;
     return `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${o.rx || 6}" fill="${o.bg || '#2f3a4a'}" stroke="${OL}" stroke-width="3"/>
       ${o.inner !== false ? `<rect x="${x + 5}" y="${y + 5}" width="${w - 10}" height="${h - 10}" rx="${Math.max(2, (o.rx || 6) - 3)}" fill="none" stroke="${o.fg || '#ffd36e'}" stroke-width="1.5" opacity=".7"/>` : ''}
-      <text x="${x + w / 2}" y="${y + h / 2 + fs * 0.36}" text-anchor="middle" font-family="${o.font || 'Georgia, \'Times New Roman\', serif'}" font-weight="${o.weight || 700}" font-size="${fs}" fill="${o.fg || '#ffd36e'}" ${o.italic ? 'font-style="italic"' : ''} letter-spacing="${o.ls || 0}">${text}</text>`;
+      <text data-maxw="${w - (o.inner !== false ? 16 : 10)}" data-cy="${y + h / 2}" x="${x + w / 2}" y="${y + h / 2 + fs * 0.36}" text-anchor="middle" font-family="${o.font || 'Georgia, \'Times New Roman\', serif'}" font-weight="${o.weight || 700}" font-size="${fs}" fill="${o.fg || '#ffd36e'}" ${o.italic ? 'font-style="italic"' : ''} letter-spacing="${o.ls || 0}">${text}</text>`;
   };
 
-  A.text = (x, y, t, o = {}) => `<text x="${x}" y="${y}" text-anchor="${o.anchor || 'middle'}" font-family="${o.font || 'Trebuchet MS, sans-serif'}" font-size="${o.fs || 16}" font-weight="${o.weight || 700}" fill="${o.fill || OL}" ${o.rot ? `transform="rotate(${o.rot} ${x} ${y})"` : ''} ${o.italic ? 'font-style="italic"' : ''}>${t}</text>`;
+  A.text = (x, y, t, o = {}) => `<text ${o.maxw ? `data-maxw="${o.maxw}"` : ''} ${o.outline ? `stroke="${o.outline}" stroke-width="${o.outlineW || 5}" stroke-linejoin="round" paint-order="stroke"` : ''} x="${x}" y="${y}" text-anchor="${o.anchor || 'middle'}" font-family="${o.font || 'Trebuchet MS, sans-serif'}" font-size="${o.fs || 16}" font-weight="${o.weight || 700}" fill="${o.fill || OL}" ${o.rot ? `transform="rotate(${o.rot} ${x} ${y})"` : ''} ${o.italic ? 'font-style="italic"' : ''}>${t}</text>`;
 
   /** Tür */
   A.door = function (x, y, w, h, o = {}) {
@@ -296,7 +296,7 @@
   /** Pfeil für Ausgänge */
   A.exitArrow = function (x, y, dir = 'r', label) {
     const rot = { r: 0, l: 180, u: -90, d: 90 }[dir];
-    return `<g transform="translate(${x},${y}) rotate(${rot})" opacity=".85"><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>` +
-      (label ? A.text(x + (dir === 'l' ? 16 : dir === 'r' ? -16 : 0), y + (dir === 'u' ? 34 : -22), label, { fs: 15, fill: '#fff', anchor: dir === 'l' ? 'start' : dir === 'r' ? 'end' : 'middle' }) : '');
+    return `<g class="exit-ui"><g transform="translate(${x},${y}) rotate(${rot})" opacity=".85"><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><path d="M-14,-12 L6,0 L-14,12" fill="none" stroke="${OL}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></g>` +
+      (label ? A.text(x + (dir === 'l' ? 16 : dir === 'r' ? -16 : 0), y + (dir === 'u' ? 34 : -22), label, { fs: 17, fill: '#fff', outline: OL, outlineW: 5, anchor: dir === 'l' ? 'start' : dir === 'r' ? 'end' : 'middle' }) : '') + '</g>';
   };
 })();

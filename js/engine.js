@@ -93,11 +93,31 @@
     const st = G.state;
     layerBg.innerHTML = sc.draw(st);
     layerFg.innerHTML = sc.fg ? sc.fg(st) : '';
+    liftUi();
     renderActors();
     renderHotspots();
     Snow.set(!!sc.outdoor, sc.snowDensity);
   };
-  G.refresh = function () { renderActors(); renderHotspots(); layerBg.innerHTML = G.scene().draw(G.state); layerFg.innerHTML = G.scene().fg ? G.scene().fg(G.state) : ''; };
+  G.refresh = function () { renderActors(); renderHotspots(); layerBg.innerHTML = G.scene().draw(G.state); layerFg.innerHTML = G.scene().fg ? G.scene().fg(G.state) : ''; liftUi(); };
+  /** Ausgangspfeile und -beschriftungen immer über Figuren und Gegenständen zeichnen */
+  function liftUi() { layerBg.querySelectorAll('.exit-ui').forEach((el) => layerFg.appendChild(el)); }
+
+  /** Beschriftungen mit data-maxw notfalls verkleinern, damit sie in ihre Fläche passen */
+  function fitTexts() {
+    if (!svg) return;
+    svg.querySelectorAll('text[data-maxw]:not([data-fit])').forEach((t) => {
+      t.setAttribute('data-fit', '1');
+      const maxw = +t.dataset.maxw;
+      let w = 0;
+      try { w = t.getComputedTextLength(); } catch (e) { return; }
+      if (!w || w <= maxw) return;
+      const fs = parseFloat(t.getAttribute('font-size')) || 16;
+      const nfs = Math.max(6, fs * maxw / w * 0.98);
+      t.setAttribute('font-size', nfs.toFixed(2));
+      if (t.dataset.cy) t.setAttribute('y', (+t.dataset.cy + nfs * 0.36).toFixed(1));
+    });
+  }
+  G.fitTexts = fitTexts;
 
   let actorDefs = [];
   function renderActors() {
@@ -474,6 +494,7 @@
       renderActors(); renderHotspots();
       layerBg.innerHTML = G.scene().draw(G.state);
       layerFg.innerHTML = G.scene().fg ? G.scene().fg(G.state) : '';
+      liftUi();
       renderInventory();
       checkTasks();
       G.save();
@@ -653,6 +674,7 @@
     narrationEl = $('narration'); fadeEl = $('fade'); dragEl = $('drag-item'); sceneTitleEl = $('scene-title');
     stageWrap = $('stage-wrap');
     Snow.init($('snow'));
+    new MutationObserver(fitTexts).observe(svg, { childList: true, subtree: true });
 
     stageWrap.addEventListener('pointermove', onMove);
     document.addEventListener('pointermove', (e) => { dragEl.style.left = e.clientX + 'px'; dragEl.style.top = e.clientY + 'px'; });
