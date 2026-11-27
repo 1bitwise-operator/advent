@@ -329,6 +329,12 @@
   };
 
   // ---------- Dialog-Auswahl ----------
+  function closeChoices() {
+    G.endChoice = null;
+    choicesEl.classList.remove('open');
+    invEl.style.visibility = '';
+  }
+
   G.choose = function (options, key) {
     return new Promise((resolve) => {
       choicesEl.innerHTML = '';
@@ -340,12 +346,16 @@
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           G.state.seen[sk] = 1;
-          choicesEl.classList.remove('open');
-          invEl.style.visibility = '';
+          closeChoices();
           resolve(o);
         });
         choicesEl.appendChild(btn);
       });
+      // Gespräch per Klick in die Szene oder Esc beenden (wählt die Abschiedsoption, ohne dass Fini sie aufsagt)
+      const endOpt = options.find((x) => x.end);
+      if (endOpt) {
+        G.endChoice = () => { closeChoices(); resolve(Object.assign({}, endOpt, { silent: true })); };
+      }
       choicesEl.classList.add('open');
       invEl.style.visibility = 'hidden';
       // Test-Hook: automatische Auswahl
@@ -353,7 +363,7 @@
         const want = G.chooseQueue.shift();
         let o = want ? options.find((x) => x.t.includes(want)) : null;
         if (!o) { if (G.log) G.log.push('[choose] nicht gefunden: ' + want + ' | Optionen: ' + options.map((x) => x.t).join(' / ')); o = options.find((x) => x.end) || options[options.length - 1]; }
-        Promise.resolve().then(() => { choicesEl.classList.remove("open"); invEl.style.visibility = ""; resolve(o); });
+        Promise.resolve().then(() => { closeChoices(); resolve(o); });
       }
     });
   };
@@ -594,6 +604,7 @@
 
   function onStageClick(e, look) {
     if (overlayOpen()) return;
+    if (G.endChoice) { G.endChoice(); return; }
     if (G.busy) { if (skipFn) skipFn(); return; }
     if (G.inputLock) return;
     const h = hotspotFromEvent(e);
@@ -698,6 +709,7 @@
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         if (!$('notes').classList.contains('hidden')) { $('notes').classList.add('hidden'); return; }
+        if (G.endChoice && !overlayOpen()) { G.endChoice(); return; }
         if (!$('help').classList.contains('hidden')) { $('help').classList.add('hidden'); return; }
         if ($('title').classList.contains('hidden') && $('ending').classList.contains('hidden')) $('menu').classList.toggle('hidden');
         if (G.selected) selectItem(null);

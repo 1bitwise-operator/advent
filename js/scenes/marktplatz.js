@@ -68,8 +68,8 @@
   }
 
   function ohmeier(st) {
-    let s = A.gableHouse({ x: -30, base: 525, w: 290, h: 330, gh: 150, color: '#eaa7b4', gable: 'stepped', rows: 2, cols: 3, groundH: 150, shutters: '#7b3fa0', seed: 2, trim: '#fbeef2' });
-    s += `<rect x="-24" y="372" width="278" height="153" fill="#5a2d6e" stroke="${OL}" stroke-width="3"/>`;
+    let s = A.gableHouse({ x: 0, base: 525, w: 260, h: 330, gh: 150, color: '#eaa7b4', gable: 'stepped', rows: 2, cols: 3, groundH: 150, shutters: '#7b3fa0', seed: 2, trim: '#fbeef2' });
+    s += `<rect x="6" y="372" width="248" height="153" fill="#5a2d6e" stroke="${OL}" stroke-width="3"/>`;
     s += A.sign(4, 342, 236, 32, 'OHMEIER MODEN', { fs: 19, bg: '#7b3fa0', fg: '#ffe08a', ls: 2 });
     // Schaufenster
     s += `<rect x="18" y="390" width="174" height="116" fill="#f9d3e6" stroke="${OL}" stroke-width="3"/>`;
@@ -189,6 +189,11 @@
       s += ohmeier(st);
       s += kreitmampf();
       s += fairkehrt();
+      // Sockel bis unter die Schneedecke: kein Spalt zwischen Häusern und Boden
+      for (const [x1, x2, b, c] of [[0, 254, 525, '#5a2d6e'], [248, 388, 522, '#b9d1e4'], [410, 870, 522, '#e8c266'], [934, 1280, 525, '#5b4a2f']]) {
+        s += `<rect x="${x1}" y="${b - 2}" width="${x2 - x1}" height="${560 - b}" fill="${c}" stroke="${OL}" stroke-width="3"/>`;
+        s += `<rect x="${x1}" y="${b + 2}" width="${x2 - x1}" height="${560 - b}" fill="#000" opacity=".18"/>`;
+      }
       // Lichterketten
       s += A.lights(180, 236, 372, 250, 30, 9, 4);
       s += A.lights(906, 250, 1120, 262, 34, 10, 12);

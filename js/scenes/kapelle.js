@@ -52,66 +52,117 @@
     return s;
   }
 
+  /** Barocke Putte (kleiner Engel) mit Flügeln und Locken */
+  function putto(x, y, fl) {
+    const sk = '#f2c9a8', skD = '#e0a888';
+    return `<g transform="translate(${x},${y}) scale(${fl * 1.35},1.35)">
+      <path d="M-6,0 Q-34,-30 -40,-6 Q-38,6 -26,4 Q-36,14 -22,16 Q-14,14 -6,8 Z" fill="#fffaf0" stroke="${OL}" stroke-width="2"/>
+      <path d="M-14,-6 q-10,-6 -18,0 M-12,2 q-8,-2 -14,4 M-10,8 q-6,0 -10,6" stroke="#d9cfbf" stroke-width="1.5" fill="none"/>
+      <path d="M8,-4 Q30,-34 40,-12 Q40,0 30,0 Q38,10 26,14 Q16,14 8,8 Z" fill="#fffaf0" stroke="${OL}" stroke-width="2"/>
+      <path d="M16,-8 q10,-8 18,-2 M16,0 q8,-4 14,2 M14,6 q6,0 10,6" stroke="#d9cfbf" stroke-width="1.5" fill="none"/>
+      <ellipse cx="0" cy="12" rx="13" ry="14" fill="${sk}" stroke="${OL}" stroke-width="2"/>
+      <path d="M-8,20 q8,6 16,0" stroke="${skD}" stroke-width="1.5" fill="none"/>
+      <path d="M-10,22 q-6,8 -2,12 q6,2 8,-6 M10,22 q6,8 2,12 q-6,2 -8,-6" fill="${sk}" stroke="${OL}" stroke-width="1.8"/>
+      <path d="M-12,8 q-10,-2 -12,-12 q4,-4 8,0 q2,6 6,6" fill="${sk}" stroke="${OL}" stroke-width="1.8"/>
+      <path d="M11,6 q12,-4 16,4 q-4,6 -8,2 q-4,-2 -8,0" fill="${sk}" stroke="${OL}" stroke-width="1.8"/>
+      <circle cx="0" cy="-14" r="13" fill="${sk}" stroke="${OL}" stroke-width="2"/>
+      <circle cx="-12" cy="-22" r="5" fill="#e8b84a" stroke="${OL}" stroke-width="1.5"/><circle cx="-5" cy="-27" r="5" fill="#e8b84a" stroke="${OL}" stroke-width="1.5"/>
+      <circle cx="4" cy="-27" r="5" fill="#e8b84a" stroke="${OL}" stroke-width="1.5"/><circle cx="11" cy="-22" r="5" fill="#e8b84a" stroke="${OL}" stroke-width="1.5"/>
+      <circle cx="13" cy="-14" r="3.5" fill="#e8b84a" stroke="${OL}" stroke-width="1.3"/><circle cx="-13" cy="-14" r="3.5" fill="#e8b84a" stroke="${OL}" stroke-width="1.3"/>
+      <path d="M-5,-15 q2,-2 4,0 M3,-15 q2,-2 4,0" stroke="${OL}" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <ellipse cx="-8" cy="-9" rx="3" ry="2" fill="#ff8f8f" opacity=".6"/><ellipse cx="8" cy="-9" rx="3" ry="2" fill="#ff8f8f" opacity=".6"/>
+      <path d="M-2,-7 q2,2 4,0" stroke="${OL}" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </g>`;
+  }
+
+  /** Kirchenbank mit Lehne, Sitz und Seitenwangen; y = Fußpunkt auf dem Boden */
+  function pew(x1, x2, y, k) {
+    const h = 74 * k, seat = y - 34 * k;
+    let s = '';
+    s += `<rect x="${x1}" y="${(y - h).toFixed(1)}" width="${x2 - x1}" height="${(h - 34 * k).toFixed(1)}" fill="#5a3824" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<path d="M${x1 + 8},${(y - h + 10 * k).toFixed(1)} H${x2 - 8}" stroke="#7a4a2c" stroke-width="${(4 * k).toFixed(1)}"/>`;
+    s += `<rect x="${x1 - 4}" y="${(seat - 4 * k).toFixed(1)}" width="${x2 - x1 + 8}" height="${(10 * k).toFixed(1)}" rx="2" fill="#7a4a2c" stroke="${OL}" stroke-width="2.5"/>`;
+    s += `<rect x="${x1 + 6}" y="${(seat + 6 * k).toFixed(1)}" width="${x2 - x1 - 12}" height="${(y - seat - 6 * k).toFixed(1)}" fill="#3a2418" opacity=".55"/>`;
+    for (const ex of [x1 - 8, x2 - 6]) s += `<path d="M${ex},${y} V${(y - h - 6 * k).toFixed(1)} q7,-8 14,0 V${y} Z" fill="#6b4128" stroke="${OL}" stroke-width="2.5"/>`;
+    return s;
+  }
+
   function room(st) {
     let s = A.defs();
-    s += `<rect x="0" y="0" width="1280" height="720" fill="#f4eee2"/>`;
+    const FLOOR = 490;
+    // Wände (gedämpftes Sandstein-Beige)
+    s += `<rect x="0" y="0" width="1280" height="720" fill="#b8a582"/>`;
     // Gewölbe mit Deckenfresko
-    s += `<path d="M0,0 H1280 V150 Q640,40 0,150 Z" fill="#e9e0cc" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path d="M260,104 Q640,30 1020,104 Q640,60 260,104 Z" fill="#8fb8e0" stroke="#c9a227" stroke-width="5"/>`;
-    s += `<path d="M420,80 q30,-14 60,0 q20,-12 40,2 M700,70 q30,-12 60,2 q20,-8 40,4" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+    s += `<path d="M0,0 H1280 V150 Q640,40 0,150 Z" fill="#a08f6c" stroke="${OL}" stroke-width="3"/>`;
+    s += `<path d="M0,150 Q640,40 1280,150" fill="none" stroke="#c9a227" stroke-width="4"/>`;
+    s += `<path d="M260,104 Q640,30 1020,104 Q640,60 260,104 Z" fill="#5f86b4" stroke="#c9a227" stroke-width="5"/>`;
+    s += `<path d="M420,80 q30,-14 60,0 q20,-12 40,2 M700,70 q30,-12 60,2 q20,-8 40,4" stroke="#e9eef5" stroke-width="6" fill="none" stroke-linecap="round"/>`;
     // Pilaster mit Gold
     for (const x of [200, 440, 820, 1060]) {
-      s += `<rect x="${x}" y="130" width="36" height="460" fill="#ece3cf" stroke="${OL}" stroke-width="2.5"/>`;
-      s += `<rect x="${x - 8}" y="124" width="52" height="20" fill="#e8c35a" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<rect x="${x}" y="130" width="36" height="${FLOOR - 130}" fill="#a99876" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<rect x="${x - 8}" y="124" width="52" height="20" fill="#d9b24a" stroke="${OL}" stroke-width="2.5"/>`;
+      s += `<rect x="${x - 6}" y="${FLOOR - 16}" width="48" height="16" fill="#a8997a" stroke="${OL}" stroke-width="2.5"/>`;
       s += `<path d="M${x + 4},160 q14,-12 28,0 q-14,12 -28,0" fill="none" stroke="#c9a227" stroke-width="3"/>`;
     }
+    // Sockelleiste an der Rückwand
+    s += `<rect x="0" y="${FLOOR - 22}" width="1280" height="22" fill="#a8997a" stroke="${OL}" stroke-width="2.5"/>`;
     // Seitenfenster
     for (const x of [60, 1110]) {
-      s += A.glow(x + 55, 300, 110, 'gCool', 1);
-      s += `<path d="M${x},440 V230 A55,55 0 0 1 ${x + 110},230 V440 Z" fill="#3d5a9a" stroke="${OL}" stroke-width="4"/>`;
-      s += `<path d="M${x + 55},176 V440 M${x},300 H${x + 110} M${x},370 H${x + 110}" stroke="#e9dcc4" stroke-width="4"/>`;
-      s += `<path d="M${x + 4},304 H${x + 52} V366 H${x + 4} Z" fill="#c0392b" opacity=".4"/><path d="M${x + 58},374 H${x + 106} V436 H${x + 58} Z" fill="#e8c35a" opacity=".4"/>`;
+      s += A.glow(x + 55, 300, 100, 'gCool', 0.4);
+      s += `<path d="M${x},440 V230 A55,55 0 0 1 ${x + 110},230 V440 Z" fill="#2f4a82" stroke="${OL}" stroke-width="4"/>`;
+      s += `<path d="M${x + 55},176 V440 M${x},300 H${x + 110} M${x},370 H${x + 110}" stroke="#c9bb9e" stroke-width="4"/>`;
+      s += `<path d="M${x + 4},304 H${x + 52} V366 H${x + 4} Z" fill="#c0392b" opacity=".45"/><path d="M${x + 58},374 H${x + 106} V436 H${x + 58} Z" fill="#e8c35a" opacity=".45"/>`;
     }
-    // Altar
-    s += A.glow(640, 300, 260, 'gWarm', 0.9);
-    s += `<g>`;
+    // Altar (Retabel mit Strahlenkranz)
+    s += A.glow(640, 290, 210, 'gWarm', 0.55);
     for (let i = 0; i < 24; i++) {
       const a = (i / 24) * Math.PI * 2;
       s += `<path d="M640,270 L${(640 + Math.cos(a) * 150).toFixed(1)},${(270 + Math.sin(a) * 150).toFixed(1)}" stroke="#e8c35a" stroke-width="${i % 2 ? 5 : 9}" opacity=".85"/>`;
     }
-    s += `</g>`;
     s += `<circle cx="640" cy="270" r="54" fill="#ffe08a" stroke="${OL}" stroke-width="3.5"/>`;
     s += `<path d="M640,236 L672,292 H608 Z" fill="#fff8d0" stroke="${OL}" stroke-width="2.5"/><circle cx="640" cy="274" r="7" fill="#2f6fb5" stroke="${OL}" stroke-width="2"/>`;
-    s += `<rect x="520" y="400" width="240" height="90" fill="#ece3cf" stroke="${OL}" stroke-width="3.5"/>`;
-    s += `<rect x="510" y="388" width="260" height="18" fill="#e8c35a" stroke="${OL}" stroke-width="3"/>`;
+    // Altartisch steht auf einer Stufe am Boden
+    s += `<rect x="490" y="${FLOOR - 4}" width="300" height="16" fill="#a8997a" stroke="${OL}" stroke-width="3"/>`;
+    s += `<rect x="520" y="404" width="240" height="${FLOOR - 4 - 404}" fill="#c4b38f" stroke="${OL}" stroke-width="3.5"/>`;
+    s += `<rect x="510" y="390" width="260" height="18" fill="#d9b24a" stroke="${OL}" stroke-width="3"/>`;
     s += `<path d="M560,420 h160 v50 h-160 Z" fill="none" stroke="#c9a227" stroke-width="3"/><path d="M640,425 v40 M622,440 h36" stroke="#c9a227" stroke-width="5"/>`;
     for (const x of [540, 590, 690, 740]) {
-      s += `<rect x="${x - 5}" y="350" width="10" height="38" fill="#fffdf2" stroke="${OL}" stroke-width="2"/><rect x="${x - 10}" y="384" width="20" height="6" fill="#e8c35a" stroke="${OL}" stroke-width="1.5"/>`;
-      s += A.glow(x, 340, 26, 'gWarm', 1) + `<path class="flicker" d="M${x},350 q-5,-8 0,-14 q5,6 0,14" fill="#ffb347" stroke="${OL}" stroke-width="1.5"/>`;
+      s += `<rect x="${x - 5}" y="352" width="10" height="38" fill="#fffdf2" stroke="${OL}" stroke-width="2"/><rect x="${x - 10}" y="386" width="20" height="6" fill="#e8c35a" stroke="${OL}" stroke-width="1.5"/>`;
+      s += A.glow(x, 342, 26, 'gWarm', 1) + `<path class="flicker" d="M${x},352 q-5,-8 0,-14 q5,6 0,14" fill="#ffb347" stroke="${OL}" stroke-width="1.5"/>`;
     }
     // Putten
-    for (const [x, fl] of [[490, 1], [790, -1]]) s += `<g transform="translate(${x},180) scale(${fl},1)"><circle cx="0" cy="0" r="14" fill="#f6d5b8" stroke="${OL}" stroke-width="2.5"/><path d="M-10,-6 q10,-14 20,0" fill="#ffd36e" stroke="${OL}" stroke-width="2"/><path d="M8,6 q24,-30 30,4 q-16,0 -30,-4 Z" fill="#fff" stroke="${OL}" stroke-width="2"/><circle cx="-4" cy="2" r="1.6" fill="${OL}"/><circle cx="4" cy="2" r="1.6" fill="${OL}"/></g>`;
-    // Opferkerzen links
-    s += `<rect x="110" y="470" width="150" height="16" fill="#3a3a3a" stroke="${OL}" stroke-width="2.5"/><rect x="104" y="500" width="162" height="16" fill="#3a3a3a" stroke="${OL}" stroke-width="2.5"/><path d="M140,516 V580 M230,516 V580" stroke="${OL}" stroke-width="6"/>`;
+    s += putto(486, 182, 1) + putto(794, 182, -1);
+    // Boden mit Perspektive (bis zur Rückwand)
+    s += `<rect x="0" y="${FLOOR}" width="1280" height="${720 - FLOOR}" fill="#a39780"/>`;
+    const rows = [490, 506, 526, 552, 584, 624, 672, 720];
+    for (let j = 0; j < rows.length - 1; j++) {
+      const y0 = rows[j], y1 = rows[j + 1];
+      const t0 = (y0 - FLOOR) / (720 - FLOOR), t1 = (y1 - FLOOR) / (720 - FLOOR);
+      for (let i = -12; i < 12; i++) {
+        const xa0 = 640 + i * (40 + 50 * t0), xb0 = 640 + (i + 1) * (40 + 50 * t0);
+        const xa1 = 640 + i * (40 + 50 * t1), xb1 = 640 + (i + 1) * (40 + 50 * t1);
+        s += `<path d="M${xa0.toFixed(1)},${y0} L${xb0.toFixed(1)},${y0} L${xb1.toFixed(1)},${y1} L${xa1.toFixed(1)},${y1} Z" fill="${(i + j) % 2 ? '#988b74' : '#ada18a'}" stroke="#8a7e68" stroke-width="1"/>`;
+      }
+    }
+    s += `<path d="M0,${FLOOR} H1280" stroke="${OL}" stroke-width="3"/>`;
+    // roter Läufer zum Altar
+    s += `<path d="M560,720 L604,${FLOOR + 12} H676 L720,720 Z" fill="#8a3326" opacity=".8"/>`;
+    s += `<path d="M566,720 L608,${FLOOR + 12} M714,720 L672,${FLOOR + 12}" stroke="#d9b24a" stroke-width="3" opacity=".7"/>`;
+    // Opferkerzen-Ständer (Füße auf dem Boden)
+    const cb = 586;
+    s += `<path d="M138,${cb} V516 M232,${cb} V516" stroke="${OL}" stroke-width="7"/><path d="M138,${cb} V516 M232,${cb} V516" stroke="#3a3a3a" stroke-width="3.5"/>`;
+    s += `<rect x="122" y="${cb - 4}" width="32" height="8" rx="3" fill="#3a3a3a" stroke="${OL}" stroke-width="2"/><rect x="216" y="${cb - 4}" width="32" height="8" rx="3" fill="#3a3a3a" stroke="${OL}" stroke-width="2"/>`;
+    s += `<rect x="110" y="470" width="150" height="16" fill="#3a3a3a" stroke="${OL}" stroke-width="2.5"/><rect x="104" y="500" width="162" height="16" fill="#3a3a3a" stroke="${OL}" stroke-width="2.5"/>`;
     for (let i = 0; i < 6; i++) for (let r = 0; r < 2; r++) {
       const x = 124 + i * 24 + r * 6, y = 470 + r * 30;
       s += `<rect x="${x - 6}" y="${y - 10}" width="12" height="10" fill="#fff" stroke="${OL}" stroke-width="1.5"/>`;
       if ((i + r) % 3 !== 2) s += A.glow(x, y - 16, 18, 'gWarm', 1) + `<path class="flicker" d="M${x},${y - 10} q-3,-6 0,-11 q3,5 0,11" fill="#ffb347"/>`;
     }
-    // Boden
-    s += `<rect x="0" y="590" width="1280" height="130" fill="#d9d2c5"/>`;
-    for (let i = 0; i < 20; i++) for (let j = 0; j < 4; j++) s += `<rect x="${i * 70 - 20 + (j % 2) * 35}" y="${590 + j * 34}" width="70" height="34" fill="${(i + j) % 2 ? '#cfc6b6' : '#e3dccf'}" stroke="#bfb5a3" stroke-width="1"/>`;
-    s += `<path d="M0,590 H1280" stroke="${OL}" stroke-width="3"/>`;
-    s += `<path d="M560,720 L600,590 H680 L720,720 Z" fill="#a2412f" opacity=".7"/>`;
-    // Kirchenbänke
-    for (let r = 0; r < 3; r++) {
-      const y = 500 + r * 34;
-      s += `<path d="M${300 - r * 20},${y} H${500 - r * 10} L${500 - r * 10},${y + 36} M${300 - r * 20},${y} V${y + 40}" stroke="${OL}" stroke-width="5" fill="none"/>`;
-      s += `<rect x="${300 - r * 20}" y="${y - 6}" width="${200 + r * 10}" height="14" rx="3" fill="#8a5a36" stroke="${OL}" stroke-width="2.5"/>`;
-      s += `<rect x="${780 + r * 10}" y="${y - 6}" width="${100 + r * 10}" height="14" rx="3" fill="#8a5a36" stroke="${OL}" stroke-width="2.5"/>`;
-    }
+    // Kirchenbänke (hinten nach vorne)
+    s += pew(330, 500, 530, 0.75) + pew(312, 500, 562, 0.85) + pew(292, 500, 600, 0.95);
+    s += pew(780, 880, 530, 0.75) + pew(780, 892, 562, 0.85);
     s += krippe(st);
-    s += A.vignette(0.4);
+    s += A.vignette(0.5);
     s += A.exitArrow(560, 700, 'd');
     return s;
   }
@@ -204,18 +255,18 @@
     hotspots(st) {
       return [
         { name: 'Deckenfresko', r: [260, 30, 760, 80], walk: [640, 650], look: 'Ein gemalter Himmel an der Decke. Ohne Schnee. Ganz schön optimistisch für Dezember.' },
-        { name: 'Putten', r: [470, 160, 40, 40], walk: [600, 640], look: 'Ein kleiner Engel ohne Hosen. Im Dezember. Der friert doch!' },
-        { name: 'Putten', r: [770, 160, 40, 40], walk: [700, 640], look: 'Noch ein kleiner Engel ohne Hosen. Ich sollte Frau Ohmeier Bescheid sagen. Nein. Lieber nicht.' },
+        { name: 'Putten', r: [436, 130, 100, 100], walk: [600, 640], look: 'Ein kleiner Engel ohne Hosen. Im Dezember. Der friert doch!' },
+        { name: 'Putten', r: [744, 130, 100, 100], walk: [700, 640], look: 'Noch ein kleiner Engel ohne Hosen. Ich sollte Frau Ohmeier Bescheid sagen. Nein. Lieber nicht.' },
         { name: 'Altar', r: [500, 120, 280, 370], walk: [640, 620],
           look: ['Ein goldener Altar mit Strahlenkranz. Alles glänzt.', 'Herr Glöckl staubt das jeden Tag ab. Kein Wunder, dass er so müde aussieht.'],
           use: async () => { await G.say('fini', 'Am Altar rumfummeln? In einer Kirche? Selbst ICH weiß, dass das eine schlechte Idee ist.'); } },
-        { name: 'Opferkerzen', r: [100, 430, 170, 100], walk: [300, 640],
+        { name: 'Opferkerzen', r: [100, 430, 170, 160], walk: [300, 640],
           look: 'Viele kleine Kerzen. Jede ist ein Wunsch. Meiner wäre: Schlitten finden, Rennen gewinnen, nichts vergessen. Das sind drei. Ich zünd drei an.',
           use: async () => { await G.say('fini', 'Ich hab kein Geld für eine Kerze. Ich wünsch mir einfach still was. Gratis-Wunsch. Hoffentlich zählt der auch.'); } },
         { name: 'Kirchenfenster', r: [60, 176, 110, 266], walk: [300, 640], look: 'Draußen ist es schon fast dunkel. Das bunte Glas leuchtet trotzdem. Wie Weingummi.' },
         { name: 'Kirchenfenster', r: [1110, 176, 110, 266], walk: [1080, 640], look: 'Durchs Fenster sieht man die Lichter vom Christkindlmarkt. Und Schneeflocken. Kitschig. Perfekt kitschig.' },
-        { name: 'Kirchenbänke', r: [270, 490, 240, 110], walk: [420, 640], look: 'Holzbänke. Bequem genug für eine Messe. Zu unbequem für ein Nickerchen. Das ist vermutlich Absicht.' },
-        { name: 'Kirchenbänke', r: [776, 490, 120, 110], walk: [800, 640], look: 'Noch mehr Bänke. Auf einer liegt ein vergessener Handschuh. Nicht meiner. Leider.' },
+        { name: 'Kirchenbänke', r: [280, 455, 230, 150], walk: [420, 640], look: 'Holzbänke. Bequem genug für eine Messe. Zu unbequem für ein Nickerchen. Das ist vermutlich Absicht.' },
+        { name: 'Kirchenbänke', r: [770, 465, 130, 100], walk: [800, 640], look: 'Noch mehr Bänke. Auf einer liegt ein vergessener Handschuh. Nicht meiner. Leider.' },
         { name: 'Krippe', r: [870, 280, 330, 290], walk: [1040, 640],
           look: () => f('christkind_returned') ? ['Die Krippe ist wieder komplett! Das Christkind trägt einen Kaschmir-Poncho.', 'Der Esel schaut ein bisschen neidisch.']
             : ['Eine Krippe mit Maria, Josef, Ochs und Esel. Und einer leeren Futterkrippe.', 'Da fehlt doch die Hauptperson! Ochs und Esel sehen auch ganz ratlos aus.'],
@@ -225,7 +276,7 @@
           look: () => f('christkind_returned') ? 'Herr Glöckl, der Mesner. Er strahlt jetzt mehr als der Altar.' : 'Herr Glöckl, der Mesner. Er schaut so verzweifelt, dass sogar die Putten Mitleid haben.',
           use: gloecklTalk,
           items: gloecklItems },
-        { name: 'Zum Marktplatz', r: [520, 690, 240, 30], walk: [640, 704], exit: { to: 'marktost', x: 245, y: 610, face: 1 } },
+        { name: 'Zum Marktplatz', r: [520, 690, 240, 30], walk: [640, 704], exit: { to: 'marktost', x: 495, y: 610, face: 1 } },
       ];
     },
   };

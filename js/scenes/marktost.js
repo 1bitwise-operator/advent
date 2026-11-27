@@ -1,11 +1,11 @@
-/* Szene: Marktplatz – beim Kircherl (mit Taubenschlag-Tür und Rathaus) */
+/* Szene: Marktplatz – beim Kircherl (mit Apotheke und Taubenschlag-Tür) */
 (function () {
   'use strict';
   const OL = A.OL;
   const f = G.f, has = G.has;
 
   function kircherl() {
-    const x = 80, w = 330, base = 548, top = 262;
+    const x = 330, w = 330, base = 548, top = 262;
     let s = '';
     // Dachreiter mit Zwiebelturm
     s += `<rect x="${x + w / 2 - 26}" y="70" width="52" height="80" fill="#f7f2e8" stroke="${OL}" stroke-width="3.5"/>`;
@@ -48,27 +48,32 @@
     return s;
   }
 
-  function rathaus() {
-    let s = A.gableHouse({ x: 470, base: 505, w: 300, h: 250, gh: 120, color: '#f1e3c4', gable: 'curved', rows: 2, cols: 4, groundH: 80, shutters: '#a2412f', seed: 1, trim: '#fff7e6' });
-    s += `<circle cx="620" cy="190" r="20" fill="#fffdf5" stroke="${OL}" stroke-width="3"/><path d="M620,190 V176 M620,190 L630,194" stroke="${OL}" stroke-width="2.5" stroke-linecap="round"/>`;
-    s += A.sign(560, 410, 120, 26, 'RATHAUS', { fs: 15, bg: '#a2412f', fg: '#fff3d6', ls: 3 });
-    // Wappen mit Bär
-    s += `<path d="M700,412 h30 v18 q-15,14 -30,0 Z" fill="#ffd36e" stroke="${OL}" stroke-width="2.5"/><path d="M706,428 q2,-10 9,-10 q4,-4 8,0 q2,6 -2,8 l2,6 l-4,0 l-2,-4 l-6,0 l-1,4 l-4,0 Z" fill="${OL}"/>`;
-    s += `<path d="M760,250 V140" stroke="${OL}" stroke-width="3"/><path d="M760,142 L800,150 L760,160 Z" fill="#fff" stroke="${OL}" stroke-width="2"/><path d="M760,150 L800,150 L760,160 Z" fill="#5aa0d8"/>`;
-    // Spaßkasse-Nachbarhaus
-    s += A.gableHouse({ x: 765, base: 505, w: 130, h: 230, gh: 70, color: '#d7e3ef', gable: 'plain', rows: 2, cols: 2, ww: 26, groundH: 70, seed: 3 });
-    s += A.sign(775, 414, 110, 24, 'Spaßkasse', { fs: 14, bg: '#d63a3a', fg: '#fff', font: 'Trebuchet MS, sans-serif' });
-    return s;
-  }
-
-  function marktBuden() {
-    let s = '';
-    s += A.booth(470, 540, 120, 78, { label: 'Lebkuchen', roof: '#6b2a20', seed: 21 });
-    s += A.booth(630, 540, 120, 78, { label: 'Bratwurst', roof: '#2f6e4a', seed: 22 });
-    s += A.booth(790, 544, 100, 70, { label: 'Kerzen', roof: '#8a3b2e', seed: 23 });
-    const r = A.rng(77);
-    const coats = ['#3f6fb5', '#7b3fa0', '#2f6e4a', '#b8322b', '#5b4a3a', '#e8663d'];
-    for (let i = 0; i < 9; i++) s += A.crowdPerson(470 + r() * 420, 556 + r() * 8, 0.5 + r() * 0.12, coats[i % coats.length], coats[(i + 3) % coats.length]);
+  function apotheke() {
+    // Bären-Apotheke links vom Kircherl
+    const x = -10, w = 280, base = 552;
+    let s = A.gableHouse({ x, base, w, h: 300, gh: 130, color: '#cfe3d6', gable: 'curved', rows: 2, cols: 3, groundH: 140, shutters: '#2f6e4a', seed: 6, trim: '#f2f8f3' });
+    s += `<rect x="${x + 6}" y="${base - 136}" width="${w - 12}" height="136" fill="#2f5e45" stroke="${OL}" stroke-width="3"/>`;
+    s += A.sign(x + 26, base - 172, w - 52, 30, 'Bären-Apotheke', { fs: 18, bg: '#f2f8f3', fg: '#2f5e45', font: 'Georgia, serif' });
+    // Ausleger mit rotem Apotheken-A
+    s += `<path d="M${x + w - 6},${base - 240} h34" stroke="${OL}" stroke-width="5"/><path d="M${x + w - 6},${base - 240} h34" stroke="#3a3a3a" stroke-width="2.5"/>`;
+    s += A.glow(x + w + 22, base - 210, 46, 'gWarm', 0.6);
+    s += `<rect x="${x + w + 2}" y="${base - 234}" width="40" height="46" rx="5" fill="#d63a3a" stroke="${OL}" stroke-width="3"/>`;
+    s += `<path d="M${x + w + 11},${base - 196} L${x + w + 22},${base - 228} L${x + w + 33},${base - 196} M${x + w + 15},${base - 207} H${x + w + 29}" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>`;
+    // Schaufenster mit Fläschchen und Kräutern
+    const wx = x + 26, ww = 150;
+    s += A.glow(wx + ww / 2, base - 60, 100, 'gWarm', 0.6);
+    s += `<rect x="${wx}" y="${base - 112}" width="${ww}" height="92" fill="url(#gWinLit)" stroke="${OL}" stroke-width="3"/>`;
+    s += `<rect x="${wx + 6}" y="${base - 58}" width="${ww - 12}" height="7" fill="#a8744a" stroke="${OL}" stroke-width="2"/>`;
+    const cols = ['#7b3fa0', '#2f8f8b', '#c0392b', '#3f6fb5', '#e8c35a', '#2f6e4a'];
+    for (let i = 0; i < 6; i++) {
+      const bx = wx + 14 + i * 22, h = 22 + (i % 3) * 6;
+      s += `<rect x="${bx}" y="${base - 58 - h}" width="14" height="${h}" rx="3" fill="${cols[i]}" stroke="${OL}" stroke-width="1.8"/><rect x="${bx + 3}" y="${base - 62 - h}" width="8" height="5" fill="#f4f4f4" stroke="${OL}" stroke-width="1.2"/>`;
+    }
+    for (let i = 0; i < 3; i++) s += `<path d="M${wx + 30 + i * 44},${base - 26} q-8,-14 0,-20 q8,6 0,20 M${wx + 30 + i * 44},${base - 26} q8,-12 14,-10" fill="#7cc47a" stroke="${OL}" stroke-width="1.5"/>`;
+    s += `<path d="M${wx + ww / 2},${base - 112} V${base - 20}" stroke="#f2f8f3" stroke-width="3" opacity=".8"/>`;
+    s += `<path d="M${wx - 2},${base - 114} q${ww / 2},10 ${ww + 4},0" fill="none" stroke="#2f7d4f" stroke-width="8" stroke-linecap="round"/>`;
+    // Tür
+    s += A.door(x + w - 96, base - 118, 62, 118, { color: '#2f5e45', glass: true, lit: true, wreath: true });
     return s;
   }
 
@@ -110,8 +115,8 @@
     s += A.text(x + 79, base - 145, 'TAUBEN', { fs: 15, fill: '#6b2a20', maxw: 104 }) + A.text(x + 79, base - 127, 'Tür zu, bitte!', { fs: 13, fill: '#6b2a20', maxw: 104 });
     // Wegweiser
     s += `<rect x="1180" y="450" width="8" height="${base - 410}" fill="#6b4128" stroke="${OL}" stroke-width="2.5"/>`;
-    s += `<path d="M1120,456 H1236 L1252,470 L1236,484 H1120 Z" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>` + A.text(1184, 475, 'Bärenbuckel ↗', { fs: 13, fill: '#2f6e4a' });
-    s += `<path d="M1124,492 H1240 V518 H1124 L1110,505 Z" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>` + A.text(1178, 510, 'Schlittenhang', { fs: 12, fill: '#2f6e4a' });
+    s += `<path d="M1120,456 H1236 L1252,470 L1236,484 H1120 Z" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>` + A.text(1180, 475, 'Bärenbuckel', { fs: 14, fill: '#2f6e4a', maxw: 108 });
+    s += `<path d="M1120,492 H1236 L1252,506 L1236,520 H1120 Z" fill="#f4ead6" stroke="${OL}" stroke-width="2.5"/>` + A.text(1180, 511, 'Schlittenhang', { fs: 14, fill: '#2f6e4a', maxw: 108 });
     s += A.snowLine('M1122,453 H1236', 4);
     return s;
   }
@@ -128,15 +133,14 @@
       s += `<path d="M380,360 L440,320 L470,340 L520,300 L560,330 L900,320 L940,280 L1000,310 L1000,520 L380,520 Z" fill="#7b6aa0" opacity=".5"/>`;
       // St.-Ägidius-Turm in der Ferne
       s += `<rect x="880" y="160" width="40" height="200" fill="#8f82b4" stroke="${OL}" stroke-width="2" opacity=".8"/><path d="M872,162 L900,96 L928,162 Z" fill="#7568a0" stroke="${OL}" stroke-width="2" opacity=".85"/><circle cx="900" cy="190" r="9" fill="#ffe9a6" opacity=".8"/>`;
-      s += rathaus();
-      s += A.lights(420, 270, 880, 300, 40, 16, 31);
+      s += A.lights(664, 268, 880, 300, 30, 9, 31);
       s += A.snowGround(545, 5);
-      s += marktBuden();
+      s += apotheke();
       s += kircherl();
       s += taubenhaus(st);
-      s += A.lamp(436, 594, 220);
+      s += A.lamp(760, 594, 220);
       s += A.lamp(1098, 600, 210);
-      s += A.footprints([[300, 600], [322, 620], [344, 642], [990, 590], [1010, 606], [1032, 624]]);
+      s += A.footprints([[520, 600], [542, 620], [564, 642], [990, 590], [1010, 606], [1032, 624]]);
       s += A.snowPile(1180, 590, 120, 34) + A.snowPile(-30, 590, 120, 36);
       s += A.exitArrow(26, 620, 'l', 'Zum Café Kreitmampf');
       s += A.exitArrow(1254, 620, 'r', 'Schlittenhang');
@@ -145,14 +149,12 @@
     actors() { return []; },
     hotspots(st) {
       return [
-        { name: 'Rathaus', r: [470, 160, 300, 250], walk: [620, 590],
-          look: ['Das Rathaus mit dem Grafinger Bären im Wappen.', 'Hier wird beschlossen, wann der Christbaum aufgestellt wird. Und vermutlich auch andere, weniger wichtige Sachen.'] },
-        { name: 'Spaßkasse', r: [770, 290, 125, 200], walk: [830, 590], look: 'Die Spaßkasse. Mein Kontostand dort ist ein Spaß. Ein kurzer.' },
-        { name: 'Buden vom Christkindlmarkt', r: [460, 440, 440, 120], walk: [680, 590],
-          look: ['Lebkuchen, Bratwurst, Kerzen. Der Christkindlmarkt riecht wie ein Weihnachtslied klingt.', 'Die Glühweinbude ist auf der anderen Seite vom Marktplatz, beim Christbaum vorbei.'] },
-        { name: 'Dreifaltigkeits-Kircherl', r: [76, -20, 338, 380], walk: [245, 600],
+        { name: 'Bären-Apotheke', r: [0, 250, 312, 300], walk: [160, 600],
+          look: ['Die Bären-Apotheke. Mit einem roten A, das aussieht, als hätte es Schnupfen.', 'Gegen Vergesslichkeit haben die bestimmt auch was. Ich frag später. Wenn ich dran denke.'],
+          use: async () => { await G.say('fini', 'Ich bin nicht krank. Nur aufgeregt. Dagegen gibt es leider keine Tabletten. Nur Schlittenrennen.'); } },
+        { name: 'Dreifaltigkeits-Kircherl', r: [326, -20, 338, 380], walk: [495, 600],
           look: ['Das Dreifaltigkeits-Kircherl am Marktplatz. Gebaut 1672 – also quasi brandneu für Grafinger Verhältnisse.', 'Oben auf dem Dach sitzt ein Türmchen mit Zwiebelhaube. Wie ein Sahnehäubchen. Ein heiliges Sahnehäubchen.'] },
-        { name: 'Kirchenportal', r: [190, 362, 112, 188], walk: [245, 598], exit: { to: 'kapelle', x: 640, y: 690, face: -1 },
+        { name: 'Kirchenportal', r: [440, 362, 112, 188], walk: [495, 598], exit: { to: 'kapelle', x: 640, y: 690, face: -1 },
           look: 'Das Portal vom Kircherl. Mit Adventskranz. Sogar die Tür ist hier in Weihnachtsstimmung.' },
         { name: 'Taubenhaus', r: [880, 180, 400, 250], walk: [1050, 600],
           look: ['Ein altes Haus mit einem Taubenschlag unterm Dach.', 'Da oben sitzen Tauben. Eine davon schaut mich an, als würde ich ihr Geld schulden.'] },

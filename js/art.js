@@ -168,7 +168,8 @@
     for (let i = 0; i < steps; i++) { cy -= sh; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; cx += sw; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; }
     const topW = w - 2 * steps * sw;
     cx += topW; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`;
-    for (let i = 0; i < steps; i++) { cy += sh; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; cx += sw; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; }
+    // rechts spiegelbildlich: erst Trittfläche, dann Stufe hinunter
+    for (let i = 0; i < steps; i++) { cx += sw; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; cy += sh; d += ` L${cx.toFixed(1)},${cy.toFixed(1)}`; }
     return d;
   };
   A.plainGable = (x, y, w, gh) => `M${x},${y} L${x + w / 2},${y - gh} L${x + w},${y}`;
