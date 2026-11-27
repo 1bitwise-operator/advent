@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Die Kufenkönigin von Grafing – ein winterliches Point-and-Click-Abenteuer</title>
+  <meta name="description" content="Ein kleines, winterliches Point-and-Click-Adventure auf dem Grafinger Marktplatz.">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='52' font-size='52'%3E%E2%9B%B7%3C/text%3E%3C/svg%3E">
+  <script src="js/lock.js"></script>
+  <script>if (!Lock.unlocked()) location.replace("index.html");</script>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="game">
+    <div id="stage-wrap">
+      <svg id="stage" viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" aria-label="Spielszene">
+        <g id="layer-bg"></g>
+        <g id="layer-actors"></g>
+        <g id="layer-fg"></g>
+        <g id="layer-hot"></g>
+      </svg>
+      <canvas id="snow" width="1280" height="720"></canvas>
+      <div id="bubbles"></div>
+      <div id="hover-label"></div>
+      <div id="scene-title"></div>
+      <div id="topbar">
+        <button id="btn-notes" title="Merkzettel (M)">📝 <span>Merkzettel</span></button>
+        <button id="btn-mode" title="Zwischen Benutzen und Ansehen wechseln (Rechtsklick = Ansehen)">✋ <span>Benutzen</span></button>
+        <button id="btn-menu" title="Menü (Esc)">☰</button>
+      </div>
+      <div id="narration"></div>
+      <div id="fade"></div>
+    </div>
+    <div id="bottombar">
+      <div id="inventory"></div>
+      <div id="choices"></div>
+    </div>
+
+    <div id="notes" class="overlay hidden">
+      <div class="paper">
+        <h2>Finis Merkzettel</h2>
+        <p class="sub">(nicht verlieren!!! – schon wieder)</p>
+        <ul id="task-list"></ul>
+        <button class="close">Zuklappen</button>
+      </div>
+    </div>
+
+    <div id="menu" class="overlay hidden">
+      <div class="panel">
+        <h2>Pause</h2>
+        <button id="menu-resume">Weiterspielen</button>
+        <button id="menu-help">Steuerung</button>
+        <button id="menu-restart">Neues Spiel</button>
+      </div>
+    </div>
+
+    <div id="help" class="overlay hidden">
+      <div class="panel">
+        <h2>Steuerung</h2>
+        <ul class="help-list">
+          <li><b>Linksklick</b> – hingehen, benutzen, nehmen, reden</li>
+          <li><b>Rechtsklick</b> – ansehen (am Handy: Knopf „✋/👁“ oben)</li>
+          <li><b>Gegenstand im Rucksack anklicken</b> – auswählen, dann auf etwas in der Szene oder einen anderen Gegenstand klicken</li>
+          <li><b>Klick während jemand redet</b> – Text überspringen</li>
+          <li><b>📝 Merkzettel</b> – was Fini noch erledigen muss (sie vergisst sonst alles)</li>
+          <li>Das Spiel speichert automatisch.</li>
+        </ul>
+        <button class="close">Alles klar</button>
+      </div>
+    </div>
+
+    <div id="title" class="overlay">
+      <div class="title-inner">
+        <div class="title-kicker">Ein winterliches Point-and-Click-Abenteuer in Grafing</div>
+        <h1>Die Kufenkönigin<br><span>von Grafing</span></h1>
+        <div class="title-buttons">
+          <button id="btn-continue" class="hidden">Weiterspielen</button>
+          <button id="btn-new">Neues Spiel</button>
+          <button id="btn-help2">Steuerung</button>
+        </div>
+        <p class="title-note">Spielzeit ca. 20–30 Minuten · speichert automatisch</p>
+      </div>
+    </div>
+
+
+    <div id="ending" class="overlay hidden">
+      <div class="panel ending-panel">
+        <h2>🏆 Die Kufenkönigin von Grafing</h2>
+        <div id="ending-text"></div>
+        <button id="btn-again">Nochmal spielen</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="drag-item"></div>
+
+  <script src="js/engine.js"></script>
+  <script src="js/art.js"></script>
+  <script src="js/characters.js"></script>
+  <script src="js/items.js"></script>
+  <script src="js/story.js"></script>
+  <script src="js/scenes/marktplatz.js"></script>
+  <script src="js/scenes/marktost.js"></script>
+  <script src="js/scenes/gluehwein.js"></script>
+  <script src="js/scenes/baeckerei.js"></script>
+  <script src="js/scenes/ohmeier.js"></script>
+  <script src="js/scenes/fairkehrt.js"></script>
+  <script src="js/scenes/radladen.js"></script>
+  <script src="js/scenes/kapelle.js"></script>
+  <script src="js/scenes/taubenschlag.js"></script>
+  <script src="js/scenes/schlittenhang.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

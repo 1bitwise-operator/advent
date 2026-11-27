@@ -12,6 +12,8 @@ Blöd nur: Sie weiß nicht mehr, wo ihr Schlitten ist. Angemeldet ist sie auch n
 
 Spielzeit: etwa 20–30 Minuten.
 
+Vor dem Spiel kommt eine Passwortseite. Das Passwort bekommst du von der Person, die dir den Link geschickt hat.
+
 ## Schauplätze
 
 - Marktplatz vor dem Café Kreitmampf (mit Mariensäule und Christbaum)
@@ -49,7 +51,9 @@ Wer nicht weiterkommt, findet den kompletten Lösungsweg in [LOESUNG.md](LOESUNG
 - Jede Szene ist eine eigene Datei in `js/scenes/`
 
 ```
-index.html          Einstieg
+index.html          Passwortseite (Adventskalender-Türchen)
+spiel.html          das Spiel
+js/lock.js          Passwortprüfung (nur Prüfsumme gespeichert)
 css/style.css       Layout, UI, Animationen
 js/engine.js        Engine
 js/art.js           Zeichen-Helfer (Häuser, Lichter, Schnee …)
