@@ -43,22 +43,20 @@
   const mitHut = (c, pom) => ({ style: 'bobble', color: c, pom: pom || '#fff7e8', stripe: '#fff7e8' });
   /** Zuschauer im Comic-Stil, teils jubelnd */
   function zuschauer() {
+    // links und rechts der Zielgeraden (Bahn: links von (60,740) nach (190,598), rechts von (320,740) nach (300,598))
     const leute = [
-      { x: 70, y: 566, s: 0.3, o: { h: 290, top: '#3f6fb5', pants: '#2f3440', hair: { style: 'long', color: '#6b4128' }, hat: mitHut('#c0392b'), smile: 0.3, armRotL: 150, armRotR: -150 } },
-      { x: 118, y: 572, s: 0.31, o: { h: 300, top: '#5b7fb0', pants: '#2f3440', hair: { style: 'short', color: '#3a2a20' }, hat: mitHut('#f4c542', '#c0392b'), glasses: '#2a1f2d', smile: 0.3, armRotR: -130 } },
-      { x: 164, y: 566, s: 0.28, o: { h: 240, top: '#e8663d', pants: '#2f3440', hair: { style: 'braids', color: '#3a2a20' }, hat: mitHut('#7b3fa0', '#f4c542'), smile: 0.35, armRotL: 160, armRotR: -160 } },
-      { x: 208, y: 574, s: 0.3, o: { h: 285, top: '#7b3fa0', pants: '#3b2350', coatY: 0.15, flare: 1.2, hair: { style: 'bun', color: '#d9d2c5' }, glasses: '#6b2a20', smile: 0.2 } },
-      { x: 252, y: 580, s: 0.32, o: { h: 300, top: '#b8322b', pants: '#2f3440', hair: { style: 'short', color: '#e0ac45' }, hat: mitHut('#2f8f8b'), stubble: '#a5742a', smile: 0.3, armRotL: 140, armRotR: -8 } },
-      { x: 300, y: 590, s: 0.34, o: { h: 270, top: '#f4c542', pants: '#3f6fb5', hair: { style: 'bob', color: '#3a2a20' }, hat: mitHut('#3f6fb5'), smile: 0.3, armRotR: -150 } },
+      { x: 34, y: 640, s: 0.37, o: { h: 290, top: '#3f6fb5', pants: '#2f3440', hair: { style: 'long', color: '#6b4128' }, hat: mitHut('#c0392b'), smile: 0.3, armRotL: 150, armRotR: -150 } },
+      { x: 84, y: 628, s: 0.36, o: { h: 300, top: '#5b7fb0', pants: '#2f3440', hair: { style: 'short', color: '#3a2a20' }, hat: mitHut('#f4c542', '#c0392b'), glasses: '#2a1f2d', smile: 0.3, armRotR: -130 } },
+      { x: 96, y: 676, s: 0.38, o: { h: 240, top: '#e8663d', pants: '#2f3440', hair: { style: 'braids', color: '#3a2a20' }, hat: mitHut('#7b3fa0', '#f4c542'), smile: 0.35, armRotL: 160, armRotR: -160 } },
+      { x: 338, y: 622, s: 0.36, o: { h: 285, top: '#7b3fa0', pants: '#3b2350', coatY: 0.15, flare: 1.2, hair: { style: 'bun', color: '#d9d2c5' }, glasses: '#6b2a20', smile: 0.2 } },
+      { x: 384, y: 636, s: 0.37, o: { h: 300, top: '#b8322b', pants: '#2f3440', hair: { style: 'short', color: '#e0ac45' }, hat: mitHut('#2f8f8b'), stubble: '#a5742a', smile: 0.3, armRotL: 140, armRotR: -8 } },
+      { x: 352, y: 668, s: 0.39, o: { h: 270, top: '#f4c542', pants: '#3f6fb5', hair: { style: 'bob', color: '#3a2a20' }, hat: mitHut('#3f6fb5'), smile: 0.3, armRotR: -150 } },
     ];
     let s = '';
     for (const p of leute) s += `<g transform="translate(${p.x},${p.y}) scale(${p.s})">${C.extra(p.o)}</g>`;
-    // Schild „Hopp, hopp!“
-    s += `<path d="M140,574 V520" stroke="${OL}" stroke-width="3"/><path d="M140,574 V520" stroke="#8a5a36" stroke-width="1.5"/>`;
-    s += `<rect x="114" y="500" width="54" height="24" rx="3" fill="#fffaf0" stroke="${OL}" stroke-width="2" transform="rotate(-6 141 512)"/>` + A.text(141, 517, 'Hopp, hopp!', { fs: 11, fill: '#c0392b', rot: -6, maxw: 48 });
-    // Absperrband vor den Zuschauern
-    s += `<path d="M40,592 Q180,600 330,606" fill="none" stroke="#d63a3a" stroke-width="3" stroke-dasharray="10 8"/>`;
-    for (const x of [40, 140, 240, 330]) s += `<path d="M${x},${596 + (x - 40) / 30} v-22" stroke="${OL}" stroke-width="3"/>`;
+    // Schild „Hopp, hopp!“ bei der linken Gruppe
+    s += `<path d="M60,646 V586" stroke="${OL}" stroke-width="3"/><path d="M60,646 V586" stroke="#8a5a36" stroke-width="1.5"/>`;
+    s += `<rect x="34" y="566" width="54" height="24" rx="3" fill="#fffaf0" stroke="${OL}" stroke-width="2" transform="rotate(-6 61 578)"/>` + A.text(61, 583, 'Hopp, hopp!', { fs: 11, fill: '#c0392b', rot: -6, maxw: 48 });
     return s;
   }
 
@@ -90,7 +88,7 @@
     // Zielgerade unten links
     s += zielBahn();
     // Heuballen als Begrenzung
-    s += bale(515, 596, 0.85) + bale(400, 700, 1.15);
+    s += bale(214, 600, 0.42) + bale(252, 598, 0.42) + bale(290, 600, 0.42);
     // Zuschauer im Tal
     s += zuschauer();
     return s;
@@ -193,7 +191,7 @@
   }
 
   /** Rückansicht auf der Zielgeraden. Ursprung = Boden unter dem Schlitten. */
-  function rearRider(who) {
+  function rearRider(who, cheer) {
     const fini = who === 'fini';
     const suit = fini ? '#ee7a3a' : '#c8ccd6', stripe = fini ? '#2f8f8b' : '#e9ff3a', hand = fini ? '#2f8f8b' : '#23252e';
     let s = `<g class="speed" style="display:none">`;
@@ -218,10 +216,12 @@
     s += A.text(0, -94, fini ? '13' : '1', { fs: 26, fill: fini ? '#d63a3a' : '#23252e', maxw: 38 });
     // Arme halten den Schlitten seitlich
     for (const sx of [-1, 1]) {
-      const d = `M${sx * 34},-124 Q${sx * 56},-96 ${sx * 54},-44`;
+      // beim Jubeln Arme hoch in die Luft, sonst seitlich am Schlitten
+      const d = cheer ? `M${sx * 34},-124 Q${sx * 62},-150 ${sx * 66},-212` : `M${sx * 34},-124 Q${sx * 56},-96 ${sx * 54},-44`;
+      const [hx, hy] = cheer ? [sx * 67, -218] : [sx * 54, -40];
       s += leg(d, suit, 13);
       s += `<path d="${d}" fill="none" stroke="${stripe}" stroke-width="3" opacity=".9"/>`;
-      s += `<ellipse cx="${sx * 54}" cy="-40" rx="10" ry="11" fill="${hand}" stroke="${OL}" stroke-width="2.6"/>`;
+      s += `<ellipse cx="${hx}" cy="${hy}" rx="10" ry="11" fill="${hand}" stroke="${OL}" stroke-width="2.6"/>`;
     }
     if (fini) {
       // Schal flattert im Fahrtwind
@@ -247,11 +247,30 @@
       for (const sx of [-1, 1]) s += `<path d="M${sx * 14},-214 Q${sx * 18},-200 ${sx * 16},-188 M${sx * 32},-206 Q${sx * 36},-194 ${sx * 34},-182" stroke="#2b2b2b" stroke-width="5" stroke-linecap="round" fill="none"/>`;
       s += `<path d="M-44,-178 Q0,-190 44,-178" stroke="#2b2b2b" stroke-width="4" fill="none"/><rect x="-8" y="-180" width="16" height="9" rx="3" fill="#2b2b2b"/>`;
     } else {
+      s += `<circle cx="0" cy="-170" r="38" fill="#f2d36b" stroke="${OL}" stroke-width="3"/>`;
+      s += `<path d="M-22,-150 q4,-10 0,-20 M-6,-142 q4,-12 0,-24 M10,-142 q4,-12 0,-24 M24,-150 q4,-10 0,-20" stroke="#c9a227" stroke-width="2" fill="none" stroke-linecap="round"/>`;
       let d = 'M-40,-170';
       for (const [x, y] of [[-44, -196], [-30, -214], [-20, -230], [-6, -214], [4, -236], [16, -214], [30, -228], [36, -204], [44, -190], [40, -170]]) d += ` L${x},${y}`;
-      s += `<path d="${d} Q0,-140 -40,-170 Z" fill="#f2d36b" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
+      // Stachelfrisur: Fläche ohne Unterkante, Kontur nur außen herum
+      s += `<path d="${d} Q0,-150 -40,-170 Z" fill="#f2d36b"/><path d="${d}" fill="none" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>`;
       s += `<path d="M-41,-186 Q0,-196 41,-186" stroke="#23252e" stroke-width="9" fill="none"/><rect x="-9" y="-196" width="18" height="12" rx="3" fill="#e9ff3a" stroke="${OL}" stroke-width="2"/>`;
     }
+    return s;
+  }
+
+  /** Pokal „Goldene Kufe“, steht auf der Hand bei (x, y) */
+  function goldeneKufe(x, y, r) {
+    const k = r / 44;
+    const P = (dx, dy) => `${(x + dx * k).toFixed(1)},${(y + dy * k).toFixed(1)}`;
+    let s = `<rect x="${(x - 18 * k).toFixed(1)}" y="${(y - 14 * k).toFixed(1)}" width="${(36 * k).toFixed(1)}" height="${(12 * k).toFixed(1)}" rx="2" fill="#7a4b2d" stroke="${OL}" stroke-width="2.4"/>`;
+    s += `<rect x="${(x - 5 * k).toFixed(1)}" y="${(y - 30 * k).toFixed(1)}" width="${(10 * k).toFixed(1)}" height="${(17 * k).toFixed(1)}" fill="#e8c35a" stroke="${OL}" stroke-width="2.4"/>`;
+    s += `<path d="M${P(-24, -70)} H${(x + 24 * k).toFixed(1)} Q${P(26, -40)} ${P(0, -30)} Q${P(-26, -40)} ${P(-24, -70)} Z" fill="#ffd36e" stroke="${OL}" stroke-width="2.8" stroke-linejoin="round"/>`;
+    s += `<path d="M${P(-23, -64)} Q${P(-40, -64)} ${P(-34, -48)} Q${P(-30, -40)} ${P(-18, -42)} M${P(23, -64)} Q${P(40, -64)} ${P(34, -48)} Q${P(30, -40)} ${P(18, -42)}" fill="none" stroke="${OL}" stroke-width="3"/>`;
+    // kleine goldene Kufe obendrauf
+    s += `<path d="M${P(-20, -74)} H${P(14, -74).split(',')[0]} Q${P(26, -74)} ${P(24, -86)}" fill="none" stroke="${OL}" stroke-width="6" stroke-linecap="round"/><path d="M${P(-20, -74)} H${P(14, -74).split(',')[0]} Q${P(26, -74)} ${P(24, -86)}" fill="none" stroke="#ffd36e" stroke-width="3" stroke-linecap="round"/>`;
+    s += `<path d="M${P(-12, -60)} Q${P(-4, -50)} ${P(8, -58)}" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity=".8"/>`;
+    // Glitzer
+    for (const [dx, dy] of [[-36, -84], [34, -94], [0, -104]]) s += `<path d="M${P(dx, dy - 7)} V${(y + (dy + 7) * k).toFixed(1)} M${P(dx - 7, dy)} H${(x + (dx + 7) * k).toFixed(1)}" stroke="#fff6c0" stroke-width="2.4" stroke-linecap="round" class="twinkle t${1 + ((dx + 40) % 3)}"/>`;
     return s;
   }
 
@@ -348,8 +367,8 @@
   // Startplätze hinter der Startlinie (Blick nach links), danach die Fahrt übers Plateau und den Hang hinunter
   const START = { konstantin: [716, 608, 0.7], fini: [800, 634, 0.74] };
   const PATH = {
-    konstantin: [[716, 608], [680, 610], [622, 616], [578, 632], [542, 660], [510, 700], [480, 750], [452, 830]],
-    fini: [[800, 634], [730, 636], [648, 640], [596, 660], [560, 694], [530, 740], [505, 800], [486, 870]],
+    konstantin: [[716, 608], [680, 610], [622, 616], [578, 632], [542, 660], [510, 700], [480, 750], [452, 830], [410, 1090]],
+    fini: [[800, 634], [730, 636], [648, 640], [596, 660], [560, 694], [530, 740], [505, 800], [486, 870], [458, 1060]],
   };
   function along(pts, p) {
     const n = pts.length - 1;
@@ -402,7 +421,7 @@
     const rot = { konstantin: 0, fini: 0 };
     const pk = (t) => t * 1.18; // Konstantin startet schneller und ist zuerst unten
     const pf = (t) => (t < 0.5 ? t * 0.8 : 0.4 + (t - 0.5) * 1.2); // Fini holt auf
-    await anim(3600, (t) => {
+    await anim(4200, (t) => {
       const te = Math.pow(t, 1.25);
       for (const [id, pfn, s0] of [['konstantin', pk, 0.7], ['fini', pf, 0.74]]) {
         const p = clamp01(pfn(te));
@@ -410,6 +429,8 @@
         rot[id] += (-Math.min(26, ang) - rot[id]) * 0.2;
         place(id, x, y, s0 + p * 0.32, rot[id], true);
       }
+      const ak = G.actor('konstantin'), af = G.actor('fini');
+      if (ak && af) ak.z = Math.min(0, af.y - ak.y - 1);
       resort();
       if (t > 0.06 && !said1) { said1 = true; G.say('wimmer', 'Und los geht’s! Protzinger geht in Führung!', { dur: 2200 }).catch(() => {}); }
       if (t > 0.62 && !said2) { said2 = true; G.say('wimmer', 'Aber was is des?! Die Brandl holt auf! Und warum riecht’s auf einmal nach Zimt?!', { dur: 2800 }).catch(() => {}); }
@@ -417,21 +438,29 @@
     await G.wait(900);
 
     // 2. Zielgerade unten links: beide kommen von unten ins Bild und fahren (von hinten gesehen) ins Ziel
+    if (G.actor('konstantin')) G.actor('konstantin').z = 0;
     G.setActor('fini', { svg: rearRider('fini') });
     G.setActor('konstantin', { svg: rearRider('konstantin') });
     showSpeed('konstantin', true); showSpeed('fini', true);
     const laneX = (y) => 245 - (y - 598) / 142 * 55;
     const laneW = (y) => 110 + (y - 598) / 142 * 150;
-    const sAt = (y) => 0.36 + (y - 598) / 142 * 0.5;
-    let said3 = false;
+    const sAt = (y) => Math.min(1.15, 0.36 + (y - 598) / 142 * 0.5);
+    let said3 = false, cheered = false;
     await anim(3400, (t) => {
-      const yf = 830 - (830 - 604) * easeOut(t);
-      const yk = 880 - (880 - 607) * easeOut(clamp01((t - 0.22) / 0.78));
+      const yf = 1000 - (1000 - 604) * easeOut(t);
+      const yk = 1040 - (1040 - 607) * easeOut(clamp01((t - 0.22) / 0.78));
       place('fini', laneX(yf) - laneW(yf) * 0.3, yf, sAt(yf), 0, false);
       place('konstantin', laneX(yk) + laneW(yk) * 0.3, yk, sAt(yk), 0, false);
       if (t > 0.85) { showSpeed('fini', false); showSpeed('konstantin', false); }
       resort();
-      if (t > 0.2 && !said3) { said3 = true; G.say('fini', has('klingel') ? 'DING DING! Platz da, ich komme!' : 'JUHUUUUU!', { dur: 1800 }).catch(() => {}); }
+      if (t > 0.2 && !said3) { said3 = true; G.say('fini', has('klingel') ? 'DING DING! Platz da, ich komme!' : 'Gleich geschafft!', { dur: 1500 }).catch(() => {}); }
+      // Fini überquert die Ziellinie: Arme hoch und jubeln
+      if (!cheered && yf < 618) {
+        cheered = true;
+        G.setActor('fini', { svg: rearRider('fini', true) });
+        place('fini', laneX(yf) - laneW(yf) * 0.3, yf, sAt(yf), 0, false);
+        G.say('fini', 'JAAAAA! JUHUUUU! ERSTE!', { dur: 2200 }).catch(() => {});
+      }
     });
     await G.wait(300);
     // Konfetti
@@ -450,18 +479,28 @@
     await G.wait(400);
     await G.say('wimmer', 'Fini Brandl, im Namen der Rennleitung und laut Paragraph 20: die Goldene Kufe!');
     G.give('pokal');
+    G.playerPose = {
+      armRotL: 158, armRotR: -162, smile: 0.55, mouthW: 0.38, lid: 0.08, browTilt: -0.1,
+      holdR: (x, y, r) => `<g transform="rotate(162 ${x.toFixed(1)} ${y.toFixed(1)})">${goldeneKufe(x, y, r)}</g>`,
+    };
+    G.render();
     await G.say('fini', 'DIE GOLDENE KUFE! MEINE! Ich werde sie nie wieder loslassen!');
     await G.say('konstantin', 'Gratuliere... Brandl. Das war... okay. Für eine Holzkufe.');
     await G.say('fini', 'Danke, Konstantin. Du warst auch schnell. Für jemanden ohne Motor.');
     await G.say('konstantin', 'Nächstes Jahr bau ich ein Segel ein.');
     await G.say('wimmer', 'PARAGRAPH SIEBEN!');
     await G.say('gurrbert', 'Gurr!');
-    await G.say('fini', 'Gurrbert! Du warst die beste Anmeldung, die ich je hatte. Die einzige, aber die beste.');
+    await G.say('fini', 'Gurrbert! Ohne dich wär ich nicht mal angemeldet. Du kriegst die Hälfte vom Ruhm. Und alle Brösel.');
+    await G.say('gurrbert', 'Gurrrrr.');
+    await G.say('wimmer', 'Paragraph 23: Brieftauben ham Anspruch auf Siegerbrösel. Steht so drin.');
+    await G.say('fini', 'Gibt’s eigentlich für ALLES einen Paragraphen?');
+    await G.say('wimmer', 'Paragraph 24: Ja.');
     await G.wait(400);
     await G.say('fini', 'Ich bin so glücklich! Ich hab an ALLES gedacht! Schlitten, Helm, Handschuhe, Anmeldung...');
     await G.say('fini', '...');
     await G.say('fini', 'Wieso hab ich trotzdem das Gefühl, dass ich irgendwas vergessen hab?');
     await G.wait(600);
+    G.playerPose = null;
     G.save();
     G.showEnding();
   }
@@ -561,7 +600,7 @@
       s += hill();
       s += fir(1040, 562, 200) + A.snowPile(1010, 566, 60, 12) + fir(1180, 580, 300) + A.snowPile(1140, 584, 80, 14) + fir(1262, 606, 220) + A.snowPile(1226, 610, 74, 12);
       s += startBanner() + zeitnehmer();
-      if (f('pigeon_sent') && !f('racing')) s += `<g transform="translate(640,272) scale(0.4)"><g class="bob">${C.gurrbert({ hat: true })}</g></g>`;
+      if ((f('pigeon_sent') || f('won')) && !f('racing')) s += `<g transform="translate(640,272) scale(0.4)"><g class="bob">${C.gurrbert({ hat: true })}</g></g>`;
       s += A.exitArrow(1254, 640, 'r', 'Zurück in die Stadt');
       return s;
     },
@@ -581,7 +620,7 @@
         out.push({ id: 'konstantin', x: 960, y: 662, s: 0.76, svg: C.konstantin(), head: -310, flip: true });
         out.push({ id: 'turbokufe', x: 1070, y: 690, s: 0.9, svg: turboKufe(st) });
       }
-      if (f('pigeon_sent')) out.push({ id: 'gurrbert', x: 640, y: 272, s: 0.4, svg: '', head: -110 });
+      if (f('pigeon_sent') || f('won')) out.push({ id: 'gurrbert', x: 640, y: 272, s: 0.4, svg: '', head: -110 });
       return out;
     },
     hotspots(st) {
@@ -589,10 +628,11 @@
       return [
         { name: 'Grafing in der Abendsonne', r: [0, 200, 360, 270], walk: [700, 640], look: ['Da unten liegt Grafing. Mit dem Kirchturm von St. Ägidius und lauter kleinen Lichtern.', 'Von hier oben sieht es aus wie ein Lebkuchendorf. Ein sehr leckeres Lebkuchendorf.'] },
         { name: 'Rodelbahn', p: [846, 594, 600, 594, 540, 620, 470, 740, 520, 740, 600, 650, 846, 640], walk: [700, 650], look: 'Die Rodelbahn. Steil, glatt, perfekt. Unten wartet der Ruhm. Und Strohballen. Hoffentlich in dieser Reihenfolge.' },
-        { name: 'Zuschauer', r: [30, 500, 300, 220], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
+        { name: 'Zuschauer', r: [0, 520, 130, 180], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
+        { name: 'Zuschauer', r: [310, 530, 110, 160], walk: [680, 650], look: 'Halb Grafing ist da. Mit Thermoskannen, Lebkuchen und sehr hohen Erwartungen.' },
         { name: 'Ziel', r: [168, 458, 146, 166], walk: [680, 650], look: 'Da unten ist das Ziel. Da will ich hin. Als Erste. Und möglichst auf dem Schlitten, nicht daneben.' },
         { name: 'Start-Banner', r: [640, 262, 240, 112], walk: [730, 640], look: '„START · 73. Kufen-Gaudi“. Mir wird ganz kribbelig. Das könnte Aufregung sein. Oder Hunger.' },
-        f('pigeon_sent') && { name: 'Gurrbert', r: [618, 228, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
+        (f('pigeon_sent') || f('won')) && { name: 'Gurrbert', r: [618, 228, 50, 46], walk: [680, 640], look: 'Gurrbert sitzt auf dem Startpfosten. Mit einer kleinen roten Mütze. Woher hat er die?! Tauben haben Geheimnisse.' },
         { name: 'Zeitnehmer-Tisch', r: [956, 520, 130, 60], walk: [1000, 650], look: 'Eine Stoppuhr, ein Tee und eine halbe Leberkässemmel. Das Equipment der Rennleitung.' },
         { name: 'Tannen', r: [1000, 220, 280, 340], walk: [1150, 650], look: 'Tannen mit Schneehauben. Wie Christbäume, die sich noch nicht entschieden haben.' },
         { name: 'TurboKufe X', r: [980, 630, 200, 70], walk: [1120, 690],

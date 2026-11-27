@@ -35,9 +35,12 @@
     $('btn-continue').addEventListener('click', continueGame);
     $('btn-help2').addEventListener('click', () => $('help').classList.remove('hidden'));
     $('btn-again').addEventListener('click', newGame);
-    $('menu-restart').addEventListener('click', () => {
-      if (confirm('Wirklich von vorne anfangen? Der Spielstand wird gelöscht.')) newGame();
-    });
+    // Rückfrage im Spiel selbst (confirm() wird in manchen Browsern unterdrückt)
+    const showConfirm = (on) => { $('menu-main').classList.toggle('hidden', on); $('menu-confirm').classList.toggle('hidden', !on); };
+    $('menu-restart').addEventListener('click', () => showConfirm(true));
+    $('menu-restart-no').addEventListener('click', () => showConfirm(false));
+    $('menu-restart-yes').addEventListener('click', () => { showConfirm(false); newGame(); });
+    $('btn-menu').addEventListener('click', () => showConfirm(false));
 
     // Debug-Hilfen: #debug in der URL
     if (G.debug) {

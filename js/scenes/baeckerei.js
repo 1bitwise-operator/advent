@@ -213,7 +213,7 @@
         run: async () => {
           await G.say('resi', 'Dei Schlitten? Ja Moment... Im Juli bist du mit am Schlitten unterm Arm über’n Marktplatz g’rannt. Im JULI.');
           await G.say('resi', 'Mir ham uns alle g’wundert. Die Frau Ohmeier hat an Hitzeschlag vermutet.');
-          await G.say('resi', 'Rauf bist zum Speichl Gustl, in die alte Radlwerkstatt über’m Fairkehrt-Laden. „Kufen-Tuning!“ hast g’rufen.');
+          await G.say('resi', 'Rauf bist zum Speichl Gustl, in die alte Radlwerkstatt über’m Fairkehrte-Laden. „Kufen-Tuning!“ hast g’rufen.');
           await G.say('fini', 'Kufen-Tuning... Im Juli... Das klingt leider sehr nach mir.');
           G.flag('resi_told_sled');
           await G.say('resi', 'Und, bist überhaupt ang’meldet fürs Rennen? Der Wimmer is da streng wie a Finanzamt.');

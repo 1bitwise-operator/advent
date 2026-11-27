@@ -198,7 +198,7 @@
   function buildPlayer() {
     P.el = $('player');
     if (!P.el) return;
-    P.el.innerHTML = C.fini(G.state);
+    P.el.innerHTML = C.fini(G.state, G.playerPose || undefined);
     P.legL = P.el.querySelector('.leg-l');
     P.legR = P.el.querySelector('.leg-r');
     P.armL = P.el.querySelector('.arm-l');
@@ -869,6 +869,7 @@
   };
 
   G.start = function (state) {
+    G.playerPose = null;
     G.state = state;
     const sc0 = G.scenes[state.scene];
     if (sc0 && sc0.walk) { const w = sc0.walk; state.px = clamp(state.px, w.x1, w.x2); state.py = clamp(state.py, w.y1, w.y2); }

@@ -1,4 +1,4 @@
-/* Szene: Fairkehrt – der Weltladen (mit Treppe zur alten Radlwerkstatt) */
+/* Szene: Fairkehrte – der Weltladen (mit Treppe zur alten Radlwerkstatt) */
 (function () {
   'use strict';
   const OL = A.OL;
@@ -127,7 +127,7 @@
   async function fairhuberTalk() {
     if (!f('met_fairhuber')) {
       G.flag('met_fairhuber');
-      await G.say('fairhuber', 'Hallo Fini! Willkommen im Fairkehrt! Hier ist alles fair. Sogar die Preise. Na ja. Fast.');
+      await G.say('fairhuber', 'Hallo Fini! Willkommen in der Fairkehrte! Hier ist alles fair. Sogar die Preise. Na ja. Fast.');
     }
     await G.talk('fairhuber', () => [
       { t: 'Was ist eigentlich da oben, über dem Laden?', if: !f('met_gustl'),
@@ -150,9 +150,9 @@
           await G.say('fairhuber', 'Den gibt’s gratis zu jedem Einkauf! Und die Kerzen sind heute im Angebot.');
           await G.say('fini', 'Ein Gratis-Beutel, für den man was kaufen muss. Das ist wie ein Geschenk mit Hausaufgaben.');
         } },
-      { t: 'Was heißt eigentlich „Fairkehrt“?', once: 'asked_fairkehrt',
+      { t: 'Was heißt eigentlich „Fairkehrte“?', once: 'asked_fairkehrt',
         run: async () => {
-          await G.say('fairhuber', 'Weil die Welt manchmal ganz schön verkehrt ist. Und wir sie ein kleines bisschen fairer machen wollen.');
+          await G.say('fairhuber', 'Weil wir in einer ganz schön verkehrten Welt leben. Und sie ein kleines bisschen fairer machen wollen.');
           await G.say('fairhuber', 'Und weil „Weltladen“ schon jeder heißt.');
         } },
       { t: 'Haben Sie einen Helm?', if: f('met_wimmer') && !has('helm'),
@@ -164,7 +164,7 @@
   }
 
   G.scenes.fairkehrt = {
-    title: 'Fairkehrt – der Weltladen',
+    title: 'Fairkehrte – der Weltladen',
     walk: { x1: 170, x2: 1080, y1: 618, y2: 704, s1: 0.76, s2: 0.86 },
     entry: { x: 190, y: 660 },
     draw: room,

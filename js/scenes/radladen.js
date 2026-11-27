@@ -1,4 +1,4 @@
-/* Szene: Die stillgelegte Radlwerkstatt über dem Fairkehrt-Laden */
+/* Szene: Die stillgelegte Radlwerkstatt über dem Fairkehrte-Laden */
 (function () {
   'use strict';
   const OL = A.OL;
@@ -149,7 +149,7 @@
   async function partsLeft() {
     const left = [];
     if (!f('gave_schluessel')) left.push('mei Kufenschlüssel – den hat d’Gerti an der Glühweinbude');
-    if (!f('gave_kerze')) left.push('a Bienenwachskerze – gibt’s drunten im Fairkehrt');
+    if (!f('gave_kerze')) left.push('a Bienenwachskerze – gibt’s drunten in der Fairkehrte');
     if (!f('gave_zimt')) left.push('a Zimtstang’');
     if (!left.length) return;
     await G.say('gustl', 'Was no fehlt: ' + left.join(', und ') + '.');
@@ -165,7 +165,7 @@
       await G.say('fini', 'Juli-Fini war sehr vorausschauend. Leider auch sehr vergesslich.');
       await G.say('gustl', 'Dei „Blitzbirne“ is fast fertig. Da auf der Werkbank. I bräucht bloß no drei Sachen:');
       await G.say('gustl', 'Erstens mei Kufenschlüssel. Den hab i der Glühwein-Gerti g’liehen, für ihren tropfenden Hahn.');
-      await G.say('gustl', 'Zweitens a Bienenwachskerze. Für mei Geheimwachs. Gibt’s drunten im Fairkehrt.');
+      await G.say('gustl', 'Zweitens a Bienenwachskerze. Für mei Geheimwachs. Gibt’s drunten in der Fairkehrte.');
       await G.say('gustl', 'Und drittens a Zimtstang’.');
       await G.say('fini', 'Zimt? Für einen SCHLITTEN?');
       await G.say('gustl', 'Wachs mit Zimt! Altes Rezept von meim Vater. Macht die Kufen schnell. Und riecht nach Weihnachten.');

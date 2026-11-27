@@ -21,9 +21,9 @@
 ## 3. Der Schlitten
 
 11. **Glühweinbude** (links vom Marktplatz): Mit Gerti reden. **Tasse → Gerti** → 3 € Pfand. **Zimtglas** benutzen → Zimtstange. **Kaugummi → Glühweinkessel** (tropfender Hahn) → Gerti gibt dir Gustls **Kufenschlüssel**.
-12. **Fairkehrt-Laden → Treppe hinauf:** Mit **Gustl** reden. Er braucht Kufenschlüssel, Bienenwachs und Zimt. Nach einem **Helm** fragen. Die **Dynamo-Radllampe** vom Regal nehmen.
+12. **Fairkehrte-Laden → Treppe hinauf:** Mit **Gustl** reden. Er braucht Kufenschlüssel, Bienenwachs und Zimt. Nach einem **Helm** fragen. Die **Dynamo-Radllampe** vom Regal nehmen.
 13. **Kufenschlüssel** und **Zimtstange** an Gustl geben.
-14. **Fairkehrt-Laden:** Bei Frau Fairhuber eine **Bienenwachskerze** kaufen (mit den 3 € Pfand) → dazu gibt es gratis einen **Jutebeutel**.
+14. **Fairkehrte-Laden:** Bei Frau Fairhuber eine **Bienenwachskerze** kaufen (mit den 3 € Pfand) → dazu gibt es gratis einen **Jutebeutel**.
 15. **Kerze → Gustl** → Er macht deinen Schlitten renntauglich.
 
 ## 4. Anmeldung per Brieftaube

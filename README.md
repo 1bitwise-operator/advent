@@ -19,7 +19,7 @@ Vor dem Spiel kommt eine Passwortseite. Das Passwort bekommst du von der Person,
 - Marktplatz vor dem Café Kreitmampf (mit Mariensäule und Christbaum)
 - Bäckerei & Café Kreitmampf
 - Ohmeier Moden
-- Fairkehrt – der Weltladen, mit Treppe hinauf zu Speichls stillgelegter Radlwerkstatt
+- Fairkehrte – der Weltladen, mit Treppe hinauf zu Speichls stillgelegter Radlwerkstatt
 - Marktplatz beim Dreifaltigkeits-Kircherl
 - Im Kircherl (mit Krippe)
 - Der dunkle Taubenschlag hinter der kleinen Holztür

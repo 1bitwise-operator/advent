@@ -242,6 +242,7 @@
     // Arme
     let arms = '';
     for (const [sx, cls] of [[-1, 'arm-l'], [1, 'arm-r']]) {
+      if (sx > 0 && o.hideArmR) continue;
       const px = sx * (ws - aw * 0.45), py = shY + r * 0.22;
       const rot = sx < 0 ? (o.armRotL === undefined ? 7 : o.armRotL) : (o.armRotR === undefined ? -7 : o.armRotR);
       const sleeve = o.sleeve || top;
@@ -356,7 +357,7 @@
       `<circle cx="${f(ws * 0.12)}" cy="${f(shY + r * 1.2)}" r="4" fill="#ffd36e" stroke="${OL}" stroke-width="1.5"/><circle cx="${f(ws * 0.12)}" cy="${f(shY + r * 1.9)}" r="4" fill="#ffd36e" stroke="${OL}" stroke-width="1.5"/>`,
   });
 
-  // ---- Frau Fairhuber, Fairkehrt-Laden ----
+  // ---- Frau Fairhuber, Fairkehrte-Laden ----
   C.fairhuber = () => C.person({
     h: 292, r: 40, ws: 42, wh: 40, belly: 4,
     skin: '#e9be98', top: '#c2603a', pants: '#5b6b3a', shoes: '#6b4128',
@@ -436,19 +437,24 @@
     skin: '#f0bfa0', top: '#3f6b45', pants: '#5b4a3a', shoes: '#3a2a22',
     hat: { style: 'cap', color: '#7d7a70' },
     lid: 0.5, look: 0.03, smile: 0.0, mustache: '#7a4b2d', brow: '#5a3520', browTilt: -0.4, nose: 'big',
-    armRotL: 10, armRotR: o.megaphone ? -165 : -10, armLenR: o.megaphone ? 40 : undefined,
+    armRotL: 10, armRotR: -10, hideArmR: !!o.megaphone,
     torsoExtra: ({ r, shY, hipY, ws, coatB }) =>
       `<path d="M${f(-ws * 0.3)},${f(shY - 2)} L0,${f(shY + r * 0.7)} L${f(ws * 0.3)},${f(shY - 2)}" fill="#e9e2cf" stroke="${OL}" stroke-width="2.4"/>` +
       [0, 1, 2, 3].map((i) => `<ellipse cx="${f(ws * 0.08)}" cy="${f(shY + r * 0.95 + i * r * 0.5)}" rx="4" ry="3.2" fill="#d8c3a0" stroke="${OL}" stroke-width="1.5"/>`).join('') +
       `<rect x="${f(-ws * 1.02)}" y="${f(shY + r * 0.5)}" width="${f(ws * 0.5)}" height="${f(r * 0.38)}" fill="#d63a3a" stroke="${OL}" stroke-width="2" transform="rotate(-8 ${f(-ws * 0.8)} ${f(shY + r * 0.7)})"/>` +
       `<path d="M${f(-ws * 0.1)},${f(shY + r * 0.1)} q${f(ws * 0.3)},${f(r * 0.9)} ${f(ws * 0.45)},${f(r * 1.2)}" stroke="#d63a3a" stroke-width="2" fill="none"/><circle cx="${f(ws * 0.36)}" cy="${f(shY + r * 1.32)}" r="5" fill="#c9c9c9" stroke="${OL}" stroke-width="1.5"/>`,
     // Megafon wird nach dem Kopf gezeichnet, damit es vor dem Gesicht liegt
-    topExtra: o.megaphone ? ({ r, hy }) => {
+    topExtra: o.megaphone ? ({ r, hy, shY, ws, aw }) => {
       const my = hy + r * 0.5;
-      return `<path d="M6,${f(my - 7)} L56,${f(my - 24)} L56,${f(my + 22)} L6,${f(my + 7)} Z" fill="#f4f4f4" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>` +
+      // rechter Arm angewinkelt: Oberarm nach außen, Unterarm zum Mund, Hand am Griff
+      const sx = ws - aw * 0.45, sy = shY + r * 0.22, ex = sx + 26, ey = sy + 30, hx = 31, hy2 = my + 20;
+      const armD = `M${f(sx)},${f(sy)} L${f(ex)},${f(ey)} L${f(hx + 6)},${f(hy2 + 6)}`;
+      const arm = `<path d="${armD}" fill="none" stroke="${OL}" stroke-width="${f(aw + 6)}" stroke-linecap="round" stroke-linejoin="round"/><path d="${armD}" fill="none" stroke="#3f6b45" stroke-width="${f(aw)}" stroke-linecap="round" stroke-linejoin="round"/>`;
+      return arm + `<path d="M6,${f(my - 7)} L56,${f(my - 24)} L56,${f(my + 22)} L6,${f(my + 7)} Z" fill="#f4f4f4" stroke="${OL}" stroke-width="3" stroke-linejoin="round"/>` +
         `<ellipse cx="56" cy="${f(my - 1)}" rx="7" ry="23" fill="#d63a3a" stroke="${OL}" stroke-width="3"/>` +
         `<rect x="26" y="${f(my + 9)}" width="9" height="16" rx="2" fill="#2f3440" stroke="${OL}" stroke-width="2"/>` +
-        `<circle cx="31" cy="${f(my + 18)}" r="${f(r * 0.17)}" fill="#f0bfa0" stroke="${OL}" stroke-width="2.4"/>`;
+        `<ellipse cx="31" cy="${f(my + 19)}" rx="${f(r * 0.2)}" ry="${f(r * 0.18)}" fill="#f0bfa0" stroke="${OL}" stroke-width="2.4"/>` +
+        `<path d="M24,${f(my + 15)} h11 M24,${f(my + 20)} h11" stroke="${OL}" stroke-width="1.4" opacity=".55"/>`;
     } : undefined,
   });
 

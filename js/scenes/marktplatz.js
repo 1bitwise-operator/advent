@@ -61,9 +61,16 @@
       s += A.snowLine(`M${ux - 92},420 L${ux},390 L${ux + 92},420`, 7);
       s += `<rect x="${ux - 100}" y="426" width="200" height="16" fill="#ece8df" stroke="${OL}" stroke-width="2.5"/>` + A.text(ux, 440, "KREITMAMPF", { fs: 15, fill: "#4a2c1b", font: "Georgia, serif", maxw: 184 });
     }
-    // Girlande über dem Laden
-    s += `<path d="M${x + 20},436 Q${x + w / 2},452 ${x + w - 20},436" fill="none" stroke="#2f7d4f" stroke-width="8" stroke-linecap="round"/>`;
-    for (const gx of [x + 60, x + w / 2, x + w - 60]) s += `<circle cx="${gx}" cy="${gx === x + w / 2 ? 444 : 440}" r="5" fill="#d63a3a" stroke="${OL}" stroke-width="1.5"/>`;
+    // Tannengirlande an der Hauswand, direkt unter dem Schriftzug
+    const gy = 330, n = 4, gx0 = x + 40, gx1 = x + w - 40;
+    let gd = `M${gx0},${gy}`;
+    for (let i = 0; i < n; i++) { const a = gx0 + (gx1 - gx0) * i / n, b = gx0 + (gx1 - gx0) * (i + 1) / n; gd += ` Q${(a + b) / 2},${gy + 10} ${b},${gy}`; }
+    s += `<path d="${gd}" fill="none" stroke="#1f5a37" stroke-width="10" stroke-linecap="round"/><path d="${gd}" fill="none" stroke="#2f7d4f" stroke-width="6" stroke-linecap="round" stroke-dasharray="3 4"/>`;
+    for (let i = 0; i <= n; i++) {
+      const hx = gx0 + (gx1 - gx0) * i / n;
+      s += `<circle cx="${hx}" cy="${gy + 8}" r="5" fill="${i % 2 ? '#ffd36e' : '#d63a3a'}" stroke="${OL}" stroke-width="1.5"/>`;
+      s += `<path d="M${hx - 7},${gy - 4} l7,4 l7,-4 v8 l-7,-4 l-7,4 Z" fill="#d63a3a" stroke="${OL}" stroke-width="1.2"/>`;
+    }
     return s;
   }
 
@@ -95,7 +102,7 @@
   function fairkehrt() {
     let s = A.gableHouse({ x: 928, base: 525, w: 380, h: 320, gh: 160, color: '#a9d3b2', gable: 'curved', rows: 2, cols: 4, groundH: 150, seed: 5, trim: '#eef8ef', curtain: '#f4c542' });
     s += `<rect x="934" y="372" width="346" height="153" fill="#5b4a2f" stroke="${OL}" stroke-width="3"/>`;
-    s += A.sign(950, 340, 300, 34, 'FAIRKEHRT · Weltladen', { fs: 19, bg: '#2f6e4a', fg: '#f4efe6', ls: 1 });
+    s += A.sign(950, 340, 300, 34, 'FAIRKEHRTE · Weltladen', { fs: 19, bg: '#2f6e4a', fg: '#f4efe6', ls: 1 });
     // Schaufenster
     s += A.glow(1030, 450, 110, 'gWarm', 0.7);
     s += `<rect x="942" y="392" width="182" height="114" fill="url(#gWinLit)" stroke="${OL}" stroke-width="3"/>`;
@@ -105,9 +112,6 @@
     s += `<circle cx="1090" cy="418" r="16" fill="#5aa0d8" stroke="${OL}" stroke-width="2.5"/><path d="M1080,410 q6,4 4,10 q8,2 10,-6 M1094,424 q4,-2 6,2" fill="#7cc47a" stroke="${OL}" stroke-width="1.5"/>`;
     for (let i = 0; i < 4; i++) s += `<path d="M${966 + i * 40},492 v-10 m-4,10 h8" stroke="${OL}" stroke-width="2"/><path d="M${966 + i * 40},478 q-4,-8 0,-12 q4,4 0,12" fill="#ffb347" stroke="${OL}" stroke-width="1.5" class="flicker"/>`;
     s += A.door(1136, 404, 56, 121, { color: '#2f6e4a', glass: true, lit: true, wreath: true });
-    // Kreidetafel-Aufsteller
-    s += `<path d="M1196,525 L1212,446 L1262,446 L1278,525" fill="none" stroke="${OL}" stroke-width="3"/><rect x="1200" y="446" width="74" height="74" fill="#2b2f2a" stroke="#8a5a36" stroke-width="5"/>`;
-    s += A.text(1237, 468, 'Heute', { fs: 13, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 }) + A.text(1237, 487, 'fair:', { fs: 13, fill: '#fff', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 }) + A.text(1237, 508, 'Kerzen!', { fs: 14, fill: '#ffd36e', font: 'Segoe Print, Comic Sans MS, cursive', maxw: 62 });
     return s;
   }
 
@@ -141,6 +145,22 @@
       s += `<g transform="translate(796,532)"><path d="M0,0 H20 L18,24 Q10,28 2,24 Z" fill="#b8322b" stroke="${OL}" stroke-width="2.5"/><path d="M19,6 q8,2 6,9 q-2,5 -7,4" fill="none" stroke="${OL}" stroke-width="2.5"/><path d="M5,12 l3,-4 l3,4 l3,-4" stroke="#fff" stroke-width="1.6" fill="none"/></g>`;
       s += `<path class="steam s2" d="M806,526 q-5,-8 0,-14" stroke="#fff" stroke-width="2" fill="none" opacity=".0"/>`;
     }
+    return s;
+  }
+
+  /** Kreidetafel-Aufsteller (A-Ständer) vor dem Weltladen, steht auf dem Boden */
+  function aufsteller() {
+    const font = 'Segoe Print, Comic Sans MS, cursive';
+    let s = A.shadow(1237, 550, 46);
+    // hinteres Bein
+    s += `<path d="M1226,462 L1214,550" stroke="${OL}" stroke-width="7" stroke-linecap="round"/><path d="M1226,462 L1214,550" stroke="#6b4128" stroke-width="3.5" stroke-linecap="round"/>`;
+    // Rahmen vorne mit Füßen
+    s += `<path d="M1210,460 L1194,550 M1264,460 L1280,550" stroke="${OL}" stroke-width="9" stroke-linecap="round"/><path d="M1210,460 L1194,550 M1264,460 L1280,550" stroke="#8a5a36" stroke-width="5" stroke-linecap="round"/>`;
+    s += `<rect x="1200" y="466" width="74" height="74" fill="#2b2f2a" stroke="#8a5a36" stroke-width="5"/><rect x="1200" y="466" width="74" height="74" fill="none" stroke="${OL}" stroke-width="1.5"/>`;
+    s += `<rect x="1206" y="454" width="62" height="10" rx="4" fill="#8a5a36" stroke="${OL}" stroke-width="2.5"/>`;
+    s += A.snowLine('M1208,452 H1266', 4);
+    s += A.text(1237, 488, 'Heute', { fs: 13, fill: '#fff', font, maxw: 62 }) + A.text(1237, 507, 'fair:', { fs: 13, fill: '#fff', font, maxw: 62 }) + A.text(1237, 528, 'Kerzen!', { fs: 14, fill: '#ffd36e', font, maxw: 62 });
+    s += `<path d="M1206,536 h20" stroke="#fff" stroke-width="2" opacity=".35" stroke-linecap="round"/>`;
     return s;
   }
 
@@ -180,8 +200,9 @@
       let s = A.defs();
       s += A.sky('skyMP', [[0, '#202a57'], [0.4, '#4b4a86'], [0.72, '#b8789f'], [1, '#f0b38c']]);
       s += A.stars(60, 11, 240);
-      s += A.glow(1160, 80, 120, 'gCool', 0.8);
-      s += `<circle cx="1160" cy="80" r="34" fill="#fff6d8" stroke="${OL}" stroke-width="3"/><circle cx="1148" cy="72" r="6" fill="#efe3bd"/><circle cx="1170" cy="92" r="4" fill="#efe3bd"/>`;
+      // tief stehende Wintersonne (16 Uhr)
+      s += A.glow(910, 96, 110, 'gCool', 0.75);
+      s += `<circle cx="910" cy="96" r="30" fill="#fff6d8" stroke="${OL}" stroke-width="3"/>`;
       // ferne Dächer
       s += `<path d="M0,330 L60,300 L120,330 L120,300 L190,260 L260,300 L320,280 L380,310 L900,310 L960,270 L1030,300 L1100,250 L1180,300 L1280,280 L1280,520 L0,520 Z" fill="#7b6aa0" opacity=".55"/>`;
       // Häuserzeile
@@ -204,20 +225,23 @@
       s += `<path d="M0,560 C300,548 900,548 1280,560" fill="none" stroke="#c9d8ec" stroke-width="3"/>`;
       s += A.footprints([[600, 620], [622, 640], [646, 662], [672, 684], [700, 704], [380, 600], [356, 618], [334, 640]]);
       s += mariensaeule();
-      s += A.xmasTree(958, 566, 300, 9);
-      s += A.lamp(372, 590, 230);
-      s += A.lamp(1110, 588, 220);
-      s += bench(st);
+      s += A.xmasTree(884, 566, 300, 9);
       // Schneehaufen
-      s += A.snowPile(-20, 575, 170, 45) + A.snowPile(1190, 580, 120, 40);
+      s += A.snowPile(-20, 575, 170, 45);
       s += A.exitArrow(26, 610, 'l', 'Christkindlmarkt');
       s += A.exitArrow(1254, 610, 'r', 'Zum Kircherl');
       return s;
     },
     actors(st) {
       return [
-        { id: 'muell', x: 872, y: 600, svg: trashSVG(st) },
-        { id: 'schneemann', x: 432, y: 690, s: 0.88, svg: snowmanSVG(), head: -230 },
+        // Laternen als Figuren, damit Fini dahinter vorbeigehen kann
+        { id: 'laterne0', x: 0, y: 0, z: 590, svg: A.lamp(372, 590, 230) },
+        { id: 'laterne1', x: 0, y: 0, z: 588, svg: A.lamp(1110, 588, 220) },
+        // Bank samt Mülleimer weiter vorne (größer)
+        { id: 'bank', x: 805, y: 650, s: 1.2, svg: `${A.shadow(0, 2, 80)}<g transform="translate(-765,-592)">${bench(st)}</g>` },
+        { id: 'aufsteller', x: 0, y: 0, z: 550, svg: aufsteller() },
+        { id: 'muell', x: 930, y: 652, s: 1.15, svg: trashSVG(st) },
+        { id: 'schneemann', x: 262, y: 690, s: 0.88, svg: snowmanSVG(), head: -230 },
       ];
     },
     hotspots(st) {
@@ -240,28 +264,28 @@
           look: 'Ein Schaufenster voller Gebäck. Mein Magen macht Geräusche wie ein Schneepflug.' },
         { name: 'Bäckerei & Café Kreitmampf', r: [608, 400, 64, 122], walk: [640, 580], exit: { to: 'baeckerei', x: 1120, y: 660, face: -1 },
           look: 'Die Tür zum Kreitmampf. Aus dem Spalt riecht es nach frischen Brezn. Und nach Klatsch und Tratsch.' },
-        { name: 'Schaufenster Fairkehrt', r: [940, 390, 186, 118], walk: [1030, 585],
-          look: 'Der Fairkehrt-Laden. Kaffee, Schokolade, Kerzen – alles fair gehandelt. Sogar das Schaufenster wirkt irgendwie gerecht.' },
-        { name: 'Kreidetafel', r: [1196, 444, 82, 80], walk: [1200, 590], look: '„Heute fair: Bienenwachskerzen!“ Wer schreibt so was auf eine Tafel? Ach so. Ein Laden. Klar.' },
+        { name: 'Schaufenster Fairkehrte', r: [940, 390, 186, 118], walk: [1030, 585],
+          look: 'Der Fairkehrte-Laden. Kaffee, Schokolade, Kerzen – alles fair gehandelt. Sogar das Schaufenster wirkt irgendwie gerecht.' },
+        { name: 'Kreidetafel', r: [1192, 450, 92, 102], walk: [1170, 600], look: ['„Heute fair: Kerzen!“', 'Was heute wohl unfair ist?'] },
         { name: 'Fairkehrt-Laden', r: [1134, 400, 60, 125], walk: [1164, 582], exit: { to: 'fairkehrt', x: 170, y: 660, face: 1 },
-          look: 'Fairkehrt – der Weltladen. Über dem Laden war früher eine Radlwerkstatt, glaub ich.' },
+          look: 'Fairkehrte – der Weltladen. Über dem Laden war früher eine Radlwerkstatt, glaub ich.' },
         { name: 'Mariensäule', r: [282, 156, 72, 400], walk: [318, 590],
           look: ['Die Mariensäule. Steht hier seit 1923 und hat schon jedes Kufen-Gaudi gesehen.', 'Wenn sie reden könnte, würde sie wahrscheinlich sagen: „Fini, du hast deinen Schlitten vergessen.“'],
           use: async () => { await G.say('fini', 'Draufklettern? Damit ich das ganze Rennen von oben sehe? ... Nein. Ich will mitfahren, nicht zuschauen.'); } },
-        { name: 'Christbaum', p: [958, 240, 1100, 560, 816, 560], walk: [958, 590],
+        { name: 'Christbaum', p: [884, 240, 1026, 560, 742, 560], walk: [884, 590],
           look: ['Der Christbaum vom Marktplatz. Wunderschön.', 'Und definitiv zu groß für jedes Wohnzimmer in Grafing. Ich hab gefragt. Mehrmals.'],
           use: async () => { await G.say('fini', 'Eine Kugel klauen? Nein. Ich bin chaotisch, aber nicht kriminell.'); } },
         { name: "Straßenlaterne", r: [350, 356, 46, 232], walk: [420, 600], look: 'Eine Laterne mit Tannenzweig. Grafing gibt sich echt Mühe mit der Gemütlichkeit.' },
-        { name: 'Bank', r: [686, 532, 108, 62], walk: [760, 600],
+        { name: 'Bank', r: [710, 578, 130, 74], walk: [805, 700],
           look: 'Eine Bank mit Schneepolster. Hier sitzen nur Leute, die sehr wenig Wert auf trockene Hosen legen.',
           use: async () => { await G.say('fini', 'Hinsetzen? Keine Zeit! Das Rennen wartet. Und meine Hose ist mir heilig.'); } },
-        !f('tasse_taken') && { name: 'Glühweintasse', r: [788, 524, 40, 40], walk: [800, 600],
+        !f('tasse_taken') && { name: 'Glühweintasse', r: [837, 558, 52, 52], walk: [855, 700],
           look: ['Eine leere Glühweintasse. Irgendwer hat sie hier stehen lassen.', 'Da ist Pfand drauf! Pfand ist quasi Geld, das herumsteht und auf mich wartet.'],
           use: async () => {
             await G.say('fini', 'Die nehm ich mit. Das ist kein Diebstahl. Das ist... Pfand-Rettung.');
             G.flag('tasse_taken'); G.give('tasse');
           } },
-        { name: 'Mülleimer', r: [840, 494, 64, 108], walk: [880, 640],
+        { name: 'Mülleimer', r: [893, 530, 74, 124], walk: [975, 700],
           look: () => f('prospekt_taken') ? 'Ein Mülleimer. Ich hab genug darin gewühlt für ein ganzes Leben.' : 'Ein Mülleimer. Da schaut ein glänzender Prospekt raus. Glänzend. Im Müll. Verdächtig.',
           use: async () => {
             if (f('prospekt_taken')) { await G.say('fini', 'Da ist nur noch Müll drin. Normaler, ehrlicher Müll.'); return; }
@@ -269,7 +293,7 @@
             G.flag('prospekt_taken'); G.give('prospekt');
             await G.say('fini', 'Ein Prospekt für einen Hightech-Schlitten. Den sollte ich mir mal genauer anschauen.');
           } },
-        { name: 'Schneemann', r: [388, 494, 88, 196], walk: [550, 680],
+        { name: 'Schneemann', r: [218, 494, 88, 196], walk: [380, 680],
           look: ['Ein Schneemann mit Kohle-Augen und einer sehr ernsten Miene.', 'Er sieht aus, als hätte er auch was vergessen. Vielleicht seinen Sommer.'],
           use: async () => {
             await G.say('fini', 'Hallo, Herr Schneemann. Haben Sie zufällig einen roten Schlitten gesehen?');

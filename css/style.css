@@ -385,3 +385,6 @@ body {
 }
 #inv-toast.show { opacity: 1; transform: translate(-50%, 0); }
 #help .panel { max-height: 94%; overflow-y: auto; }
+
+/* Rückfrage „Neues Spiel“ im Pause-Menü */
+#menu-confirm .confirm-note { margin: 0 0 1cqw; font-size: 1.5cqw; opacity: .8; }

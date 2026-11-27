@@ -48,10 +48,18 @@
 
     <div id="menu" class="overlay hidden">
       <div class="panel">
-        <h2>Pause</h2>
-        <button id="menu-resume">Weiterspielen</button>
-        <button id="menu-help">Hilfe</button>
-        <button id="menu-restart">Neues Spiel</button>
+        <div id="menu-main">
+          <h2>Pause</h2>
+          <button id="menu-resume">Weiterspielen</button>
+          <button id="menu-help">Hilfe</button>
+          <button id="menu-restart">Neues Spiel</button>
+        </div>
+        <div id="menu-confirm" class="hidden">
+          <h2>Wirklich von vorne anfangen?</h2>
+          <p class="confirm-note">Der Spielstand wird gelöscht.</p>
+          <button id="menu-restart-yes">Ja, neues Spiel</button>
+          <button id="menu-restart-no">Abbrechen</button>
+        </div>
       </div>
     </div>
 

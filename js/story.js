@@ -23,10 +23,10 @@
   G.tasks = [
     { text: 'Das 73. Grafinger Kufen-Gaudi gewinnen!!! (16 Uhr, Schlittenhang am Bärenbuckel)', done: () => f('won') },
     { text: 'Meinen Schlitten finden. Wo hab ich den bloß hingetan?!', done: () => f('met_gustl') },
-    { sub: true, text: 'Resi sagt, ich hab ihn im Sommer zum Gustl gebracht?! (Alte Radlwerkstatt, oben im Fairkehrt-Laden)', show: () => f('resi_told_sled'), done: () => f('met_gustl') },
+    { sub: true, text: 'Resi sagt, ich hab ihn im Sommer zum Gustl gebracht?! (Alte Radlwerkstatt, oben im Fairkehrte-Laden)', show: () => f('resi_told_sled'), done: () => f('met_gustl') },
     { text: 'Gustl macht meinen Schlitten renntauglich, wenn ich ihm bringe:', show: () => f('met_gustl'), done: () => f('sled_done') },
     { sub: true, text: '... seinen Kufenschlüssel (hat Glühwein-Gerti)', show: () => f('met_gustl'), done: () => f('gave_schluessel') },
-    { sub: true, text: '... eine Bienenwachskerze (gibt’s im Fairkehrt-Laden – aber ich hab kein Geld!)', show: () => f('met_gustl'), done: () => f('gave_kerze') },
+    { sub: true, text: '... eine Bienenwachskerze (gibt’s im Fairkehrte-Laden – aber ich hab kein Geld!)', show: () => f('met_gustl'), done: () => f('gave_kerze') },
     { sub: true, text: '... eine Zimtstange (für den „Geheimduft“?!)', show: () => f('met_gustl'), done: () => f('gave_zimt') },
     { text: 'Mich zum Rennen anmelden (Rennleiter am Schlittenhang fragen)', show: () => f('resi_warned') || f('met_wimmer'), done: () => f('registered') },
     { sub: true, text: 'Nachmeldung NUR per Brieftaube (§ 4)! Die Taube wohnt im Taubenschlag gegenüber vom Kircherl.', show: () => f('met_wimmer'), done: () => f('pigeon_sent') },
@@ -60,6 +60,11 @@
     await G.say('fini', 'Okay. Kein Grund zur Panik. Ich hab ihn bestimmt nur kurz irgendwo hingestellt. Irgendwann im letzten Jahr. Irgendwo in Grafing.');
     await G.say('fini', 'Ich schreib’s mir auf. Auf meinen Merkzettel. Den ich diesmal NICHT verliere.');
     G.flag('intro_done');
+    // die beiden Knöpfe oben links kurz aufblinken lassen
+    for (const id of ['btn-notes', 'btn-mode']) {
+      const b = document.getElementById(id);
+      b.classList.remove('pulse'); void b.offsetWidth; b.classList.add('pulse');
+    }
     await G.narrate('Linksklick: hingehen, benutzen, reden. Rechtsklick (oder Knopf „✋/👁“): ansehen.<br>Oben links liegt Finis <b>Merkzettel</b> – falls sie mal wieder vergisst, was sie vorhatte.');
   };
 

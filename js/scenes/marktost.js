@@ -138,19 +138,23 @@
       s += apotheke();
       s += kircherl();
       s += taubenhaus(st);
-      s += A.lamp(760, 594, 220);
-      s += A.lamp(1098, 600, 210);
       s += A.footprints([[520, 600], [542, 620], [564, 642], [990, 590], [1010, 606], [1032, 624]]);
       s += A.snowPile(1180, 590, 120, 34) + A.snowPile(-30, 590, 120, 36);
       s += A.exitArrow(26, 620, 'l', 'Zum Café Kreitmampf');
       s += A.exitArrow(1254, 620, 'r', 'Schlittenhang');
       return s;
     },
-    actors() { return []; },
+    actors() {
+      // Laternen als Figuren, damit Fini dahinter vorbeigehen kann
+      return [
+        { id: 'laterne0', x: 0, y: 0, z: 594, svg: A.lamp(760, 594, 220) },
+        { id: 'laterne1', x: 0, y: 0, z: 600, svg: A.lamp(1098, 600, 210) },
+      ];
+    },
     hotspots(st) {
       return [
         { name: 'Bären-Apotheke', r: [0, 250, 312, 300], walk: [160, 600],
-          look: ['Die Bären-Apotheke. Mit einem roten A, das aussieht, als hätte es Schnupfen.', 'Gegen Vergesslichkeit haben die bestimmt auch was. Ich frag später. Wenn ich dran denke.'],
+          look: ['Die Bären-Apotheke. Mit einem roten A, das aussieht, als hätte es Schnupfen.', 'Ich hoffe, die binden einem keinen Bären auf.'],
           use: async () => { await G.say('fini', 'Ich bin nicht krank. Nur aufgeregt. Dagegen gibt es leider keine Tabletten. Nur Schlittenrennen.'); } },
         { name: 'Dreifaltigkeits-Kircherl', r: [326, -20, 338, 380], walk: [495, 600],
           look: ['Das Dreifaltigkeits-Kircherl am Marktplatz. Gebaut 1672 – also quasi brandneu für Grafinger Verhältnisse.', 'Oben auf dem Dach sitzt ein Türmchen mit Zwiebelhaube. Wie ein Sahnehäubchen. Ein heiliges Sahnehäubchen.'] },
