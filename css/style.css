@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* ===== Die Kufenkönigin von Grafing ===== */
 :root {
   --ink: #2a1f2d;
@@ -256,7 +257,7 @@ body {
   cursor: pointer;
   border-radius: .4cqw;
 }
-#choices button::before { content: "▸ "; color: var(--accent); }
+#choices button::before { content: "\25B8\00A0"; color: var(--accent); }
 #choices button:hover { background: rgba(255,255,255,.08); color: #fff; }
 #choices button.seen { color: #b9a98f; font-weight: 600; }
 
@@ -315,9 +316,9 @@ body {
 .paper .sub { margin: 0 0 .8cqw; font-size: 1.15cqw; opacity: .7; }
 .paper ul { list-style: none; padding: 0; margin: 0 0 1.2cqw; }
 .paper li { font-size: 1.45cqw; line-height: 1.75; padding-left: 2cqw; position: relative; }
-.paper li::before { content: "☐"; position: absolute; left: 0; }
+.paper li::before { content: "\2610"; position: absolute; left: 0; }
 .paper li.done { text-decoration: line-through; opacity: .55; }
-.paper li.done::before { content: "☑"; }
+.paper li.done::before { content: "\2611"; }
 .paper li.sub { padding-left: 4cqw; font-size: 1.25cqw; }
 .paper li.sub::before { left: 2cqw; }
 .paper button { font-family: var(--font-hand) !important; }
